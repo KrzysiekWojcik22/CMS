@@ -443,7 +443,7 @@ class MainWindow:
         self.UploadLink = tk.Button(AddEq, text='Add', font=14, bg='#0052cc', fg='white', )
         self.UploadLink.place(height=40, width=80, x=15, y=445)
         '''
-        ###
+        ###werewrwer
 
 
         ### Delete
