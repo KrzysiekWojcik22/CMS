@@ -275,7 +275,7 @@ class MainWindow:
         # Tworzenie widgetów dla Padd1
 
         self.TitlePad1 = tk.Label(self.PadAdd1, text="Options" )
-        self.TitlePad1.place(width=80 ,height=40 ,x=5 ,y=5 )
+       # self.TitlePad1.place(width=80 ,height=40 ,x=5 ,y=5 )
 
         self.Sep1Padd1 = ttk.Separator(self.PadAdd1, orient='vertical')
         self.Sep1Padd1.place(width=40, x= 5, y = 50)
@@ -287,42 +287,42 @@ class MainWindow:
 
 
         self.AddComponent = tk.Label(self.PadAdd1, font=("Arial", 11), bg='white', text="Add Equipment", cursor="hand2")
-        self.AddComponent.place(width=80, height=40, x = 5, y = 10 )
+        self.AddComponent.place(width=100, height=40, x = 5, y = 10 )
 
         # Funkcje dla pad 1
 
-        self.AddSemiconductors = tk.Label(self.PadAdd1, font=("Arial", 11), bg='white', text="Semiconductors", cursor="hand2")
-        self.AddSemiconductors.place(width=80, height=40, x = 5, y = 50 )
+        self.AddSemiconductors = tk.Label(self.PadAdd1, font=("Arial", 10), bg='white', text="Semiconductors", cursor="hand2")
+        self.AddSemiconductors.place(width=100, height=40, x = 5, y = 50 )
 
-        self.AddPassiveElements = tk.Label(self.PadAdd1, font=("Arial", 11), bg='white', text="PassiveElements", cursor="hand2")
-        self.AddPassiveElements.place(width=80, height=40, x = 5, y = 100 )
+        self.AddPassiveElements = tk.Label(self.PadAdd1, font=("Arial", 10), bg='white', text="PassiveElements", cursor="hand2")
+        self.AddPassiveElements.place(width=100, height=40, x = 5, y = 100 )
 
-        self.AddOptoelectronic = tk.Label(self.PadAdd1, font=("Arial", 11), bg='white', text="Optoelectronic", cursor="hand2")
-        self.AddOptoelectronic.place(width=80, height=40, x = 5, y = 150 )
+        self.AddOptoelectronic = tk.Label(self.PadAdd1, font=("Arial", 10), bg='white', text="Optoelectronic", cursor="hand2")
+        self.AddOptoelectronic.place(width=100, height=40, x = 5, y = 150 )
 
-        self.AddConnectors = tk.Label(self.PadAdd1, font=("Arial", 11), bg='white', text="Connectors", cursor="hand2")
-        self.AddConnectors.place(width=80, height=40, x = 5, y = 60 )
+        self.AddConnectors = tk.Label(self.PadAdd1, font=("Arial", 10), bg='white', text="Connectors", cursor="hand2")
+        self.AddConnectors.place(width=100, height=40, x = 5, y = 200 )
 
-        self.AddEnergySources = tk.Label(self.PadAdd1, font=("Arial", 11), bg='white', text="EnergySources", cursor="hand2")
-        self.AddEnergySources.place(width=80, height=40, x = 5, y = 200 )
+        self.AddEnergySources = tk.Label(self.PadAdd1, font=("Arial", 10), bg='white', text="EnergySources", cursor="hand2")
+        self.AddEnergySources.place(width=100, height=40, x = 5, y = 250 )
 
-        self.AddPCAccesories = tk.Label(self.PadAdd1, font=("Arial", 11), bg='white', text="PCAccesories", cursor="hand2")
-        self.AddPCAccesories.place(width=80, height=40, x = 5, y = 250 )
+        self.AddPCAccesories = tk.Label(self.PadAdd1, font=("Arial", 10), bg='white', text="PCAccesories", cursor="hand2")
+        self.AddPCAccesories.place(width=100, height=40, x = 5, y = 300 )
 
-        self.AddSwitches = tk.Label(self.PadAdd1, font=("Arial", 11), bg='white', text="Switches", cursor="hand2")
-        self.AddSwitches.place(width=80, height=40, x = 5, y = 300 )
+        self.AddSwitches = tk.Label(self.PadAdd1, font=("Arial", 10), bg='white', text="Switches", cursor="hand2")
+        self.AddSwitches.place(width=100, height=40, x = 5, y = 350 )
 
-        self.AddWires = tk.Label(self.PadAdd1, font=("Arial", 11), bg='white', text="Wires", cursor="hand2")
-        self.AddWires.place(width=80, height=40, x = 5, y = 350 )
+        self.AddWires = tk.Label(self.PadAdd1, font=("Arial", 10), bg='white', text="Wires", cursor="hand2")
+        self.AddWires.place(width=100, height=40, x = 5, y = 400 )
 
-        self.AddMechanics = tk.Label(self.PadAdd1, font=("Arial", 11), bg='white', text="Mechanics", cursor="hand2")
-        self.AddMechanics.place(width=80, height=40, x = 5, y = 60 )
+        self.AddMechanics = tk.Label(self.PadAdd1, font=("Arial", 10), bg='white', text="Mechanics", cursor="hand2")
+        self.AddMechanics.place(width=100, height=40, x = 5, y = 450 )
 
-        self.AddLaboratory = tk.Label(self.PadAdd1, font=("Arial", 11), bg='white', text="Laboratory", cursor="hand2")
-        self.AddLaboratory.place(width=80, height=40, x = 5, y = 400 )
+        self.AddLaboratory = tk.Label(self.PadAdd1, font=("Arial", 10), bg='white', text="Laboratory", cursor="hand2")
+        self.AddLaboratory.place(width=100, height=40, x = 5, y = 500 )
 
-        self.AddOthers = tk.Label(self.PadAdd1, font=("Arial", 11), bg='white', text="Others", cursor="hand2")
-        self.AddOthers.place(width=80, height=40, x = 5, y = 450 )
+        self.AddOthers = tk.Label(self.PadAdd1, font=("Arial", 10), bg='white', text="Others", cursor="hand2")
+        self.AddOthers.place(width=100, height=40, x = 5, y = 550 )
 
 
         ### bindowanie klawiszy
