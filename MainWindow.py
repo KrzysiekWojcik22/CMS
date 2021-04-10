@@ -266,10 +266,8 @@ class MainWindow:
         self.PadAdd1.place(height=590, width=180, x=0, y=0)
 
         self.PadAdd2 = tk.PanedWindow(AddEq, bg = "yellow")
-        self.PadAdd2.place(height=590, width=400, x=185,y=0)
+        self.PadAdd2.place(height=590, width=650, x=185, y=0)
         # tworze widzety dla paddAdd
-
-
 
 
         # Tworzenie widgetów dla Padd1
@@ -279,12 +277,6 @@ class MainWindow:
 
         self.Sep1Padd1 = ttk.Separator(self.PadAdd1, orient='vertical')
         self.Sep1Padd1.place(width=40, x= 5, y = 50)
-
-
-
-
-
-
 
         self.AddComponent = tk.Label(self.PadAdd1, font=("Arial", 11), bg='white', text="Add Equipment", cursor="hand2")
         self.AddComponent.place(width=100, height=40, x = 5, y = 10 )
@@ -324,109 +316,136 @@ class MainWindow:
         self.AddOthers = tk.Label(self.PadAdd1, font=("Arial", 10), bg='white', text="Others", cursor="hand2")
         self.AddOthers.place(width=100, height=40, x = 5, y = 550 )
 
+        # Tworzenie widgetow dla padd2
+
+        self.Semiconductors = tk.Frame(self.PadAdd2, bg="white")
+        self.PassiveElements = tk.Frame(self.PadAdd2, bg="black")
+        self.OptoElectronics = tk.Frame(self.PadAdd2, bg="white")
+        self.Connectors = tk.Frame(self.PadAdd2, bg="black")
+        self.EnergySources = tk.Frame(self.PadAdd2, bg="white")
+        self.PCAccessories = tk.Frame(self.PadAdd2, bg="black")
+        self.Switches = tk.Frame(self.PadAdd2, bg="white")
+        self.Wires = tk.Frame(self.PadAdd2, bg="black")
+        self.Mechanics = tk.Frame(self.PadAdd2, bg="white")
+        self.Laboratory = tk.Frame(self.PadAdd2, bg="black")
+        self.Others = tk.Frame(self.PadAdd2, bg="white")
+
+
+        ### CHOWANIE I POKAZYWANIE zakładek
+
+        def forgetPadd2(event):
+            self.Semiconductors.place_forget()
+            self.PassiveElements.place_forget()
+            self.OptoElectronics.place_forget()
+            self.Connectors.place_forget()
+            self.EnergySources.place_forget()
+            self.PCAccessories.place_forget()
+            self.Switches.place_forget()
+            self.Wires.place_forget()
+            self.Mechanics.place_forget()
+            self.Laboratory.place_forget()
+            self.Others.place_forget()
+
+        def showSemiconductors(event):
+            forgetPadd2(event)
+            self.Semiconductors.place(height=40, width=80, x=15, y=445)
+            print("1")
+
+        def showPassiveElements(event):
+            forgetPadd2(event)
+            self.PassiveElements.place(height=40, width=80, x=15, y=445)
+            print("2")
+
+        def showOptoelectronic(event):
+            forgetPadd2(event)
+            self.OptoElectronics.place(height=40, width=80, x=15, y=445)
+            print("3")
+
+        def showConnectors(event):
+            forgetPadd2(event)
+            self.Connectors.place(height=40, width=80, x=15, y=445)
+            print("4")
+
+        def showEnergySources(event):
+            forgetPadd2(event)
+            self.EnergySources.place(height=40, width=80, x=15, y=445)
+            print("5")
+
+        def showPCAccessories(event):
+            forgetPadd2(event)
+            self.PCAccessories.place(height=40, width=80, x=15, y=445)
+            print("6")
+
+        def showSwitches(event):
+            forgetPadd2(event)
+            self.Switches.place(height=40, width=80, x=15, y=445)
+            print("7")
+
+        def showWires(event):
+            forgetPadd2(event)
+            self.Wires.place(height=40, width=80, x=15, y=445)
+            print("8")
+
+        def showMechanics(event):
+            forgetPadd2(event)
+            self.Mechanics.place(height=40, width=80, x=15, y=445)
+            print("9")
+
+        def showLaboratory(event):
+            forgetPadd2(event)
+            self.Laboratory.place(height=40, width=80, x=15, y=445)
+            print("10")
+
+        def showOthers(event):
+            forgetPadd2(event)
+            self.Others.place(height=40, width=80, x=15, y=445)
+            print("11")
 
         ### bindowanie klawiszy
 
         self.AddSemiconductors.bind("<Enter>", klik)
         self.AddSemiconductors.bind("<Leave>", zwolnienie)
-        self.AddSemiconductors.bind("<Button-1>", showHelp)
+        self.AddSemiconductors.bind("<Button-1>", showSemiconductors)
 
         self.AddPassiveElements.bind("<Enter>", klik)
         self.AddPassiveElements.bind("<Leave>", zwolnienie)
-        self.AddPassiveElements.bind("<Button-1>", showHelp)
+        self.AddPassiveElements.bind("<Button-1>", showPassiveElements)
 
         self.AddOptoelectronic.bind("<Enter>", klik)
         self.AddOptoelectronic.bind("<Leave>", zwolnienie)
-        self.AddOptoelectronic.bind("<Button-1>", showHelp)
+        self.AddOptoelectronic.bind("<Button-1>", showOptoelectronic)
 
         self.AddConnectors.bind("<Enter>", klik)
         self.AddConnectors.bind("<Leave>", zwolnienie)
-        self.AddConnectors.bind("<Button-1>", showHelp)
+        self.AddConnectors.bind("<Button-1>", showConnectors)
 
         self.AddEnergySources.bind("<Enter>", klik)
         self.AddEnergySources.bind("<Leave>", zwolnienie)
-        self.AddEnergySources.bind("<Button-1>", showHelp)
+        self.AddEnergySources.bind("<Button-1>", showEnergySources)
 
         self.AddPCAccesories.bind("<Enter>", klik)
         self.AddPCAccesories.bind("<Leave>", zwolnienie)
-        self.AddPCAccesories.bind("<Button-1>", showHelp)
+        self.AddPCAccesories.bind("<Button-1>", showPCAccessories)
 
         self.AddSwitches.bind("<Enter>", klik)
         self.AddSwitches.bind("<Leave>", zwolnienie)
-        self.AddSwitches.bind("<Button-1>", showHelp)
+        self.AddSwitches.bind("<Button-1>", showSwitches)
 
         self.AddWires.bind("<Enter>", klik)
         self.AddWires.bind("<Leave>", zwolnienie)
-        self.AddWires.bind("<Button-1>", showHelp)
+        self.AddWires.bind("<Button-1>", showWires)
 
         self.AddMechanics.bind("<Enter>", klik)
         self.AddMechanics.bind("<Leave>", zwolnienie)
-        self.AddMechanics.bind("<Button-1>", showHelp)
+        self.AddMechanics.bind("<Button-1>", showMechanics)
 
         self.AddLaboratory.bind("<Enter>", klik)
         self.AddLaboratory.bind("<Leave>", zwolnienie)
-        self.AddLaboratory.bind("<Button-1>", showHelp)
+        self.AddLaboratory.bind("<Button-1>", showLaboratory)
 
         self.AddOthers.bind("<Enter>", klik)
         self.AddOthers.bind("<Leave>", zwolnienie)
-        self.AddOthers.bind("<Button-1>", showHelp)
-
-
-        self.Help1 = tk.Label(self.PadAdd1, font=("Arial", 11), bg='white', text="Add Equipment", cursor="hand2")
-
-
-
-
-
-
-        Categories = ["Semiconductors", "Passive Elements", "Optoelectronic", "Connectors",
-                      "Energy Sources", "PC Accessories", "Switches", "Fans", "Wires",
-                      "Mechanics", "Laboratory", "Others"]
-
-
-
-
-
-
-
-
-        # Tworzenie widgetow dla padd2
-
-
-
-        self.Semiconductors = tk.Frame(AddEq, bg="white")
-        # self.Semiconductors.place(height=40, width=80, x=15, y=445)
-
-        self.PassiveElements = tk.Frame(AddEq, bg="white")
-        # self.PassiveElements.place(height=40, width=80, x=15, y=445)
-
-        self.OptoElectronics = tk.Frame(AddEq, bg="white")
-        # self.PassiveElements.place(height=40, width=80, x=15, y=445)
-
-        self.Connectors = tk.Frame(AddEq, bg="white")
-        # self.Connectors.place(height=40, width=80, x=15, y=445)
-
-        self.EnergySources = tk.Frame(AddEq, bg="white")
-        # self.EnergySources.place(height=40, width=80, x=15, y=445)
-
-        self.PCAccessories = tk.Frame(AddEq, bg="white")
-        # self.PCAccessories.place(height=40, width=80, x=15, y=445)
-
-        self.Wires = tk.Frame(AddEq, bg="white")
-        # self.Wires.place(height=40, width=80, x=15, y=445)
-
-        self.Mechanics = tk.Frame(AddEq, bg="white")
-        # self.Mechanics.place(height=40, width=80, x=15, y=445)
-
-        self.Laboratory = tk.Frame(AddEq, bg="white")
-        # self.Laboratory.place(height=40, width=80, x=15, y=445)
-
-        self.Others = tk.Frame(AddEq, bg="white")
-        # self.Others.place(height=40, width=80, x=15, y=445)
-
-        Categories = ["Semiconductors", "Passive Elements", "Optoelectronic", "Connectors",
-                      "Energy Sources", "PC Accessories", "Switches", "Fans", "Wires",
-                      "Mechanics", "Laboratory", "Others"]
+        self.AddOthers.bind("<Button-1>",showOthers)
 
         ### Przyciski
         '''
