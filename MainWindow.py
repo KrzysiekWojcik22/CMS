@@ -21,7 +21,6 @@ class MainWindow:
         center_x = int(screen_width / 2 - root_width / 2)
         center_y = int(screen_height / 2 - root_height / 2)
         self.root.geometry(f'{root_width}x{root_height}+{center_x}+{center_y}')
-        #self.root.resizable(False, False) # i tak nie działa xd
         self.root.attributes('-topmost', True)
         self.root.configure(bg='white')
 
@@ -36,8 +35,8 @@ class MainWindow:
         PasekGora.tag_raise(1)
         PasekGora.place(x=-2, y=-1.5)
         PasekGora.create_rectangle(0, 0, 1045, 56, fill='#004554', outline='#004554')
-        PasekGora.create_rectangle(0, 57, 1050, 120, fill='blue', outline='blue')
-        PasekGora.create_rectangle(0, 121, 200, 720, fill='blue', outline='blue')
+        PasekGora.create_rectangle(0, 57, 1050, 120, fill='#3C3E45', outline='#3C3E45')
+        PasekGora.create_rectangle(0, 121, 200, 724, fill='#3C3E45', outline='#3C3E45')
 
 
         ### Ikona
@@ -47,6 +46,50 @@ class MainWindow:
         myLabel.photo = my_img
         #myLabel.config(bg="")
         myLabel.place(x=10,y=2.5, height=48, width=48)
+
+
+        ### icony
+
+        email_ic = ImageTk.PhotoImage(Image.open("ikoneczki\email.png"))
+        emailL = tk.Label(self.root, image=email_ic, bg ='red' )
+        emailL.photo = email_ic
+
+        home_ic = ImageTk.PhotoImage(Image.open("ikoneczki\home.png"))
+        homeL = tk.Label(self.root, image = home_ic)
+        homeL.photo=home_ic
+
+        add_ic = ImageTk.PhotoImage(Image.open("ikoneczki\plus.png"))
+        addL = tk.Label(self.root, image = add_ic)
+        addL.photo = add_ic
+
+        delete_ic = ImageTk.PhotoImage(Image.open("ikoneczki\delete.png"))
+        deleteL = tk.Label(self.root, image = delete_ic)
+        deleteL.photo = delete_ic
+
+        show_ic = ImageTk.PhotoImage(Image.open("ikoneczki\show.png"))
+        showL = tk.Label(self.root, image = show_ic)
+        showL.photo = show_ic
+
+        chemistry_ic = ImageTk.PhotoImage(Image.open("ikoneczki\chemistry.png"))
+        chemistryL = tk.Label(self.root, image = chemistry_ic)
+        chemistryL.photo = chemistry_ic
+
+        order_ic = ImageTk.PhotoImage(Image.open("ikoneczki\cart.png"))
+        orderL = tk.Label(self.root, image = order_ic)
+        orderL.photo = order_ic
+
+        help_ic = ImageTk.PhotoImage(Image.open("ikoneczki\info.png"))
+        helpL =  tk.Label(self.root, image = help_ic)
+        helpL.photo = help_ic
+
+
+
+
+
+
+
+       # testbutton = tk.Button(self.root, image=email_ic)
+        #testbutton.place(width=80, height =40, x=10,y=200  )
 
 
         ## Głowny interfejs
@@ -65,36 +108,18 @@ class MainWindow:
         ### glowne labelki
 
 
-        self.ProjectL = tk.Label(self.root, text='CMS',
-                                  bg='#004554', fg='white', font=("Helvetica", 14))
+        self.ProjectL = tk.Label(self.root, font=("Arial", 40), bg='#3C3E45', fg='white', text="CMS")
 
-        self.ProjectL.place(height=40, width=100, x=15, y=80)
+        self.ProjectL.place(height=60, width=120, x=15, y=62.5)
 
         self.UsernameL = tk.Label(self.root, text='Krzysztof Wojcik',
                                   bg='#004554', fg='white', font=("Helvetica", 14))
 
-        self.UsernameL.place(height=40,width=180, x=800, y=5)
+        self.UsernameL.place(height=40, width=180, x=800, y=5)
 
-
-
-
-
-
-
-        self.Designer = ttk.Label(self.root, text="Created by KW")
-        self.Designer.place(height=80, width=100, x=15, y=665)
-
-
-
-        self.AddComp = tk.Button(self.root, text='Add new EQ ', fg='white', bg='#0052cc',
-                                 command=lambda: AddComponent())
-        # self.AddComp.place(height=40, width=90, x=10, y=75)
-
-
-
-
-
-
+        #bg='#3C3E45
+        self.Designer = tk.Label(self.root, font=("Arial", 11), bg='#3C3E45', fg='white', text="Created by:\n Krzysztof Wójcik")
+        self.Designer.place(height=60, width=140, x=15, y=655)
 
 
 
@@ -128,33 +153,47 @@ class MainWindow:
 
         ### Tworzenie labelek z nazwami zmieniającymi kolor
 
-        LHome = tk.Label(self.root, font=("Arial", 11), bg='white', text="Home", cursor="hand2")
+        LHome = tk.Label(self.root, font=("Arial", 12), bg='#3C3E45', fg='white', text="   Home",anchor="w", cursor="hand2")
+        LHome["compound"] = tk.LEFT
+        LHome["image"] = home_ic
         LHome.tkraise(aboveThis=PasekGora)
-        LHome.place(x=15, y=150, width=120, height=40)
+        LHome.place(x=15, y=150, width=170, height=40)
 
-        LAddEq = tk.Label(self.root, font=("Arial", 11), bg='white', text="Add Equipment", cursor="hand2")
+        LAddEq = tk.Label(self.root, font=("Arial", 12), bg='#3C3E45', fg='white', text="   Add Equipment",anchor="w",  cursor="hand2")
+        LAddEq["compound"] = tk.LEFT
+        LAddEq["image"] = add_ic
         LAddEq.tkraise(aboveThis=PasekGora)
-        LAddEq.place(x=15, y=200, width=120, height=40)
+        LAddEq.place(x=15, y=200, width=170, height=40)
 
-        LDeleteEq = tk.Label(self.root, font=("Arial", 11), bg='white', text="Delete Equipment", cursor="hand2")
+        LDeleteEq = tk.Label(self.root, font=("Arial", 12), bg='#3C3E45', fg='white' , text="   Delete Equipment",anchor="w", cursor="hand2")
+        LDeleteEq["compound"] = tk.LEFT
+        LDeleteEq["image"] = delete_ic
         LDeleteEq.tkraise(aboveThis=PasekGora)
-        LDeleteEq.place(x=15, y=250, width=120, height=40)
+        LDeleteEq.place(x=15, y=250, width=170, height=40)
 
-        LShowEq = tk.Label(self.root, font=("Arial", 11), bg='white', text="Show Equipment", cursor="hand2")
+        LShowEq = tk.Label(self.root, font=("Arial", 12), bg='#3C3E45', fg='white', text="   Show Equipment",anchor="w", cursor="hand2")
+        LShowEq["compound"] = tk.LEFT
+        LShowEq["image"] = show_ic
         LShowEq.tkraise(aboveThis=PasekGora)
-        LShowEq.place(x=15, y=300, width=120, height=40)
+        LShowEq.place(x=15, y=300, width=170, height=40)
 
-        LChemistry = tk.Label(self.root, font=("Arial", 11), bg='white', text="Chemistry", cursor="hand2")
+        LChemistry = tk.Label(self.root, font=("Arial", 12), bg='#3C3E45', fg='white', text="   Chemistry",anchor="w", cursor="hand2")
+        LChemistry["compound"] = tk.LEFT
+        LChemistry["image"] = chemistry_ic
         LChemistry.tkraise(aboveThis=PasekGora)
-        LChemistry.place(x=15, y=350, width=120, height=40)
+        LChemistry.place(x=15, y=350, width=170, height=40)
 
-        LMakeOrder = tk.Label(self.root, font=("Arial", 11), bg='white', text="Make Order", cursor="hand2")
+        LMakeOrder = tk.Label(self.root, font=("Arial", 12), bg='#3C3E45', fg='white', text="   Make Order",anchor="w", cursor="hand2")
+        LMakeOrder["compound"] = tk.LEFT
+        LMakeOrder["image"] = order_ic
         LMakeOrder.tkraise(aboveThis=PasekGora)
-        LMakeOrder.place(x=15, y=400, width=120, height=40)
+        LMakeOrder.place(x=15, y=400, width=170, height=40)
 
-        LHelp = tk.Label(self.root, font=("Arial", 11), bg='white', text="Help", cursor="hand2")
+        LHelp = tk.Label(self.root, font=("Arial", 12), bg='#3C3E45', fg='white', text="   Help",anchor="w", cursor="hand2")
+        LHelp["compound"] = tk.LEFT
+        LHelp["image"] = help_ic
         LHelp.tkraise(aboveThis=PasekGora)
-        LHelp.place(x=15, y=450, width=120, height=40)
+        LHelp.place(x=15, y=450, width=170, height=40)
 
         ### Potrzebuje ramki dla dodawania, show, order, chemistry,
 
@@ -178,22 +217,22 @@ class MainWindow:
             MakeOrder.place_forget()
 
         def powrotkolorow(event):
-            event.widget.config(fg='black')
+            event.widget.config(fg='white')
 
         def klik(event):
-            event.widget.config(bg="red")
+            event.widget.config(bg="#52555E")
 
         def zwolnienie(event):
-            event.widget.config(bg='#0052cc')
+            event.widget.config(bg='#3C3E45')
 
         def aktywny(event):
-            event.widget.config(fg='blue')
+            event.widget.config(fg='white')
 
         def showHome(event):
             print("Work1")
             forgetFrames()
             aktywny(event)
-            Home.place(x=300, y=200, height=500, width=500)
+            Home.place(x=199, y=118, height=590, width=850)
 
         def showAddEq(event):
             print("Work2")
@@ -206,22 +245,22 @@ class MainWindow:
         def showDeleteEq(event):
             print("Work3")
             forgetFrames()
-            DeleteEq.place(x=300, y=200, height=500, width=500)
+            DeleteEq.place(x=199, y=118, height=590, width=850)
 
         def showShowEq(event):
             print("Work4")
             forgetFrames()
-            ShowEq.place(x=300, y=200, height=500, width=500)
+            ShowEq.place(x=199, y=118, height=590, width=850)
 
         def showChemistry(event):
             print("Work5")
             forgetFrames()
-            Chemistry.place(x=300, y=200, height=500, width=500)
+            Chemistry.place(x=199, y=118, height=590, width=850)
 
         def showMakeOrder(event):
             print("Work6")
             forgetFrames()
-            MakeOrder.place(x=300, y=200, height=500, width=500)
+            MakeOrder.place(x=199, y=118, height=590, width=850)
 
         def showHelp(event):
             print("Work7")
@@ -330,6 +369,166 @@ class MainWindow:
         self.Laboratory = tk.Frame(self.PadAdd2, bg="black")
         self.Others = tk.Frame(self.PadAdd2, bg="white")
 
+        # ZAKLADKI Do dodawania elementow
+
+        # SEMICONDUCTORS
+
+        # Przyciski
+        self.AddComponent = tk.Button(self.Semiconductors, text='Add', font=14, bg='#0052cc', fg='white'
+                                      )
+        self.AddComponent.place(height=40, width=80, x=15, y=445)
+
+        self.ClearComponent = tk.Button(self.Semiconductors, text='Clear', font=14, bg='#0052cc', fg='white',
+                                      )
+        self.ClearComponent.place(height=40, width=80, x=110, y=445)
+
+        self.UploadLink = tk.Button(self.Semiconductors, text='Upload Link', font=14, bg='#0052cc', fg='white',
+                                    )
+        self.UploadLink.place(height=40, width=100, x=205, y=445)
+
+        self.UploadPdf = tk.Button(self.Semiconductors, text='Upload PDF', font=14, bg='#0052cc', fg='white',
+                                   )
+        self.UploadPdf.place(height=40, width=100, x=320, y=445)
+
+        #Labelki
+
+        self.lName = ttk.Label(self.Semiconductors, text="Name:", )
+        self.lName.place(height=40, width=80, x=10, y=60)
+
+        self.lGroup = ttk.Label(self.Semiconductors, text="Group:")
+        self.lGroup.place(height=40, width=80, x=10, y=100)
+
+        self.lSubCategory = ttk.Label(self.Semiconductors, text="SubCategory:")
+        self.lSubCategory.place(height=40, width=80, x=10, y=140)
+
+        self.lModel = ttk.Label(self.Semiconductors, text="Model:")
+        self.lModel.place(height=40, width=80, x=10, y=180)
+
+        self.lAssembly = ttk.Label(self.Semiconductors, text="Assembly:")
+        self.lAssembly.place(height=40, width=80, x=10, y=220)
+
+        self.lSize = ttk.Label(self.Semiconductors, text="Size:")
+        self.lSize.place(height=40, width=80, x=10, y=260)
+
+        self.lWhere = ttk.Label(self.Semiconductors, text="Where:")
+        self.lWhere.place(height=40, width=80, x=10, y=300)
+
+        self.lQuintity = ttk.Label(self.Semiconductors, text="Quintity:")
+        self.lQuintity.place(height=40, width=80, x=10, y=340)
+
+        # Grupy i kategorie
+
+        self.SizeComponents = ["0201", "0402", "0603", "0805", "1008", "1206", "1210"]
+        self.SposobMontazu = ["THT", "SMD", "Panel", "Kabel"]
+        self.grupa = ["Diody", "Tyrystory", "Triaki", "Diaki", "Tranzystory", "Układy Scalone"]
+        self.subcategorysemi = ["Diody Uniwersalne", "Diody schotky", "Zenera", "specjalne"]
+        self.CasesTHT = ["DIP", "SDIP" , "TO" ]
+        self.CasesSMD = ["SOJ", "SOIC", "PLCC", "QFP", "BGA"]
+
+        #Wejscia
+
+        self.eName = ttk.Entry(self.Semiconductors, width=50)
+        self.eName.place(height=20, width=180, x=100, y=70)
+
+        self.eGroup = ttk.Combobox(self.Semiconductors, values=self.grupa)
+        self.eGroup.place(height=20, width=180, x=100, y=110)
+
+        self.eSubCategory = ttk.Combobox(self.Semiconductors, values=self.subcategorysemi)
+        self.eSubCategory.place(height=20, width=180, x=100, y=150)
+
+        self.eModel = ttk.Entry(self.Semiconductors, width=50)
+        self.eModel.place(height=20, width=180, x=100, y=190)
+
+        self.eAssembly = ttk.Combobox(self.Semiconductors, values=self.SposobMontazu)
+        self.eAssembly.place(height=20, width=180, x=100, y=230)
+
+        self.eSize = ttk.Entry(self.Semiconductors, width=50)
+        self.eSize.place(height=20, width=180, x=100, y=270)
+
+        self.eWhere = ttk.Entry(self.Semiconductors, width=50)
+        self.eWhere.place(height=20, width=180, x=100, y=310)
+
+        self.eQuintity = ttk.Entry(self.Semiconductors, width=50)
+        self.eQuintity.place(height=20, width=180, x=100, y=350)
+
+        # Wejscia link i dokumenty i obrazy
+
+        self.Link = ttk.Label(self.Semiconductors, text="Tutaj będzie link")
+        self.Link.place(height=40, width=180, x=320, y=340)
+
+        self.Obraz = ttk.Button(self.Semiconductors, text="tutaj bedzie obraz")
+        self.Obraz.place(height=250, width= 250, x=320, y = 70 )
+
+       # self.Link = tk.Entry(self.Semiconductors, width=50)
+       # self.Link.place(height=20, width=180, x=340, y=200)
+
+
+        #PassiveElements
+
+        #Przyciski
+        #Labelki
+        #Wejscia
+
+        #OptoElectronics
+
+        #Przyciski
+        # Labelki
+        # Wejscia
+
+
+        #Connectors
+
+        #Przyciski
+        # Labelki
+        # Wejscia
+
+
+        #EnergySources
+
+        #Przyciski
+        # Labelki
+        # Wejscia
+
+        #PCAccessories
+
+        #Przyciski
+        # Labelki
+        # Wejscia
+
+
+        #Switches
+
+        #Przyciski
+        # Labelki
+        # Wejscia
+
+
+        #Wires
+
+        # Przyciski
+        # Labelki
+        # Wejscia
+
+
+        #Mechanics
+
+        # Przyciski
+        # Labelki
+        # Wejscia
+
+        #Laboratory
+
+        # Przyciski
+        # Labelki
+        # Wejscia
+
+
+
+        #Others
+
+        # Przyciski
+        # Labelki
+        # Wejscia
 
         ### CHOWANIE I POKAZYWANIE zakładek
 
@@ -348,7 +547,7 @@ class MainWindow:
 
         def showSemiconductors(event):
             forgetPadd2(event)
-            self.Semiconductors.place(height=40, width=80, x=15, y=445)
+            self.Semiconductors.place(height=500, width=640, x=5, y=5)
             print("1")
 
         def showPassiveElements(event):
@@ -445,7 +644,257 @@ class MainWindow:
 
         self.AddOthers.bind("<Enter>", klik)
         self.AddOthers.bind("<Leave>", zwolnienie)
-        self.AddOthers.bind("<Button-1>",showOthers)
+        self.AddOthers.bind("<Button-1>", showOthers)
+
+
+
+        # ########################################################################################DELETE EQUIPMENT
+
+
+
+        # #########################################################################################SHOW EQUIPMENT
+
+        ### Stworzenie dwóch panel widnow
+
+        self.ShowEQPad1 = tk.PanedWindow(ShowEq,bg="green", handlepad=True)
+        self.ShowEQPad1.place(height=590, width=180, x=0, y=0)
+
+        self.ShowEQPad2 = tk.PanedWindow(ShowEq,bg="yellow")
+        self.ShowEQPad2.place(height=590, width=650, x=185, y=0)
+
+
+        ### Stworzenie widgetów dla 1 panelu
+
+        self.ShowSemiconductors = tk.Label(self.ShowEQPad1, font=("Arial", 10), bg='white', text="Semiconductors",
+                                          cursor="hand2")
+        self.ShowSemiconductors.place(width=100, height=40, x=5, y=50)
+
+        self.ShowPassiveElements = tk.Label(self.ShowEQPad1, font=("Arial", 10), bg='white', text="PassiveElements",
+                                           cursor="hand2")
+        self.ShowPassiveElements.place(width=100, height=40, x=5, y=100)
+
+        self.ShowOptoelectronic = tk.Label(self.ShowEQPad1, font=("Arial", 10), bg='white', text="Optoelectronic",
+                                          cursor="hand2")
+        self.ShowOptoelectronic.place(width=100, height=40, x=5, y=150)
+
+        self.ShowConnectors = tk.Label(self.ShowEQPad1, font=("Arial", 10), bg='white', text="Connectors", cursor="hand2")
+        self.ShowConnectors.place(width=100, height=40, x=5, y=200)
+
+        self.ShowEnergySources = tk.Label(self.ShowEQPad1, font=("Arial", 10), bg='white', text="EnergySources",
+                                         cursor="hand2")
+        self.ShowEnergySources.place(width=100, height=40, x=5, y=250)
+
+        self.ShowPCAccesories = tk.Label(self.ShowEQPad1, font=("Arial", 10), bg='white', text="PCAccesories",
+                                        cursor="hand2")
+        self.ShowPCAccesories.place(width=100, height=40, x=5, y=300)
+
+        self.ShowSwitches = tk.Label(self.ShowEQPad1, font=("Arial", 10), bg='white', text="Switches", cursor="hand2")
+        self.ShowSwitches.place(width=100, height=40, x=5, y=350)
+
+        self.ShowWires = tk.Label(self.ShowEQPad1, font=("Arial", 10), bg='white', text="Wires", cursor="hand2")
+        self.ShowWires.place(width=100, height=40, x=5, y=400)
+
+        self.ShowMechanics = tk.Label(self.ShowEQPad1, font=("Arial", 10), bg='white', text="Mechanics", cursor="hand2")
+        self.ShowMechanics.place(width=100, height=40, x=5, y=450)
+
+        self.ShowLaboratory = tk.Label(self.ShowEQPad1, font=("Arial", 10), bg='white', text="Laboratory", cursor="hand2")
+        self.ShowLaboratory.place(width=100, height=40, x=5, y=500)
+
+        self.ShowOthers = tk.Label(self.ShowEQPad1, font=("Arial", 10), bg='white', text="Others", cursor="hand2")
+        self.ShowOthers.place(width=100, height=40, x=5, y=550)
+
+
+        ### Stworzenie ramek dla 2 widgetu
+
+        self.ShowSemiconductorsFrame = tk.Frame(self.ShowEQPad2, bg="white")
+        self.ShowPassiveElementsFrame = tk.Frame(self.ShowEQPad2, bg="black")
+        self.ShowOptoElectronicsFrame = tk.Frame(self.ShowEQPad2, bg="white")
+        self.ShowConnectorsFrame = tk.Frame(self.ShowEQPad2, bg="black")
+        self.ShowEnergySourcesFrame = tk.Frame(self.ShowEQPad2, bg="white")
+        self.ShowPCAccessoriesFrame = tk.Frame(self.ShowEQPad2, bg="black")
+        self.ShowSwitchesFrame = tk.Frame(self.ShowEQPad2, bg="white")
+        self.ShowWiresFrame = tk.Frame(self.ShowEQPad2, bg="black")
+        self.ShowMechanicsFrame = tk.Frame(self.ShowEQPad2, bg="white")
+        self.ShowLaboratoryFrame = tk.Frame(self.ShowEQPad2, bg="black")
+        self.ShowOthersFrame = tk.Frame(self.ShowEQPad2, bg="white")
+
+        ### Dodaanie widgetow do zakładek
+        ###
+
+
+
+
+
+
+
+
+        ### Bindowanie i wyswietlanie zakładek
+        def forgetShowEQPad2(event):
+            self.ShowSemiconductorsFrame.place_forget()
+            self.ShowPassiveElementsFrame.place_forget()
+            self.ShowOptoElectronicsFrame.place_forget()
+            self.ShowConnectorsFrame.place_forget()
+            self.ShowEnergySourcesFrame.place_forget()
+            self.ShowPCAccessoriesFrame.place_forget()
+            self.ShowSwitchesFrame.place_forget()
+            self.ShowWiresFrame.place_forget()
+            self.ShowMechanicsFrame.place_forget()
+            self.ShowLaboratoryFrame.place_forget()
+            self.ShowOthersFrame.place_forget()
+
+        def showShowSemiconductorsFrame(event):
+            forgetShowEQPad2(event)
+            self.ShowSemiconductorsFrame.place(height=500, width=640, x=5, y=5)
+            print("1")
+
+        def showShowPassiveElementsFrame(event):
+            forgetShowEQPad2(event)
+            self.ShowPassiveElementsFrame.place(height=500, width=640, x=5, y=5)
+            print("2")
+
+        def ShowOptoElectronicsFrame(event):
+            forgetShowEQPad2(event)
+            self.ShowOptoElectronicsFrame.place(height=500, width=640, x=5, y=5)
+            print("3")
+
+        def showShowConnectorsFrame(event):
+            forgetShowEQPad2(event)
+            self.ShowConnectorsFrame.place(height=500, width=640, x=5, y=5)
+            print("4")
+
+        def showShowEnergySourcesFrame(event):
+            forgetShowEQPad2(event)
+            self.ShowEnergySourcesFrame.place(height=500, width=640, x=5, y=5)
+            print("5")
+
+        def showShowPCAccessoriesFrame(event):
+            forgetShowEQPad2(event)
+            self.ShowPCAccessoriesFrame.place(height=500, width=640, x=5, y=5)
+            print("6")
+
+        def showShowSwitchesFrame(event):
+            forgetShowEQPad2(event)
+            self.ShowSwitches.place(height=500, width=640, x=5, y=5)
+            print("7")
+
+        def showShowWiresFrame(event):
+            forgetShowEQPad2(event)
+            self.ShowWiresFrame.place(height=500, width=640, x=5, y=5)
+            print("8")
+
+        def showShowMechanicsFrame(event):
+            forgetShowEQPad2(event)
+            self.ShowMechanicsFrame.place(height=500, width=640, x=5, y=5)
+            print("9")
+
+        def showShowLaboratoryFrame(event):
+            forgetShowEQPad2(event)
+            self.ShowLaboratoryFrame.place(height=500, width=640, x=5, y=5)
+            print("10")
+
+        def showShowOthersFrame(event):
+            forgetShowEQPad2(event)
+            self.ShowOthersFrame.place(height=500, width=640, x=5, y=5)
+            print("11")
+
+        ### bindowanie klawiszy
+
+        self.ShowSemiconductors.bind("<Enter>", klik)
+        self.ShowSemiconductors.bind("<Leave>", zwolnienie)
+        self.ShowSemiconductors.bind("<Button-1>", showShowSemiconductorsFrame)
+
+        self.ShowPassiveElements.bind("<Enter>", klik)
+        self.ShowPassiveElements.bind("<Leave>", zwolnienie)
+        self.ShowPassiveElements.bind("<Button-1>",showShowPassiveElementsFrame)
+
+        self.ShowOptoelectronic.bind("<Enter>", klik)
+        self.ShowOptoelectronic.bind("<Leave>", zwolnienie)
+        self.ShowOptoelectronic.bind("<Button-1>", ShowOptoElectronicsFrame)
+
+        self.ShowConnectors.bind("<Enter>", klik)
+        self.ShowConnectors.bind("<Leave>", zwolnienie)
+        self.ShowConnectors.bind("<Button-1>", showShowConnectorsFrame)
+
+        self.ShowEnergySources.bind("<Enter>", klik)
+        self.ShowEnergySources.bind("<Leave>", zwolnienie)
+        self.ShowEnergySources.bind("<Button-1>", showShowEnergySourcesFrame)
+
+        self.ShowPCAccesories.bind("<Enter>", klik)
+        self.ShowPCAccesories.bind("<Leave>", zwolnienie)
+        self.ShowPCAccesories.bind("<Button-1>", showShowPCAccessoriesFrame)
+
+        self.ShowSwitches.bind("<Enter>", klik)
+        self.ShowSwitches.bind("<Leave>", zwolnienie)
+        self.ShowSwitches.bind("<Button-1>", showShowSwitchesFrame)
+
+        self.ShowWires.bind("<Enter>", klik)
+        self.ShowWires.bind("<Leave>", zwolnienie)
+        self.ShowWires.bind("<Button-1>", showShowWiresFrame)
+
+        self.ShowMechanics.bind("<Enter>", klik)
+        self.ShowMechanics.bind("<Leave>", zwolnienie)
+        self.ShowMechanics.bind("<Button-1>",showShowMechanicsFrame )
+
+        self.ShowLaboratory.bind("<Enter>", klik)
+        self.ShowLaboratory.bind("<Leave>", zwolnienie)
+        self.ShowLaboratory.bind("<Button-1>", showShowLaboratoryFrame)
+
+        self.ShowOthers.bind("<Enter>", klik)
+        self.ShowOthers.bind("<Leave>", zwolnienie)
+        self.ShowOthers.bind("<Button-1>",showShowOthersFrame )
+
+
+
+        # ################################################################################################CHEMISTRY
+
+
+        ############################################################################################### MAKEORDER
+
+
+        # Przyciski
+        self.conf = tk.IntVar()
+        self.Confirmation = ttk.Checkbutton(MakeOrder, text="I accept the terms and conditions of orders ",
+                                            style='green/black.TCheckbutton', variable=self.conf,
+                                            )
+        self.Confirmation.place(height=40, width=400, x=15, y=345)
+
+        self.BOrder = tk.Button(MakeOrder, text='Make Order', font=14, bg='#0052cc',
+                                fg='white', )
+        self.BOrder.place(height=40, width=100, x=515, y=345)
+
+        #Labelki
+
+        self.OrderTitle = tk.Label(MakeOrder, text='Order Menagement',
+                                   bg='#0052cc', fg='white', font=("Helvetica", 14))
+        self.OrderTitle.place(height=55, width=630, x=0, y=0)
+
+        self.OrderT = tk.Label(MakeOrder, text='Put your links with quantity of Items that you want to order',
+                               bg='white', font=("Helvetica", 10))
+        self.OrderT.place(height=55, width=480, x=15, y=60)
+
+        self.SepOrd = ttk.Separator(MakeOrder, orient='horizontal')
+        self.SepOrd.place(width=600, x=15, y=329)
+
+        #Wejscia
+
+        self.eOrder = tk.Text(MakeOrder)
+        self.eOrder.place(height=220, width=600, x=15, y=100)
+
+        ttk.Style().configure('green/black.TCheckbutton', foreground='blue', background='white')
+
+
+
+        # HELP
+        #
+        #
+        #
+        #
+        #
+        #
+
+
+
+
 
         ### Przyciski
         '''
@@ -527,76 +976,6 @@ class MainWindow:
             menu=help_menu,
             underline=0
         )
-        '''
-
-
-        '''
-        self.AddComp = tk.Button(self.root, text='Show EQ', fg='white', bg='#0052cc', command=lambda: ShowComponents() )
-        self.AddComp.place(height=40, width=90, x=10, y=125)
-
-        self.AddComp = tk.Button(self.root, text='Delete EQ', fg='white', bg='#0052cc', command=lambda: AddComponent.add(self))
-        self.AddComp.place(height=40, width=90, x=10, y=175)
-
-        self.AddComp = tk.Button(self.root, text='Make Order', fg='white', bg='#0052cc', command=lambda: CMakeOrder())
-        self.AddComp.place(height=40, width=90, x=10, y=225)
-
-        self.AddComp = tk.Button(self.root, text='Help', fg='white', bg='#0052cc',  command=lambda: AddComponent.add(self))
-        self.AddComp.place(height=40, width=90, x=10, y=275)
-
-
-        self.AddComp = ttk.Button(self.root, text="<", command=self.say_hi)
-        self.AddComp.place(height=40, width=80, x=700, y=485)
-
-        self.AddComp = ttk.Button(self.root, text=">", command=self.say_hi)
-        self.AddComp.place(height=40, width=80, x=880, y=485)
-
-        self.AddComp = ttk.Button(self.root, text="INFO", command=self.say_hi)
-        self.AddComp.place(height=40, width=80, x=790, y=485)
-
-        self.Zastepcze = ttk.Button(self.root, text="Tutaj Obrazek", command=self.say_hi)
-        self.Zastepcze.place(height=400, width=400, x=630, y=75)
-
-        self.AddComp = ttk.Button(self.root, text="Export1", command=self.export1)
-        self.AddComp.place(height=40, width=80, x=15, y=500)
-
-        self.AddComp = ttk.Button(self.root, text="Export2", command=self.say_hi)
-        self.AddComp.place(height=40, width=80, x=110, y=500)
-
-        self.AddComp = ttk.Button(self.root, text="Export3", command=self.say_hi)
-        self.AddComp.place(height=40, width=80, x=205, y=500)
-
-        self.Kategoria = ttk.Entry(self.root, width=50)
-        self.Kategoria.place(height=25, width=100, x=210, y=500)
-
-        self.Typ = ttk.Entry(self.root, width=50)
-        self.Typ.place(height=25, width=100, x=210, y=1000)
-
-        self.Ilosc = ttk.Entry(self.root, width=50)
-        self.Ilosc.place(height=25, width=100, x=210, y=1500)
-
-        self.Where = ttk.Entry(self.root, width=50)
-        self.Where.place(height=25, width=100, x=210, y=2000)
-
-        self.Informacje = ttk.Label(self.root, text="Information:")
-        self.Informacje.place(height=40, width=80, x=350, y=100)
-
-        self.Informacje = ttk.Label(self.root, text="Fast Find:", )
-        self.Informacje.place(height=40, width=80, x=120, y=100)
-
-        self.Informacje = ttk.Label(self.root, text="Category:", )
-        self.Informacje.place(height=40, width=80, x=120, y=400)
-
-        self.Informacje = ttk.Label(self.root, text="Type:", )
-        self.Informacje.place(height=40, width=80, x=120, y=90)
-
-        self.Informacje = ttk.Label(self.root, text="Where:", )
-        self.Informacje.place(height=40, width=80, x=120, y=140)
-
-        self.Informacje = tk.Label(self.root, text="Quantity:", )
-        self.Informacje.place(height=40, width=80, x=120, y=190)
-
-        self.Informacje = ttk.Label(self.root, text="text")
-        self.Informacje.place(height=40, width=80, x=500, y=190)
         '''
 
     def say_hi(self):
