@@ -9,6 +9,9 @@ from ShowEQ import ShowComponents
 from tkinter import filedialog
 from MakeOrder import CMakeOrder
 from PIL import ImageTk , Image
+import Function as F
+
+
 
 class MainWindow:
     def __init__(self):
@@ -81,9 +84,6 @@ class MainWindow:
         help_ic = ImageTk.PhotoImage(Image.open("ikoneczki\info.png"))
         helpL =  tk.Label(self.root, image = help_ic)
         helpL.photo = help_ic
-
-
-
 
 
 
@@ -197,14 +197,15 @@ class MainWindow:
 
         ### Potrzebuje ramki dla dodawania, show, order, chemistry,
 
+        colortłaFramesAdd = '#808080'
+
         Home = tk.Frame(self.root, bg='yellow')
         Home.place(x=300, y=200, height=500, width=500)
-
         AddEq = tk.Frame(self.root, bg='red')
         DeleteEq = tk.Frame(self.root, bg='black')
         ShowEq = tk.Frame(self.root, bg='blue')
         Chemistry = tk.Frame(self.root, bg='pink')
-        MakeOrder = tk.Frame(self.root, bg='green')
+        MakeOrder = tk.Frame(self.root, bg=colortłaFramesAdd)
 
         ### Bindowanie klawiszy funkcyjnych
 
@@ -240,27 +241,27 @@ class MainWindow:
             powrotkolorow(event)
             aktywny(event)
 
-            AddEq.place(x=199, y=118, height=590, width=850)
+            AddEq.place(x=199, y=118, height=610, width=850)
 
         def showDeleteEq(event):
             print("Work3")
             forgetFrames()
-            DeleteEq.place(x=199, y=118, height=590, width=850)
+            DeleteEq.place(x=199, y=118, height=610, width=850)
 
         def showShowEq(event):
             print("Work4")
             forgetFrames()
-            ShowEq.place(x=199, y=118, height=590, width=850)
+            ShowEq.place(x=199, y=118, height=610, width=850)
 
         def showChemistry(event):
             print("Work5")
             forgetFrames()
-            Chemistry.place(x=199, y=118, height=590, width=850)
+            Chemistry.place(x=199, y=118, height=610, width=850)
 
         def showMakeOrder(event):
             print("Work6")
             forgetFrames()
-            MakeOrder.place(x=199, y=118, height=590, width=850)
+            MakeOrder.place(x=199, y=118, height=610, width=850)
 
         def showHelp(event):
             print("Work7")
@@ -301,11 +302,16 @@ class MainWindow:
 
         #create panded window for adding eq
 
-        self.PadAdd1 = tk.PanedWindow(AddEq,bg="green", handlepad=True)
-        self.PadAdd1.place(height=590, width=180, x=0, y=0)
+        ###colory
+        colortło1AddEq = '#404040'
+        colortło2AddEq = '#737373'
+        colorPrzyciskowAddEq = '#404040'
 
-        self.PadAdd2 = tk.PanedWindow(AddEq, bg = "yellow")
-        self.PadAdd2.place(height=590, width=650, x=185, y=0)
+        self.PadAdd1 = tk.PanedWindow(AddEq,bg=colortło1AddEq, handlepad=True)
+        self.PadAdd1.place(height=700, width=140, x=0, y=0)
+
+        self.PadAdd2 = tk.PanedWindow(AddEq, bg = colortło2AddEq)
+        self.PadAdd2.place(height=640, width=720, x=140, y=0)
         # tworze widzety dla paddAdd
 
 
@@ -314,60 +320,69 @@ class MainWindow:
         self.TitlePad1 = tk.Label(self.PadAdd1, text="Options" )
        # self.TitlePad1.place(width=80 ,height=40 ,x=5 ,y=5 )
 
-        self.Sep1Padd1 = ttk.Separator(self.PadAdd1, orient='vertical')
-        self.Sep1Padd1.place(width=40, x= 5, y = 50)
+        self.Sep1Padd1 = ttk.Separator(self.PadAdd1, orient='horizontal')
+        self.Sep1Padd1.place(width=130, x= 5, y = 40)
 
-        self.AddComponent = tk.Label(self.PadAdd1, font=("Arial", 11), bg='white', text="Add Equipment", cursor="hand2")
-        self.AddComponent.place(width=100, height=40, x = 5, y = 10 )
+        self.AddComponent = tk.Label(self.PadAdd1, font=("Arial", 13), bg=colorPrzyciskowAddEq,fg='white', text="Choose a type")
+        self.AddComponent.place(width=120, height=40, x = 5, y = 0 )
+
+
 
         # Funkcje dla pad 1
 
-        self.AddSemiconductors = tk.Label(self.PadAdd1, font=("Arial", 10), bg='white', text="Semiconductors", cursor="hand2")
-        self.AddSemiconductors.place(width=100, height=40, x = 5, y = 50 )
 
-        self.AddPassiveElements = tk.Label(self.PadAdd1, font=("Arial", 10), bg='white', text="PassiveElements", cursor="hand2")
-        self.AddPassiveElements.place(width=100, height=40, x = 5, y = 100 )
 
-        self.AddOptoelectronic = tk.Label(self.PadAdd1, font=("Arial", 10), bg='white', text="Optoelectronic", cursor="hand2")
-        self.AddOptoelectronic.place(width=100, height=40, x = 5, y = 150 )
 
-        self.AddConnectors = tk.Label(self.PadAdd1, font=("Arial", 10), bg='white', text="Connectors", cursor="hand2")
-        self.AddConnectors.place(width=100, height=40, x = 5, y = 200 )
 
-        self.AddEnergySources = tk.Label(self.PadAdd1, font=("Arial", 10), bg='white', text="EnergySources", cursor="hand2")
-        self.AddEnergySources.place(width=100, height=40, x = 5, y = 250 )
 
-        self.AddPCAccesories = tk.Label(self.PadAdd1, font=("Arial", 10), bg='white', text="PCAccesories", cursor="hand2")
-        self.AddPCAccesories.place(width=100, height=40, x = 5, y = 300 )
+        self.AddSemiconductors = tk.Label(self.PadAdd1, font=("Arial", 10), bg=colorPrzyciskowAddEq, fg='white',anchor="w",text="Semiconductors", cursor="hand2")
+        self.AddSemiconductors.place(width=110, height=40, x = 15, y = 50 )
 
-        self.AddSwitches = tk.Label(self.PadAdd1, font=("Arial", 10), bg='white', text="Switches", cursor="hand2")
-        self.AddSwitches.place(width=100, height=40, x = 5, y = 350 )
+        self.AddPassiveElements = tk.Label(self.PadAdd1, font=("Arial", 10), bg=colorPrzyciskowAddEq,fg='white',anchor="w", text="PassiveElements", cursor="hand2")
+        self.AddPassiveElements.place(width=110, height=40, x = 15, y = 100 )
 
-        self.AddWires = tk.Label(self.PadAdd1, font=("Arial", 10), bg='white', text="Wires", cursor="hand2")
-        self.AddWires.place(width=100, height=40, x = 5, y = 400 )
+        self.AddOptoelectronic = tk.Label(self.PadAdd1, font=("Arial", 10), bg=colorPrzyciskowAddEq,fg='white', anchor="w",text="Optoelectronic", cursor="hand2")
+        self.AddOptoelectronic.place(width=110, height=40, x = 15, y = 150 )
 
-        self.AddMechanics = tk.Label(self.PadAdd1, font=("Arial", 10), bg='white', text="Mechanics", cursor="hand2")
-        self.AddMechanics.place(width=100, height=40, x = 5, y = 450 )
+        self.AddConnectors = tk.Label(self.PadAdd1, font=("Arial", 10), bg=colorPrzyciskowAddEq,fg='white',anchor="w", text="Connectors", cursor="hand2")
+        self.AddConnectors.place(width=110, height=40, x = 15, y = 200 )
 
-        self.AddLaboratory = tk.Label(self.PadAdd1, font=("Arial", 10), bg='white', text="Laboratory", cursor="hand2")
-        self.AddLaboratory.place(width=100, height=40, x = 5, y = 500 )
+        self.AddEnergySources = tk.Label(self.PadAdd1, font=("Arial", 10), bg=colorPrzyciskowAddEq,fg='white',anchor="w", text="EnergySources", cursor="hand2")
+        self.AddEnergySources.place(width=110, height=40, x = 15, y = 250 )
 
-        self.AddOthers = tk.Label(self.PadAdd1, font=("Arial", 10), bg='white', text="Others", cursor="hand2")
-        self.AddOthers.place(width=100, height=40, x = 5, y = 550 )
+        self.AddPCAccesories = tk.Label(self.PadAdd1, font=("Arial", 10), bg=colorPrzyciskowAddEq,fg='white',anchor="w",text="PCAccesories", cursor="hand2")
+        self.AddPCAccesories.place(width=110, height=40, x = 15, y = 300 )
+
+        self.AddSwitches = tk.Label(self.PadAdd1, font=("Arial", 10), bg=colorPrzyciskowAddEq,fg='white',anchor="w", text="Switches", cursor="hand2")
+        self.AddSwitches.place(width=110, height=40, x = 15, y = 350 )
+
+        self.AddWires = tk.Label(self.PadAdd1, font=("Arial", 10), bg=colorPrzyciskowAddEq, fg='white',anchor="w",text="Wires", cursor="hand2")
+        self.AddWires.place(width=110, height=40, x = 15, y = 400 )
+
+        self.AddMechanics = tk.Label(self.PadAdd1, font=("Arial", 10), bg=colorPrzyciskowAddEq,fg='white',anchor="w", text="Mechanics", cursor="hand2")
+        self.AddMechanics.place(width=110, height=40, x = 15, y = 450 )
+
+        self.AddLaboratory = tk.Label(self.PadAdd1, font=("Arial", 10), bg=colorPrzyciskowAddEq,fg='white', anchor="w",text="Laboratory", cursor="hand2")
+        self.AddLaboratory.place(width=110, height=40, x = 15, y = 500 )
+
+        self.AddOthers = tk.Label(self.PadAdd1, font=("Arial", 10), bg=colorPrzyciskowAddEq, fg='white',anchor="w",text="Others", cursor="hand2")
+        self.AddOthers.place(width=110, height=40, x = 15, y = 550 )
 
         # Tworzenie widgetow dla padd2
 
-        self.Semiconductors = tk.Frame(self.PadAdd2, bg="white")
-        self.PassiveElements = tk.Frame(self.PadAdd2, bg="black")
-        self.OptoElectronics = tk.Frame(self.PadAdd2, bg="white")
-        self.Connectors = tk.Frame(self.PadAdd2, bg="black")
-        self.EnergySources = tk.Frame(self.PadAdd2, bg="white")
-        self.PCAccessories = tk.Frame(self.PadAdd2, bg="black")
-        self.Switches = tk.Frame(self.PadAdd2, bg="white")
-        self.Wires = tk.Frame(self.PadAdd2, bg="black")
-        self.Mechanics = tk.Frame(self.PadAdd2, bg="white")
-        self.Laboratory = tk.Frame(self.PadAdd2, bg="black")
-        self.Others = tk.Frame(self.PadAdd2, bg="white")
+
+
+        self.Semiconductors = tk.Frame(self.PadAdd2, bg=colortłaFramesAdd)
+        self.PassiveElements = tk.Frame(self.PadAdd2, bg=colortłaFramesAdd)
+        self.OptoElectronics = tk.Frame(self.PadAdd2, bg=colortłaFramesAdd)
+        self.Connectors = tk.Frame(self.PadAdd2, bg=colortłaFramesAdd)
+        self.EnergySources = tk.Frame(self.PadAdd2, bg=colortłaFramesAdd)
+        self.PCAccessories = tk.Frame(self.PadAdd2, bg=colortłaFramesAdd)
+        self.Switches = tk.Frame(self.PadAdd2, bg=colortłaFramesAdd)
+        self.Wires = tk.Frame(self.PadAdd2, bg=colortłaFramesAdd)
+        self.Mechanics = tk.Frame(self.PadAdd2, bg=colortłaFramesAdd)
+        self.Laboratory = tk.Frame(self.PadAdd2, bg=colortłaFramesAdd)
+        self.Others = tk.Frame(self.PadAdd2, bg=colortłaFramesAdd)
 
         # ZAKLADKI Do dodawania elementow
 
@@ -392,72 +407,87 @@ class MainWindow:
 
         #Labelki
 
-        self.lName = ttk.Label(self.Semiconductors, text="Name:", )
+        self.AddTitle = tk.Label(self.Semiconductors,font=("Arial", 20), text="Add new item:",anchor='w', bg=colortłaFramesAdd, fg ='white')
+        self.AddTitle.place(height=40, width=280, x=10, y=10)
+
+
+        self.lName = tk.Label(self.Semiconductors, text="Name:",bg=colortłaFramesAdd )
         self.lName.place(height=40, width=80, x=10, y=60)
 
-        self.lGroup = ttk.Label(self.Semiconductors, text="Group:")
+        self.lGroup = tk.Label(self.Semiconductors, text="Group:",bg=colortłaFramesAdd)
         self.lGroup.place(height=40, width=80, x=10, y=100)
 
-        self.lSubCategory = ttk.Label(self.Semiconductors, text="SubCategory:")
+        self.lSubCategory = tk.Label(self.Semiconductors, text="SubCategory:",bg=colortłaFramesAdd)
         self.lSubCategory.place(height=40, width=80, x=10, y=140)
 
-        self.lModel = ttk.Label(self.Semiconductors, text="Model:")
+        self.lModel = tk.Label(self.Semiconductors, text="Model:",bg=colortłaFramesAdd)
         self.lModel.place(height=40, width=80, x=10, y=180)
 
-        self.lAssembly = ttk.Label(self.Semiconductors, text="Assembly:")
+        self.lAssembly = tk.Label(self.Semiconductors, text="Assembly:",bg=colortłaFramesAdd)
         self.lAssembly.place(height=40, width=80, x=10, y=220)
 
-        self.lSize = ttk.Label(self.Semiconductors, text="Size:")
+        self.lSize = tk.Label(self.Semiconductors, text="Size:",bg=colortłaFramesAdd)
         self.lSize.place(height=40, width=80, x=10, y=260)
 
-        self.lWhere = ttk.Label(self.Semiconductors, text="Where:")
+        self.lWhere = tk.Label(self.Semiconductors, text="Where:",bg=colortłaFramesAdd)
         self.lWhere.place(height=40, width=80, x=10, y=300)
 
-        self.lQuintity = ttk.Label(self.Semiconductors, text="Quintity:")
+        self.lQuintity = tk.Label(self.Semiconductors, text="Quintity:",bg=colortłaFramesAdd)
         self.lQuintity.place(height=40, width=80, x=10, y=340)
 
         # Grupy i kategorie
 
         self.SizeComponents = ["0201", "0402", "0603", "0805", "1008", "1206", "1210"]
-        self.SposobMontazu = ["THT", "SMD", "Panel", "Kabel"]
-        self.grupa = ["Diody", "Tyrystory", "Triaki", "Diaki", "Tranzystory", "Układy Scalone"]
-        self.subcategorysemi = ["Diody Uniwersalne", "Diody schotky", "Zenera", "specjalne"]
+
+        self.SposobMontazu = ["THT", "SMD", ]
+
+        self.grupa = ["Diodes", "Thyristors", "Triacs", "Diacs", "Transistors", "Integrated circuits"]
+
+        self.subcategorysemi = ["Universal diodes", "Schottky diodes","Zener diodes","Transil diodes",
+                                "Single phase bridge rectifiers","Three phase bridge rectifiers","Single thyristores",
+                                "Thyristor modules","Unipolar transistors","Bipolar transistors",
+                                "IGBT transistors and modules","Analog and mixed integrated circuits",
+                                "Logic integrated circuits ","Microcontrollers and Microprocessors",
+                                "Memories - integrated circuits","Peripheral integrated circuits",
+                                "Voltage regulators","Others"]
+
         self.CasesTHT = ["DIP", "SDIP" , "TO" ]
+
         self.CasesSMD = ["SOJ", "SOIC", "PLCC", "QFP", "BGA"]
 
         #Wejscia
 
         self.eName = ttk.Entry(self.Semiconductors, width=50)
-        self.eName.place(height=20, width=180, x=100, y=70)
+        self.eName.place(height=20, width=230, x=100, y=70)
 
         self.eGroup = ttk.Combobox(self.Semiconductors, values=self.grupa)
-        self.eGroup.place(height=20, width=180, x=100, y=110)
+        self.eGroup.place(height=20, width=230, x=100, y=110)
 
         self.eSubCategory = ttk.Combobox(self.Semiconductors, values=self.subcategorysemi)
-        self.eSubCategory.place(height=20, width=180, x=100, y=150)
+        self.eSubCategory.place(height=20, width=230, x=100, y=150)
 
         self.eModel = ttk.Entry(self.Semiconductors, width=50)
-        self.eModel.place(height=20, width=180, x=100, y=190)
+        self.eModel.place(height=20, width=230, x=100, y=190)
 
         self.eAssembly = ttk.Combobox(self.Semiconductors, values=self.SposobMontazu)
-        self.eAssembly.place(height=20, width=180, x=100, y=230)
+        self.eAssembly.place(height=20, width=230, x=100, y=230)
 
         self.eSize = ttk.Entry(self.Semiconductors, width=50)
-        self.eSize.place(height=20, width=180, x=100, y=270)
+        self.eSize.place(height=20, width=230, x=100, y=270)
 
         self.eWhere = ttk.Entry(self.Semiconductors, width=50)
-        self.eWhere.place(height=20, width=180, x=100, y=310)
+        self.eWhere.place(height=20, width=230, x=100, y=310)
 
         self.eQuintity = ttk.Entry(self.Semiconductors, width=50)
-        self.eQuintity.place(height=20, width=180, x=100, y=350)
+        self.eQuintity.place(height=20, width=230, x=100, y=350)
 
         # Wejscia link i dokumenty i obrazy
 
-        self.Link = ttk.Label(self.Semiconductors, text="Tutaj będzie link")
-        self.Link.place(height=40, width=180, x=320, y=340)
+        self.Link = tk.Label(self.Semiconductors, text="Tutaj będzie link",bg=colortłaFramesAdd)
+        self.Link.place(height=40, width=180, x=360, y=340)
 
         self.Obraz = ttk.Button(self.Semiconductors, text="tutaj bedzie obraz")
-        self.Obraz.place(height=250, width= 250, x=320, y = 70 )
+        self.Obraz.place(height=250, width= 250, x=360, y = 70 )
 
        # self.Link = tk.Entry(self.Semiconductors, width=50)
        # self.Link.place(height=20, width=180, x=340, y=200)
@@ -466,14 +496,109 @@ class MainWindow:
         #PassiveElements
 
         #Przyciski
+        self.AddPassive = tk.Button(self.PassiveElements, text='Add', font=14, bg='#0052cc', fg='white')
+        self.AddPassive.place(height=40, width=80, x=15, y=520)
+
+        self.ClearPassive = tk.Button(self.PassiveElements, text='Clear', font=14, bg='#0052cc', fg='white')
+        self.ClearPassive.place(height=40, width=80, x=110, y=520)
+
+        self.UploadLinkPassive = tk.Button(self.PassiveElements, text='Upload Link', font=14, bg='#0052cc', fg='white')
+        self.UploadLinkPassive.place(height=40, width=100, x=205, y=520)
+
+        self.UploadPdfPassive = tk.Button(self.PassiveElements, text='Upload PDF', font=14, bg='#0052cc', fg='white')
+        self.UploadPdfPassive.place(height=40, width=100, x=320, y=520)
+
         #Labelki
+
+        self.AddTitlePassive = tk.Label(self.PassiveElements, font=("Arial", 20), text="Add new item:", anchor='w',
+                                 bg=colortłaFramesAdd, fg='white')
+        self.AddTitlePassive.place(height=40, width=280, x=10, y=10)
+
+        self.lNamePassive = tk.Label(self.PassiveElements, text="Name:", bg=colortłaFramesAdd)
+        self.lNamePassive.place(height=40, width=80, x=10, y=60)
+
+        self.lGroupPassive = tk.Label(self.PassiveElements, text="Group:", bg=colortłaFramesAdd)
+        self.lGroupPassive.place(height=40, width=80, x=10, y=100)
+
+        self.lSubCategoryPassive = tk.Label(self.PassiveElements, text="SubCategory:", bg=colortłaFramesAdd)
+        self.lSubCategoryPassive.place(height=40, width=80, x=10, y=140)
+
+        self.lModelPassive = tk.Label(self.PassiveElements, text="Model:", bg=colortłaFramesAdd)
+        self.lModelPassive.place(height=40, width=80, x=10, y=180)
+
+        self.lAssembly = tk.Label(self.PassiveElements, text="Assembly:", bg=colortłaFramesAdd)
+        self.lAssembly.place(height=40, width=80, x=10, y=220)
+
+        self.lSizePassive = tk.Label(self.PassiveElements, text="Size:", bg=colortłaFramesAdd)
+        self.lSizePassive.place(height=40, width=80, x=10, y=260)
+
+        self.lValuePassive = tk.Label(self.PassiveElements, text="Value:", bg=colortłaFramesAdd)
+        self.lValuePassive.place(height=40, width=80, x=10, y=300)
+
+        self.lTolerancePassive = tk.Label(self.PassiveElements, text="Tolerance:", bg=colortłaFramesAdd)
+        self.lTolerancePassive.place(height=40, width=80, x=10, y=340)
+
+        self.lWatsPassive = tk.Label(self.PassiveElements, text="Wats:", bg=colortłaFramesAdd)
+        self.lWatsPassive.place(height=40, width=80, x=10, y=380)
+
+        self.lWherePassive = tk.Label(self.PassiveElements, text="Where:", bg=colortłaFramesAdd)
+        self.lWherePassive.place(height=40, width=80, x=10, y=420)
+
+        self.lQuintityPassive = tk.Label(self.PassiveElements, text="Quintity:", bg=colortłaFramesAdd)
+        self.lQuintityPassive.place(height=40, width=80, x=10, y=460)
+
+        ### Kategorie
+
+        self.grupapassive = ["Resistors","Capacitors","Inductors","thermistors","Potentiometers","Encoders",
+                                   "Quartz crystals and filters","EMI/EMC components","Varistors","Antennas"]
+
+        self.subcategorypassive=["Precision resistors","Carbon THT resistors","Metal film THT resistors","Power resistors","Resistor networks","Trimmers", "Shaft potentiometers" ,"Slide potentiometers","Audio potentiometers"]
+
+        self.sposobmontazupassive=["THT","SMD","CABLE"]
+
         #Wejscia
+
+        self.eNamePassive = ttk.Entry(self.PassiveElements, width=50)
+        self.eNamePassive.place(height=20, width=230, x=100, y=70)
+
+        self.eGroupPassive = ttk.Combobox(self.PassiveElements, values=self.grupapassive)
+        self.eGroupPassive.place(height=20, width=230, x=100, y=110)
+
+        self.eSubCategoryPassive = ttk.Combobox(self.PassiveElements, values=self.subcategorypassive)
+        self.eSubCategoryPassive.place(height=20, width=230, x=100, y=150)
+
+        self.eModelPassive = ttk.Entry(self.PassiveElements, width=50)
+        self.eModelPassive.place(height=20, width=230, x=100, y=190)
+
+        self.eAssemblyPassive = ttk.Combobox(self.PassiveElements, values=self.sposobmontazupassive)
+        self.eAssemblyPassive.place(height=20, width=230, x=100, y=230)
+
+        self.eSizePassive = ttk.Entry(self.PassiveElements, width=50)
+        self.eSizePassive.place(height=20, width=230, x=100, y=270)
+
+        self.eValuePassive = ttk.Entry(self.PassiveElements, width=50)
+        self.eValuePassive.place(height=20, width=230, x=100, y=310)
+
+        self.eTolerancePassive = ttk.Entry(self.PassiveElements, width=50)
+        self.eTolerancePassive.place(height=20, width=230, x=100, y=350)
+
+        self.eWatsPassive = ttk.Entry(self.PassiveElements, width=50)
+        self.eWatsPassive.place(height=20, width=230, x=100, y=390)
+
+        self.eWherePassive = ttk.Entry(self.PassiveElements, width=50)
+        self.eWherePassive.place(height=20, width=230, x=100, y=430)
+
+        self.eQuintityPassive = ttk.Entry(self.PassiveElements, width=50)
+        self.eQuintityPassive.place(height=20, width=230, x=100, y=470)
 
         #OptoElectronics
 
         #Przyciski
+
         # Labelki
+
         # Wejscia
+
 
 
         #Connectors
@@ -522,8 +647,6 @@ class MainWindow:
         # Labelki
         # Wejscia
 
-
-
         #Others
 
         # Przyciski
@@ -547,57 +670,57 @@ class MainWindow:
 
         def showSemiconductors(event):
             forgetPadd2(event)
-            self.Semiconductors.place(height=500, width=640, x=5, y=5)
+            self.Semiconductors.place(height=590, width=695, x=5, y=5)
             print("1")
 
         def showPassiveElements(event):
             forgetPadd2(event)
-            self.PassiveElements.place(height=40, width=80, x=15, y=445)
+            self.PassiveElements.place(height=590, width=695, x=5, y=5)
             print("2")
 
         def showOptoelectronic(event):
             forgetPadd2(event)
-            self.OptoElectronics.place(height=40, width=80, x=15, y=445)
+            self.OptoElectronics.place(height=590, width=695, x=5, y=5)
             print("3")
 
         def showConnectors(event):
             forgetPadd2(event)
-            self.Connectors.place(height=40, width=80, x=15, y=445)
+            self.Connectors.place(height=590, width=695, x=5, y=5)
             print("4")
 
         def showEnergySources(event):
             forgetPadd2(event)
-            self.EnergySources.place(height=40, width=80, x=15, y=445)
+            self.EnergySources.place(height=590, width=695, x=5, y=5)
             print("5")
 
         def showPCAccessories(event):
             forgetPadd2(event)
-            self.PCAccessories.place(height=40, width=80, x=15, y=445)
+            self.PCAccessories.place(height=590, width=695, x=5, y=5)
             print("6")
 
         def showSwitches(event):
             forgetPadd2(event)
-            self.Switches.place(height=40, width=80, x=15, y=445)
+            self.Switches.place(height=590, width=695, x=5, y=5)
             print("7")
 
         def showWires(event):
             forgetPadd2(event)
-            self.Wires.place(height=40, width=80, x=15, y=445)
+            self.Wires.place(height=590, width=695, x=5, y=5)
             print("8")
 
         def showMechanics(event):
             forgetPadd2(event)
-            self.Mechanics.place(height=40, width=80, x=15, y=445)
+            self.Mechanics.place(height=590, width=695, x=5, y=5)
             print("9")
 
         def showLaboratory(event):
             forgetPadd2(event)
-            self.Laboratory.place(height=40, width=80, x=15, y=445)
+            self.Laboratory.place(height=590, width=695, x=5, y=5)
             print("10")
 
         def showOthers(event):
             forgetPadd2(event)
-            self.Others.place(height=40, width=80, x=15, y=445)
+            self.Others.place(height=590, width=695, x=5, y=5)
             print("11")
 
         ### bindowanie klawiszy
@@ -856,31 +979,39 @@ class MainWindow:
         self.Confirmation = ttk.Checkbutton(MakeOrder, text="I accept the terms and conditions of orders ",
                                             style='green/black.TCheckbutton', variable=self.conf,
                                             )
-        self.Confirmation.place(height=40, width=400, x=15, y=345)
+
+        self.Confirmation.place(height=40, width=400, x=15, y=520)
 
         self.BOrder = tk.Button(MakeOrder, text='Make Order', font=14, bg='#0052cc',
                                 fg='white', )
-        self.BOrder.place(height=40, width=100, x=515, y=345)
+        self.BOrder.place(height=40, width=100, x=730, y=520)
 
         #Labelki
 
         self.OrderTitle = tk.Label(MakeOrder, text='Order Menagement',
-                                   bg='#0052cc', fg='white', font=("Helvetica", 14))
-        self.OrderTitle.place(height=55, width=630, x=0, y=0)
+                                   bg=colortłaFramesAdd, fg='white', font=("Helvetica", 20),anchor='w')
+        self.OrderTitle.place(height=55, width=630, x=15, y=0)
 
-        self.OrderT = tk.Label(MakeOrder, text='Put your links with quantity of Items that you want to order',
-                               bg='white', font=("Helvetica", 10))
-        self.OrderT.place(height=55, width=480, x=15, y=60)
+        self.OrderT = tk.Label(MakeOrder, text='Write an order, put your items with quantity and links that you want to order:' ,anchor='w',
+                               bg=colortłaFramesAdd, font=("Helvetica", 12))
+        self.OrderT.place(height=55, width=520, x=15, y=60)
 
         self.SepOrd = ttk.Separator(MakeOrder, orient='horizontal')
-        self.SepOrd.place(width=600, x=15, y=329)
+        self.SepOrd.place(width=820, x=12.5, y=500)
+
+        self.lNameoftheOrder = tk.Label(MakeOrder, text='Name of the order:', anchor='w',
+                               bg=colortłaFramesAdd, font=("Helvetica", 12))
+        self.lNameoftheOrder.place(height=60, width=160, x=15, y=100)
 
         #Wejscia
 
-        self.eOrder = tk.Text(MakeOrder)
-        self.eOrder.place(height=220, width=600, x=15, y=100)
+        self.eNameoftheOrder = tk.Text(MakeOrder)
+        self.eNameoftheOrder.place(height=20, width=650, x=180, y=120)
 
-        ttk.Style().configure('green/black.TCheckbutton', foreground='blue', background='white')
+        self.eOrder = tk.Text(MakeOrder)
+        self.eOrder.place(height=320, width=815, x=15, y=160)
+
+        ttk.Style().configure('green/black.TCheckbutton', foreground='blue', background=colortłaFramesAdd)
 
 
 
