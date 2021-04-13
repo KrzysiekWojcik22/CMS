@@ -10,6 +10,7 @@ from tkinter import filedialog
 from MakeOrder import CMakeOrder
 from PIL import ImageTk , Image
 import Function as F
+from categories import EquipmentCategoriesPassiveElements
 
 
 
@@ -564,7 +565,10 @@ class MainWindow:
         self.eGroupPassive = ttk.Combobox(self.PassiveElements, values=self.grupapassive)
         self.eGroupPassive.place(height=20, width=230, x=100, y=110)
 
-        self.eSubCategoryPassive = ttk.Combobox(self.PassiveElements, values=self.subcategorypassive)
+        wartosc = EquipmentCategoriesPassiveElements()
+        rez = wartosc.Resistors
+        print(rez)
+        self.eSubCategoryPassive = ttk.Combobox(self.PassiveElements, values=rez)
         self.eSubCategoryPassive.place(height=20, width=230, x=100, y=150)
 
         self.eModelPassive = ttk.Entry(self.PassiveElements, width=50)
