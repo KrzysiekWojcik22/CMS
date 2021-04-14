@@ -77,7 +77,9 @@ class EquipmentCategoriesConnectors:
         # self.Other_connectors
 
 
-# class EquipmentCategoriesEnergySources():
+class EquipmentCategoriesEnergySources():
+    def __init__(self):
+        self.Battery = ["tak"]
 
 
 class EquipmentCategoriesPCAccessories:
@@ -111,8 +113,42 @@ class EquipmentCategoriesWires:
         self.Cables_Accessories = ["Cable Ties and Holders", "Cable Holders", "Worm Gear Clamps and Fixing Clamps",
                                    "Wire Markers,Glands and Grommets", "Cable Chains", "Gel Cable Joints"]
 
-# class EquipmentCategoriesMechanics():
+class EquipmentCategoriesMechanics:
+    def __init__(self):
+        self.Mechanics = ["Bolts", "Screws", "Nuts", "Spacers","Enclosures" ,"Others"]
 
-# class EquipmentCategoriesLaboratory():
+class EquipmentCategoriesLaboratory:
+    def __init__(self):
+        self.Measuring_Instruments = ["Analog Multimeters","Digital Multimeters","Meters - Accessories",
+                                    "Meters and Clamp Probes","Testers and Meters For El. Installations",
+                                    "Meters of environmental conditions", "Inspection Cameras", "Boroscopes",
+                                    "Automotive meters", "Panel Meters Laboratory", "instruments Laboratory",
+                                    "instruments - Others" "Laboratory Power Supplies" "Oscilloscopes and Scopemeters",
+                                    "LAN and Telephone Networks Testers"]
+
+        self.Measuring_Accessories = ["Test Leads","Probes - Test Plugs", "Test hooks", "Test Clips", "Crocodile Clips",
+                                    "Banana & Fork Plugs", "Banana Sockets", "Laboratory Clamps",
+                                    "Hangers and uprights on wires","Contact Probes",
+                                    "Laboratory Connectors - Others" ]
+
+        self.PCB_prototyping_and_production=["Copper laminates","Universal PCBs","Assembly kits",
+                                             "Materials for PCB production", ]
+
+        self.Soldering_and_Welding_Equipment=["Soldering irons and guns","Gas soldering irons & torches",
+                                              "Soldering & desoldering stations", "Soldering stations - accessories",
+                                              "Soldering tips & nozzles", "Soldering fume extraction systems",
+                                              "Soldering pots & baths", "Soldering Devices & Exposure Units",
+                                              "Auxiliary soldering tools", "Desoldering wicks",
+                                              "Dispensers & accessories", "Solders", "Fluxes",
+                                              "Soldering chemicals", "Welding Equipment" ]
+
+        self.Tools= ["Tools"]
+
+        self.Storage= ["Storage"]
+
+        self.Antistatic_Protection= ["Storage"]
+
+
+
 
 # class EquipmentCategoriesOthers():

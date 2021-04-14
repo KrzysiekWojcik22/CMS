@@ -5,16 +5,16 @@ from tkinter import Menu
 from tkinter import messagebox
 from tkinter import *
 import smtplib, ssl
-from ShowEQ import ShowComponents
 from tkinter import filedialog
-from MakeOrder import CMakeOrder
 from PIL import ImageTk , Image
 import Function as F
 from categories import EquipmentCategoriesPassiveElements
+import classes as cl
+
+Color = cl.ColoursMainWindow()
 
 
-
-class MainWindow:
+class MainWindow(tk.Frame):
     def __init__(self):
         self.root = tk.Toplevel()
         self.root.overrideredirect(True)
@@ -26,14 +26,11 @@ class MainWindow:
         center_y = int(screen_height / 2 - root_height / 2)
         self.root.geometry(f'{root_width}x{root_height}+{center_x}+{center_y}')
         self.root.attributes('-topmost', True)
-        self.root.configure(bg='white')
-
-
-        # self.root.bind("<Button-1>", self.startMove)
-        # self.root.bind("<ButtonRelease-1>", self.stopMove)  # bindowanie klawiszy dla przesówania okienka
-        # self.root.bind("<B1-Motion>", self.moving)
+        self.root.configure(bg=Color.MainBackground)
 
         ### Pasek Górny
+
+        
 
         PasekGora = tk.Canvas(self.root, bg='grey', height=725, width=1050)  # Budowa tła niebieskie
         PasekGora.tag_raise(1)
@@ -42,15 +39,11 @@ class MainWindow:
         PasekGora.create_rectangle(0, 57, 1050, 120, fill='#3C3E45', outline='#3C3E45')
         PasekGora.create_rectangle(0, 121, 200, 724, fill='#3C3E45', outline='#3C3E45')
 
-
         ### Ikona
         my_img = ImageTk.PhotoImage(Image.open("Ikona.png"))
-
-        myLabel= tk.Label(self.root,image=my_img,bg='#004554')
+        myLabel = tk.Label(self.root,image=my_img,bg='#004554')
         myLabel.photo = my_img
-        #myLabel.config(bg="")
-        myLabel.place(x=10,y=2.5, height=48, width=48)
-
+        myLabel.place(x=10, y=2.5, height=48, width=48)
 
         ### icony
 
@@ -83,15 +76,8 @@ class MainWindow:
         orderL.photo = order_ic
 
         help_ic = ImageTk.PhotoImage(Image.open("ikoneczki\info.png"))
-        helpL =  tk.Label(self.root, image = help_ic)
+        helpL = tk.Label(self.root, image = help_ic)
         helpL.photo = help_ic
-
-
-
-
-       # testbutton = tk.Button(self.root, image=email_ic)
-        #testbutton.place(width=80, height =40, x=10,y=200  )
-
 
         ## Głowny interfejs
         self.rootTitle = tk.Label(self.root, text='Component Database Management',
@@ -108,7 +94,6 @@ class MainWindow:
 
         ### glowne labelki
 
-
         self.ProjectL = tk.Label(self.root, font=("Arial", 40), bg='#3C3E45', fg='white', text="CMS")
 
         self.ProjectL.place(height=60, width=120, x=15, y=62.5)
@@ -118,16 +103,10 @@ class MainWindow:
 
         self.UsernameL.place(height=40, width=180, x=800, y=5)
 
-        #bg='#3C3E45
         self.Designer = tk.Label(self.root, font=("Arial", 11), bg='#3C3E45', fg='white', text="Created by:\n Krzysztof Wójcik")
         self.Designer.place(height=60, width=140, x=15, y=655)
 
-
-
-
         ### Obramowanie i przyciski funkcyjne dla modern flat gui
-
-
 
         Close = tk.Label(self.root, font=("Arial", 11), anchor=tk.CENTER, bg='#0052cc', text="X", cursor="hand2")
         Close.tkraise(aboveThis=PasekGora)
@@ -135,14 +114,8 @@ class MainWindow:
 
         ###Funkcje dla ramki
 
-        def hover(event):
-            event.widget.config(bg="red")
-
-        def unhover(event):
-            event.widget.config(bg='#0052cc')
-
-        Close.bind("<Enter>", hover)
-        Close.bind("<Leave>", unhover)
+        Close.bind("<Enter>", cl.Hover)
+        Close.bind("<Leave>", cl.Unhover)
         Close.bind("<Button-1>", self.exitProgram)
 
         PasekGora.bind("<Button-1>", self.startMove)
@@ -150,7 +123,6 @@ class MainWindow:
         PasekGora.bind("<B1-Motion>", self.moving)
         PasekGora.bind("<Double-Button-1>", self.minimize)
         PasekGora.bind("<Map>", self.frame_mapped)
-
 
         ### Tworzenie labelek z nazwami zmieniającymi kolor
 
@@ -221,9 +193,6 @@ class MainWindow:
         def powrotkolorow(event):
             event.widget.config(fg='white')
 
-        def klik(event):
-            event.widget.config(bg="#52555E")
-
         def zwolnienie(event):
             event.widget.config(bg='#3C3E45')
 
@@ -262,36 +231,39 @@ class MainWindow:
         def showMakeOrder(event):
             print("Work6")
             forgetFrames()
+          #  MakeOrder()
             MakeOrder.place(x=199, y=118, height=610, width=850)
 
         def showHelp(event):
             print("Work7")
 
-        LHome.bind("<Enter>", klik)
-        LHome.bind("<Leave>", zwolnienie)
+        LHome.bind("<Enter>", cl.click)
+        LHome.bind("<Leave>", cl.zwolnienie)
         LHome.bind("<Button-1>", showHome)
 
-        LAddEq.bind("<Enter>", klik)
+        LAddEq.bind("<Enter>", cl.click)
         LAddEq.bind("<Leave>", zwolnienie)
         LAddEq.bind("<Button-1>", showAddEq)
 
-        LDeleteEq.bind("<Enter>", klik)
+        LDeleteEq.bind("<Enter>", cl.click)
         LDeleteEq.bind("<Leave>", zwolnienie)
         LDeleteEq.bind("<Button-1>", showDeleteEq)
 
-        LShowEq.bind("<Enter>", klik)
+        LShowEq.bind("<Enter>", cl.click)
         LShowEq.bind("<Leave>", zwolnienie)
         LShowEq.bind("<Button-1>", showShowEq)
 
-        LChemistry.bind("<Enter>", klik)
+        LChemistry.bind("<Enter>", cl.click)
         LChemistry.bind("<Leave>", zwolnienie)
         LChemistry.bind("<Button-1>", showChemistry)
 
-        LMakeOrder.bind("<Enter>", klik)
+        LMakeOrder.bind("<Enter>", cl.click)
         LMakeOrder.bind("<Leave>", zwolnienie)
         LMakeOrder.bind("<Button-1>", showMakeOrder)
 
-        LHelp.bind("<Enter>", klik)
+        ### showMakeOrder
+
+        LHelp.bind("<Enter>", cl.click)
         LHelp.bind("<Leave>", zwolnienie)
         LHelp.bind("<Button-1>", showHelp)
 
@@ -315,7 +287,6 @@ class MainWindow:
         self.PadAdd2.place(height=640, width=720, x=140, y=0)
         # tworze widzety dla paddAdd
 
-
         # Tworzenie widgetów dla Padd1
 
         self.TitlePad1 = tk.Label(self.PadAdd1, text="Options" )
@@ -327,14 +298,7 @@ class MainWindow:
         self.AddComponent = tk.Label(self.PadAdd1, font=("Arial", 13), bg=colorPrzyciskowAddEq,fg='white', text="Choose a type")
         self.AddComponent.place(width=120, height=40, x = 5, y = 0 )
 
-
-
         # Funkcje dla pad 1
-
-
-
-
-
 
         self.AddSemiconductors = tk.Label(self.PadAdd1, font=("Arial", 10), bg=colorPrzyciskowAddEq, fg='white',anchor="w",text="Semiconductors", cursor="hand2")
         self.AddSemiconductors.place(width=110, height=40, x = 15, y = 50 )
@@ -370,8 +334,6 @@ class MainWindow:
         self.AddOthers.place(width=110, height=40, x = 15, y = 550 )
 
         # Tworzenie widgetow dla padd2
-
-
 
         self.Semiconductors = tk.Frame(self.PadAdd2, bg=colortłaFramesAdd)
         self.PassiveElements = tk.Frame(self.PadAdd2, bg=colortłaFramesAdd)
@@ -410,7 +372,6 @@ class MainWindow:
 
         self.AddTitle = tk.Label(self.Semiconductors,font=("Arial", 20), text="Add new item:",anchor='w', bg=colortłaFramesAdd, fg ='white')
         self.AddTitle.place(height=40, width=280, x=10, y=10)
-
 
         self.lName = tk.Label(self.Semiconductors, text="Name:",bg=colortłaFramesAdd )
         self.lName.place(height=40, width=80, x=10, y=60)
@@ -729,47 +690,47 @@ class MainWindow:
 
         ### bindowanie klawiszy
 
-        self.AddSemiconductors.bind("<Enter>", klik)
+        self.AddSemiconductors.bind("<Enter>", cl.click)
         self.AddSemiconductors.bind("<Leave>", zwolnienie)
         self.AddSemiconductors.bind("<Button-1>", showSemiconductors)
 
-        self.AddPassiveElements.bind("<Enter>", klik)
+        self.AddPassiveElements.bind("<Enter>", cl.click)
         self.AddPassiveElements.bind("<Leave>", zwolnienie)
         self.AddPassiveElements.bind("<Button-1>", showPassiveElements)
 
-        self.AddOptoelectronic.bind("<Enter>", klik)
+        self.AddOptoelectronic.bind("<Enter>", cl.click)
         self.AddOptoelectronic.bind("<Leave>", zwolnienie)
         self.AddOptoelectronic.bind("<Button-1>", showOptoelectronic)
 
-        self.AddConnectors.bind("<Enter>", klik)
+        self.AddConnectors.bind("<Enter>", cl.click)
         self.AddConnectors.bind("<Leave>", zwolnienie)
         self.AddConnectors.bind("<Button-1>", showConnectors)
 
-        self.AddEnergySources.bind("<Enter>", klik)
+        self.AddEnergySources.bind("<Enter>", cl.click)
         self.AddEnergySources.bind("<Leave>", zwolnienie)
         self.AddEnergySources.bind("<Button-1>", showEnergySources)
 
-        self.AddPCAccesories.bind("<Enter>", klik)
+        self.AddPCAccesories.bind("<Enter>", cl.click)
         self.AddPCAccesories.bind("<Leave>", zwolnienie)
         self.AddPCAccesories.bind("<Button-1>", showPCAccessories)
 
-        self.AddSwitches.bind("<Enter>", klik)
+        self.AddSwitches.bind("<Enter>", cl.click)
         self.AddSwitches.bind("<Leave>", zwolnienie)
         self.AddSwitches.bind("<Button-1>", showSwitches)
 
-        self.AddWires.bind("<Enter>", klik)
+        self.AddWires.bind("<Enter>", cl.click)
         self.AddWires.bind("<Leave>", zwolnienie)
         self.AddWires.bind("<Button-1>", showWires)
 
-        self.AddMechanics.bind("<Enter>", klik)
+        self.AddMechanics.bind("<Enter>", cl.click)
         self.AddMechanics.bind("<Leave>", zwolnienie)
         self.AddMechanics.bind("<Button-1>", showMechanics)
 
-        self.AddLaboratory.bind("<Enter>", klik)
+        self.AddLaboratory.bind("<Enter>", cl.click)
         self.AddLaboratory.bind("<Leave>", zwolnienie)
         self.AddLaboratory.bind("<Button-1>", showLaboratory)
 
-        self.AddOthers.bind("<Enter>", klik)
+        self.AddOthers.bind("<Enter>", cl.click)
         self.AddOthers.bind("<Leave>", zwolnienie)
         self.AddOthers.bind("<Button-1>", showOthers)
 
@@ -926,47 +887,47 @@ class MainWindow:
 
         ### bindowanie klawiszy
 
-        self.ShowSemiconductors.bind("<Enter>", klik)
+        self.ShowSemiconductors.bind("<Enter>", cl.click)
         self.ShowSemiconductors.bind("<Leave>", zwolnienie)
         self.ShowSemiconductors.bind("<Button-1>", showShowSemiconductorsFrame)
 
-        self.ShowPassiveElements.bind("<Enter>", klik)
+        self.ShowPassiveElements.bind("<Enter>", cl.click)
         self.ShowPassiveElements.bind("<Leave>", zwolnienie)
         self.ShowPassiveElements.bind("<Button-1>",showShowPassiveElementsFrame)
 
-        self.ShowOptoelectronic.bind("<Enter>", klik)
+        self.ShowOptoelectronic.bind("<Enter>", cl.click)
         self.ShowOptoelectronic.bind("<Leave>", zwolnienie)
         self.ShowOptoelectronic.bind("<Button-1>", ShowOptoElectronicsFrame)
 
-        self.ShowConnectors.bind("<Enter>", klik)
+        self.ShowConnectors.bind("<Enter>", cl.click)
         self.ShowConnectors.bind("<Leave>", zwolnienie)
         self.ShowConnectors.bind("<Button-1>", showShowConnectorsFrame)
 
-        self.ShowEnergySources.bind("<Enter>", klik)
+        self.ShowEnergySources.bind("<Enter>", cl.click)
         self.ShowEnergySources.bind("<Leave>", zwolnienie)
         self.ShowEnergySources.bind("<Button-1>", showShowEnergySourcesFrame)
 
-        self.ShowPCAccesories.bind("<Enter>", klik)
+        self.ShowPCAccesories.bind("<Enter>", cl.click)
         self.ShowPCAccesories.bind("<Leave>", zwolnienie)
         self.ShowPCAccesories.bind("<Button-1>", showShowPCAccessoriesFrame)
 
-        self.ShowSwitches.bind("<Enter>", klik)
+        self.ShowSwitches.bind("<Enter>", cl.click)
         self.ShowSwitches.bind("<Leave>", zwolnienie)
         self.ShowSwitches.bind("<Button-1>", showShowSwitchesFrame)
 
-        self.ShowWires.bind("<Enter>", klik)
+        self.ShowWires.bind("<Enter>", cl.click)
         self.ShowWires.bind("<Leave>", zwolnienie)
         self.ShowWires.bind("<Button-1>", showShowWiresFrame)
 
-        self.ShowMechanics.bind("<Enter>", klik)
+        self.ShowMechanics.bind("<Enter>", cl.click)
         self.ShowMechanics.bind("<Leave>", zwolnienie)
         self.ShowMechanics.bind("<Button-1>",showShowMechanicsFrame )
 
-        self.ShowLaboratory.bind("<Enter>", klik)
+        self.ShowLaboratory.bind("<Enter>", cl.click)
         self.ShowLaboratory.bind("<Leave>", zwolnienie)
         self.ShowLaboratory.bind("<Button-1>", showShowLaboratoryFrame)
 
-        self.ShowOthers.bind("<Enter>", klik)
+        self.ShowOthers.bind("<Enter>", cl.click)
         self.ShowOthers.bind("<Leave>", zwolnienie)
         self.ShowOthers.bind("<Button-1>",showShowOthersFrame )
 
@@ -1139,8 +1100,7 @@ class MainWindow:
     def exitProgram(self, asdasd):
         self.root.destroy()
 
-    def frame_mapped(self, e):
-        print(self, e)
+    def frame_mapped(self,e):
         self.root.update_idletasks()
         self.root.overrideredirect(True)
         self.root.state('normal')
@@ -1150,3 +1110,47 @@ class MainWindow:
         self.root.overrideredirect(False)
         self.root.state('withdrawn')
         self.root.state('iconic')
+
+class MakeOrder(tk.Frame):
+    def __init__(self):
+        MakeOrder = tk.Frame(self.root, bg="pink")
+        MakeOrder.place(x=199, y=118, height=610, width=850)
+        self.conf = tk.IntVar()
+        self.Confirmation = ttk.Checkbutton(MakeOrder, text="I accept the terms and conditions of orders ",
+                                            style='green/black.TCheckbutton', variable=self.conf,
+                                            )
+
+        self.Confirmation.place(height=40, width=400, x=15, y=520)
+
+        self.BOrder = tk.Button(MakeOrder, text='Make Order', font=14, bg='#0052cc',
+                                fg='white', )
+        self.BOrder.place(height=40, width=100, x=730, y=520)
+
+        # Labelki
+
+        self.OrderTitle = tk.Label(MakeOrder, text='Order Menagement',
+                                    fg='white', font=("Helvetica", 20), anchor='w')
+        self.OrderTitle.place(height=55, width=630, x=15, y=0)
+
+        self.OrderT = tk.Label(MakeOrder,
+                               text='Write an order, put your items with quantity and links that you want to order:',
+                               anchor='w',
+                                font=("Helvetica", 12))
+        self.OrderT.place(height=55, width=520, x=15, y=60)
+
+        self.SepOrd = ttk.Separator(MakeOrder, orient='horizontal')
+        self.SepOrd.place(width=820, x=12.5, y=500)
+
+        self.lNameoftheOrder = tk.Label(MakeOrder, text='Name of the order:', anchor='w',
+                                         font=("Helvetica", 12))
+        self.lNameoftheOrder.place(height=60, width=160, x=15, y=100)
+
+        # Wejscia
+
+        self.eNameoftheOrder = tk.Text(MakeOrder)
+        self.eNameoftheOrder.place(height=20, width=650, x=180, y=120)
+
+        self.eOrder = tk.Text(MakeOrder)
+        self.eOrder.place(height=320, width=815, x=15, y=160)
+
+        ttk.Style().configure('green/black.TCheckbutton', foreground='blue')
