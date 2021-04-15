@@ -6,7 +6,7 @@ from tkinter import messagebox
 from tkinter import *
 import smtplib, ssl
 from tkinter import filedialog
-from PIL import ImageTk , Image
+from PIL import ImageTk, Image
 import Function as F
 from categories import EquipmentCategoriesPassiveElements
 import classes as cl
@@ -17,10 +17,10 @@ Color = cl.ColoursMainWindow()
 
 
 class MainWindow:
-    def __init__(self,master):
+    def __init__(self, master):
         master = tk.Toplevel()
-        #master.overrideredirect(True)
-        screen_width =master.winfo_screenwidth()
+        # master.overrideredirect(True)
+        screen_width = master.winfo_screenwidth()
         screen_height = master.winfo_screenheight()
         root_width = 1045
         root_height = 720
@@ -179,7 +179,6 @@ class MainWindow:
         ShowEq = tk.Frame(self.root, bg='blue')
         Chemistry = tk.Frame(self.root, bg='pink')
 
-
         ### Bindowanie klawiszy funkcyjnych
 
         def forgetFrames():
@@ -188,9 +187,6 @@ class MainWindow:
             DeleteEq.place_forget()
             ShowEq.place_forget()
             Chemistry.place_forget()
-
-
-
 
         def powrotkolorow(event):
             event.widget.config(fg='white')
@@ -203,9 +199,10 @@ class MainWindow:
 
         def showHome(event):
             print("Work1")
-            Elder2.Zniszcz(self)
-            forgetFrames()
 
+
+            AddEquipmentFirst(master=self.root)
+            forgetFrames()
             aktywny(event)
             Home.place(x=199, y=118, height=590, width=850)
 
@@ -235,9 +232,8 @@ class MainWindow:
         def showMakeOrder(event):
             print("Work6")
             forgetFrames()
-            Elder2(master=self.root)
+            MakeOrder(master=self.root)
             #  MakeOrder()
-
 
         def showHelp(event):
             print("Work7")
@@ -272,60 +268,153 @@ class MainWindow:
         LHelp.bind("<Leave>", zwolnienie)
         LHelp.bind("<Button-1>", showHelp)
 
-class Elder2:
-    def __init__(self,master):
-        self.MakeOrder = tk.Frame(master,bg="blue")
-        self.MakeOrder.place(x=199, y=118, height=610, width=850)
-        self.MakeOrder.bind("<Enter>", lambda x: self.hide())
+
+class MakeOrder:
+    def __init__(self, master):
+        self.Make_Order = tk.Frame(master, bg="blue")
+        self.Make_Order.place(x=199, y=118, height=610, width=850)
 
         self.conf = tk.IntVar()
-        self.Confirmation = ttk.Checkbutton(self.MakeOrder, text="I accept the terms and conditions of orders ",
-                                            style='green/black.TCheckbutton', variable=self.conf,
-                                            )
-
+        self.Confirmation = ttk.Checkbutton(self.Make_Order, text="I accept the terms and conditions of orders ",
+                                            style='green/black.TCheckbutton', variable=self.conf)
         self.Confirmation.place(height=40, width=400, x=15, y=520)
 
-        self.BOrder = tk.Button(self.MakeOrder, text='Make Order', font=14, bg='#0052cc',
+        self.BOrder = tk.Button(self.Make_Order, text='Make Order', font=14, bg='#0052cc',
                                 fg='white', )
         self.BOrder.place(height=40, width=100, x=730, y=520)
 
         # Labelki
 
-        self.OrderTitle = tk.Label(self.MakeOrder, text='Order Menagement',
-                                   fg='white', font=("Helvetica", 20), anchor='w')
-        self.OrderTitle.place(height=55, width=630, x=15, y=0)
+        self.Order_Title = tk.Label(self.Make_Order, text='Order Menagement',
+                                    fg='white', font=("Helvetica", 20), anchor='w')
+        self.Order_Title.place(height=55, width=630, x=15, y=0)
 
-        self.OrderT = tk.Label(self.MakeOrder,
+        self.OrderT = tk.Label(self.Make_Order,
                                text='Write an order, put your items with quantity and links that you want to order:',
                                anchor='w',
                                font=("Helvetica", 12))
         self.OrderT.place(height=55, width=520, x=15, y=60)
 
-        self.SepOrd = ttk.Separator(self.MakeOrder, orient='horizontal')
+        self.SepOrd = ttk.Separator(self.Make_Order, orient='horizontal')
         self.SepOrd.place(width=820, x=12.5, y=500)
 
-        self.lNameoftheOrder = tk.Label(self.MakeOrder, text='Name of the order:', anchor='w',
-                                        font=("Helvetica", 12))
-        self.lNameoftheOrder.place(height=60, width=160, x=15, y=100)
+        self.lName_of_the_Order = tk.Label(self.Make_Order, text='Name of the order:', anchor='w',
+                                           font=("Helvetica", 12))
+        self.lName_of_the_Order.place(height=60, width=160, x=15, y=100)
 
         # Wejscia
 
-        self.eNameoftheOrder = tk.Text(self.MakeOrder)
-        self.eNameoftheOrder.place(height=20, width=650, x=180, y=120)
+        self.elName_of_the_Order = tk.Text(self.Make_Order)
+        self.elName_of_the_Order.place(height=20, width=650, x=180, y=120)
 
-        self.eOrder = tk.Text(self.MakeOrder)
+        self.eOrder = tk.Text(self.Make_Order)
         self.eOrder.place(height=320, width=815, x=15, y=160)
 
         ttk.Style().configure('green/black.TCheckbutton', foreground='blue')
+size = 0
+count = 0
+class AddEquipmentFirst:
+    def __init__(self, master):
+        self.Add_EQ = tk.Frame(master, bg="red")
+        self.Add_EQ.place(x=199, y=118, height=610, width=850)
 
-        self.hidden = 0
-
-    def hide(self):
-        if self.hidden == 0:
-            self.MakeOrder.destroy()
-            self.hidden = 1
-            print("Hidden", self.hidden)
+        ###colory
+        colortło1AddEq = '#404040'
+        colortło2AddEq = '#737373'
+        colorPrzyciskowAddEq = '#404040'
 
 
 
+        self.PadAdd1 = tk.PanedWindow(self.Add_EQ, bg=colortło1AddEq, handlepad=True)
+        self.PadAdd1.place(height=700, width=140, x=0, y=0)
 
+        self.PadAdd2 = tk.PanedWindow(self.Add_EQ, bg="blue")
+        self.PadAdd2.place(height=640, width=720, x=140, y=0)
+
+        # Tworzenie widgetów dla Padd1
+
+        self.TitlePad1 = tk.Label(self.PadAdd1, text="Options")
+        # self.TitlePad1.place(width=80 ,height=40 ,x=5 ,y=5 )
+
+        self.Sep1Padd1 = ttk.Separator(self.PadAdd1, orient='horizontal')
+        self.Sep1Padd1.place(width=130, x=5, y=40)
+
+        self.AddComponent = tk.Label(self.PadAdd1, font=("Arial", 13), bg=colorPrzyciskowAddEq, fg='white',
+                                     text="Choose a type")
+        self.AddComponent.place(width=120, height=40, x=5, y=0)
+
+        # Funkcje dla pad 1
+
+        self.AddSemiconductors = tk.Label(self.PadAdd1, font=("Arial", 10), bg=colorPrzyciskowAddEq, fg='white',
+                                          anchor="w", text="Semiconductors", cursor="hand2")
+        self.AddSemiconductors.place(width=110, height=40, x=15, y=50)
+
+        self.AddPassiveElements = tk.Label(self.PadAdd1, font=("Arial", 10), bg=colorPrzyciskowAddEq, fg='white',
+                                           anchor="w", text="PassiveElements", cursor="hand2")
+        self.AddPassiveElements.place(width=110, height=40, x=15, y=100)
+
+        self.AddOptoelectronic = tk.Label(self.PadAdd1, font=("Arial", 10), bg=colorPrzyciskowAddEq, fg='white',
+                                          anchor="w", text="Optoelectronic", cursor="hand2")
+        self.AddOptoelectronic.place(width=110, height=40, x=15, y=150)
+
+        self.AddSemiconductors.bind("<Button-1>", lambda x: self.expand())
+
+        self.AddPassiveElements.bind("<Button-1>",self.Add3)
+
+
+    def Add2(self,x):
+       AddEquipmentSecond(master=self.PadAdd2)
+
+    def expand(self):
+        global size, count
+        if count < 850:
+            size += 1
+            print(size)
+            self.AddSemiconductors.place(width=110, height=size, x=15, y=50)
+            count += 1
+            self.Add_EQ.after(100, self.expand)
+
+
+
+    def Add3(self,x):
+        AddEQuipmentThird(master=self.PadAdd2)
+
+class AddSemi:
+    def __init__(self):
+        print("asddas")
+
+
+class AddEquipmentSecond:
+    def __init__(self, master):
+        print("dwa")
+
+
+        self.Add_Semi = tk.Frame(master, bg="red")
+        self.Add_Semi.place(x=0, y=0, height=610, width=850)
+
+        self.Semiconductors = tk.Frame(self.Add_Semi, bg="black")
+
+        self.AddComponent = tk.Button(self.Add_Semi, text='Add', font=14, bg='#0052cc', fg='white',command = self.expand
+                                      )
+        self.AddComponent.place(height=40, width=80, x=0, y=0)
+
+    def expand(self):
+        global size, count
+        if count < 850:
+            size += 1
+            print(size)
+            self.AddComponent.place(height=40, width=size, x=0, y=0)
+            count += 1
+            self.Add_Semi.after(100, self.expand)
+
+class AddEQuipmentThird:
+    def __init__(self, master):
+        print("dwa")
+        self.Add_Semi = tk.Frame(master, bg="white")
+        self.Add_Semi.place(x=0, y=0, height=610, width=850)
+
+        self.Semiconductors = tk.Frame(self.Add_Semi, bg="black")
+
+        self.AddComponent = tk.Button(self.Add_Semi, text='Add', font=14, bg='#0052cc', fg='white'
+                                      )
+        self.AddComponent.place(height=40, width=80, x=0, y=0)
