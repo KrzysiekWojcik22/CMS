@@ -14,12 +14,10 @@ import classes as cl
 Color = cl.ColoursMainWindow()
 
 
-
-
 class MainWindow:
     def __init__(self, master):
         master = tk.Toplevel()
-        # master.overrideredirect(True)
+        master.overrideredirect(True)
         screen_width = master.winfo_screenwidth()
         screen_height = master.winfo_screenheight()
         root_width = 1045
@@ -45,9 +43,12 @@ class MainWindow:
 
         ### icony
 
+        x = cl.Ikoneczki(master=self.root)
+        x.email_ic
+
         email_ic = ImageTk.PhotoImage(Image.open("ikoneczki\email.png"))
-        emailL = tk.Label(self.root, image=email_ic, bg='red')
-        emailL.photo = email_ic
+        email_L = tk.Label(self.root, image=email_ic, bg='red')
+        email_L.photo = email_ic
 
         home_ic = ImageTk.PhotoImage(Image.open("ikoneczki\home.png"))
         homeL = tk.Label(self.root, image=home_ic)
@@ -78,6 +79,7 @@ class MainWindow:
         helpL.photo = help_ic
 
         ## Głowny interfejs
+
         self.rootTitle = tk.Label(self.root, text='Component Database Management',
                                   bg='#004554', fg='white', font=("Helvetica", 14))
         self.rootTitle.place(height=55, width=400, x=60, y=0)
@@ -115,14 +117,14 @@ class MainWindow:
 
         Close.bind("<Enter>", cl.Hover)
         Close.bind("<Leave>", cl.Unhover)
-        Close.bind("<Button-1>", )
+        Close.bind("<Button-1>", lambda x: self.root.destroy())
 
         ### Tworzenie labelek z nazwami zmieniającymi kolor
 
         LHome = tk.Label(self.root, font=("Arial", 12), bg='#3C3E45', fg='white', text="   Home", anchor="w",
                          cursor="hand2")
         LHome["compound"] = tk.LEFT
-        LHome["image"] = home_ic
+        LHome["image"] = x.email_ic
         LHome.tkraise(aboveThis=PasekGora)
         LHome.place(x=15, y=150, width=170, height=40)
 
@@ -178,6 +180,8 @@ class MainWindow:
         DeleteEq = tk.Frame(self.root, bg='black')
         ShowEq = tk.Frame(self.root, bg='blue')
         Chemistry = tk.Frame(self.root, bg='pink')
+        FMakeOrder = tk.Frame(self.root, bg = 'white')
+
 
         ### Bindowanie klawiszy funkcyjnych
 
@@ -187,6 +191,7 @@ class MainWindow:
             DeleteEq.place_forget()
             ShowEq.place_forget()
             Chemistry.place_forget()
+            FMakeOrder.place_forget()
 
         def powrotkolorow(event):
             event.widget.config(fg='white')
@@ -199,20 +204,16 @@ class MainWindow:
 
         def showHome(event):
             print("Work1")
-
-
-            AddEquipmentFirst(master=self.root)
             forgetFrames()
             aktywny(event)
             Home.place(x=199, y=118, height=590, width=850)
 
         def showAddEq(event):
-            print("Work2")
             forgetFrames()
-            powrotkolorow(event)
-            aktywny(event)
+            AddEq.place(x=199, y=118, height=590, width=850)
+            AddEquipmentFirst(master=AddEq)
 
-            AddEq.place(x=199, y=118, height=610, width=850)
+
 
         def showDeleteEq(event):
             print("Work3")
@@ -229,11 +230,10 @@ class MainWindow:
             forgetFrames()
             Chemistry.place(x=199, y=118, height=610, width=850)
 
-        def showMakeOrder(event):
-            print("Work6")
-            forgetFrames()
-            MakeOrder(master=self.root)
-            #  MakeOrder()
+
+        def showFMakeOrder(event):
+            FMakeOrder.place(x=199, y=118, height=590, width=850)
+            MakeOrder(master=FMakeOrder)
 
         def showHelp(event):
             print("Work7")
@@ -243,62 +243,66 @@ class MainWindow:
         LHome.bind("<Button-1>", showHome)
 
         LAddEq.bind("<Enter>", cl.click)
-        LAddEq.bind("<Leave>", zwolnienie)
+        LAddEq.bind("<Leave>", cl.zwolnienie)
         LAddEq.bind("<Button-1>", showAddEq)
 
         LDeleteEq.bind("<Enter>", cl.click)
-        LDeleteEq.bind("<Leave>", zwolnienie)
+        LDeleteEq.bind("<Leave>", cl.zwolnienie)
         LDeleteEq.bind("<Button-1>", showDeleteEq)
 
         LShowEq.bind("<Enter>", cl.click)
-        LShowEq.bind("<Leave>", zwolnienie)
+        LShowEq.bind("<Leave>", cl.zwolnienie)
         LShowEq.bind("<Button-1>", showShowEq)
 
         LChemistry.bind("<Enter>", cl.click)
-        LChemistry.bind("<Leave>", zwolnienie)
+        LChemistry.bind("<Leave>", cl.zwolnienie)
         LChemistry.bind("<Button-1>", showChemistry)
 
         LMakeOrder.bind("<Enter>", cl.click)
-        LMakeOrder.bind("<Leave>", zwolnienie)
-        LMakeOrder.bind("<Button-1>", showMakeOrder)
+        LMakeOrder.bind("<Leave>", cl.zwolnienie)
+        LMakeOrder.bind("<Button-1>", showFMakeOrder)
 
         ### showMakeOrder
 
         LHelp.bind("<Enter>", cl.click)
-        LHelp.bind("<Leave>", zwolnienie)
+        LHelp.bind("<Leave>", cl.zwolnienie)
         LHelp.bind("<Button-1>", showHelp)
 
 
 class MakeOrder:
-    def __init__(self, master):
-        self.Make_Order = tk.Frame(master, bg="blue")
-        self.Make_Order.place(x=199, y=118, height=610, width=850)
+    def __init__(self, master,*args):
+        self.Make_Order = tk.Frame(master, bg=Color.WidgetBackground)
+        self.Make_Order.place(x=0, y=0, height=610, width=850)
 
         self.conf = tk.IntVar()
+
+        ttk.Style().configure('green/black.TCheckbutton', foreground='blue',background=Color.WidgetBackground, font=("Helvetica", 12))
+
         self.Confirmation = ttk.Checkbutton(self.Make_Order, text="I accept the terms and conditions of orders ",
                                             style='green/black.TCheckbutton', variable=self.conf)
+
         self.Confirmation.place(height=40, width=400, x=15, y=520)
 
         self.BOrder = tk.Button(self.Make_Order, text='Make Order', font=14, bg='#0052cc',
-                                fg='white', )
+                                fg=Color.WidgetForegrounds, )
         self.BOrder.place(height=40, width=100, x=730, y=520)
 
-        # Labelki
+        # Label
 
-        self.Order_Title = tk.Label(self.Make_Order, text='Order Menagement',
-                                    fg='white', font=("Helvetica", 20), anchor='w')
+        self.Order_Title = tk.Label(self.Make_Order, text='Order Management',
+                                    fg=Color.WidgetForegrounds, bg=Color.WidgetBackground, font=("Helvetica", 20), anchor='w')
         self.Order_Title.place(height=55, width=630, x=15, y=0)
 
         self.OrderT = tk.Label(self.Make_Order,
                                text='Write an order, put your items with quantity and links that you want to order:',
                                anchor='w',
-                               font=("Helvetica", 12))
+                               font=("Helvetica", 12), bg=Color.WidgetBackground)
         self.OrderT.place(height=55, width=520, x=15, y=60)
 
         self.SepOrd = ttk.Separator(self.Make_Order, orient='horizontal')
         self.SepOrd.place(width=820, x=12.5, y=500)
 
-        self.lName_of_the_Order = tk.Label(self.Make_Order, text='Name of the order:', anchor='w',
+        self.lName_of_the_Order = tk.Label(self.Make_Order, text='Name of the order:', anchor='w', bg=Color.WidgetBackground,
                                            font=("Helvetica", 12))
         self.lName_of_the_Order.place(height=60, width=160, x=15, y=100)
 
@@ -310,13 +314,13 @@ class MakeOrder:
         self.eOrder = tk.Text(self.Make_Order)
         self.eOrder.place(height=320, width=815, x=15, y=160)
 
-        ttk.Style().configure('green/black.TCheckbutton', foreground='blue')
+
 size = 0
 count = 0
 class AddEquipmentFirst:
     def __init__(self, master):
         self.Add_EQ = tk.Frame(master, bg="red")
-        self.Add_EQ.place(x=199, y=118, height=610, width=850)
+        self.Add_EQ.place(x=0, y=0, height=610, width=850)
 
         ###colory
         colortło1AddEq = '#404040'
