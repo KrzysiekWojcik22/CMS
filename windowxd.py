@@ -1,5 +1,5 @@
 from tkinter import ttk, Menu
-from AddEQ import AddComponent
+
 import tkinter as tk
 from tkinter import Menu
 from tkinter import messagebox
@@ -9,6 +9,8 @@ from tkinter import filedialog
 from PIL import ImageTk, Image
 import Function as F
 from categories import EquipmentCategoriesPassiveElements
+from C_MakeOrder import MakeOrder
+from C_Add import AddEquipmentFirst
 import classes as cl
 
 Color = cl.ColoursMainWindow()
@@ -28,55 +30,20 @@ class MainWindow:
         master.attributes('-topmost', True)
         master.configure(bg=Color.MainBackground)
         self.root = master
+
         PasekGora = tk.Canvas(self.root, bg='grey', height=725, width=1050)  # Budowa tła niebieskie
         PasekGora.tag_raise(1)
         PasekGora.place(x=-2, y=-1.5)
         PasekGora.create_rectangle(0, 0, 1045, 56, fill='#004554', outline='#004554')
         PasekGora.create_rectangle(0, 57, 1050, 120, fill='#3C3E45', outline='#3C3E45')
         PasekGora.create_rectangle(0, 121, 200, 724, fill='#3C3E45', outline='#3C3E45')
-
-        ### Ikona
-        my_img = ImageTk.PhotoImage(Image.open("Ikona.png"))
-        myLabel = tk.Label(self.root, image=my_img, bg='#004554')
-        myLabel.photo = my_img
-        myLabel.place(x=10, y=2.5, height=48, width=48)
-
         ### icony
 
-        x = cl.Ikoneczki(master=self.root)
-        x.email_ic
+        Icons = cl.Icons(master=self.root)
+        logo = Icons.myLabel
+        logo.photo = Icons.my_img
+        logo.place(x=10, y=2.5, height=48, width=48)
 
-        email_ic = ImageTk.PhotoImage(Image.open("ikoneczki\email.png"))
-        email_L = tk.Label(self.root, image=email_ic, bg='red')
-        email_L.photo = email_ic
-
-        home_ic = ImageTk.PhotoImage(Image.open("ikoneczki\home.png"))
-        homeL = tk.Label(self.root, image=home_ic)
-        homeL.photo = home_ic
-
-        add_ic = ImageTk.PhotoImage(Image.open("ikoneczki\plus.png"))
-        addL = tk.Label(self.root, image=add_ic)
-        addL.photo = add_ic
-
-        delete_ic = ImageTk.PhotoImage(Image.open("ikoneczki\delete.png"))
-        deleteL = tk.Label(self.root, image=delete_ic)
-        deleteL.photo = delete_ic
-
-        show_ic = ImageTk.PhotoImage(Image.open("ikoneczki\show.png"))
-        showL = tk.Label(self.root, image=show_ic)
-        showL.photo = show_ic
-
-        chemistry_ic = ImageTk.PhotoImage(Image.open("ikoneczki\chemistry.png"))
-        chemistryL = tk.Label(self.root, image=chemistry_ic)
-        chemistryL.photo = chemistry_ic
-
-        order_ic = ImageTk.PhotoImage(Image.open("ikoneczki\cart.png"))
-        orderL = tk.Label(self.root, image=order_ic)
-        orderL.photo = order_ic
-
-        help_ic = ImageTk.PhotoImage(Image.open("ikoneczki\info.png"))
-        helpL = tk.Label(self.root, image=help_ic)
-        helpL.photo = help_ic
 
         ## Głowny interfejs
 
@@ -124,49 +91,49 @@ class MainWindow:
         LHome = tk.Label(self.root, font=("Arial", 12), bg='#3C3E45', fg='white', text="   Home", anchor="w",
                          cursor="hand2")
         LHome["compound"] = tk.LEFT
-        LHome["image"] = x.email_ic
+        LHome["image"] = Icons.home_ic
         LHome.tkraise(aboveThis=PasekGora)
         LHome.place(x=15, y=150, width=170, height=40)
 
         LAddEq = tk.Label(self.root, font=("Arial", 12), bg='#3C3E45', fg='white', text="   Add Equipment", anchor="w",
                           cursor="hand2")
         LAddEq["compound"] = tk.LEFT
-        LAddEq["image"] = add_ic
+        LAddEq["image"] = Icons.add_ic
         LAddEq.tkraise(aboveThis=PasekGora)
         LAddEq.place(x=15, y=200, width=170, height=40)
 
         LDeleteEq = tk.Label(self.root, font=("Arial", 12), bg='#3C3E45', fg='white', text="   Delete Equipment",
                              anchor="w", cursor="hand2")
         LDeleteEq["compound"] = tk.LEFT
-        LDeleteEq["image"] = delete_ic
+        LDeleteEq["image"] = Icons.delete_ic
         LDeleteEq.tkraise(aboveThis=PasekGora)
         LDeleteEq.place(x=15, y=250, width=170, height=40)
 
         LShowEq = tk.Label(self.root, font=("Arial", 12), bg='#3C3E45', fg='white', text="   Show Equipment",
                            anchor="w", cursor="hand2")
         LShowEq["compound"] = tk.LEFT
-        LShowEq["image"] = show_ic
+        LShowEq["image"] = Icons.show_ic
         LShowEq.tkraise(aboveThis=PasekGora)
         LShowEq.place(x=15, y=300, width=170, height=40)
 
         LChemistry = tk.Label(self.root, font=("Arial", 12), bg='#3C3E45', fg='white', text="   Chemistry", anchor="w",
                               cursor="hand2")
         LChemistry["compound"] = tk.LEFT
-        LChemistry["image"] = chemistry_ic
+        LChemistry["image"] = Icons.chemistry_ic
         LChemistry.tkraise(aboveThis=PasekGora)
         LChemistry.place(x=15, y=350, width=170, height=40)
 
         LMakeOrder = tk.Label(self.root, font=("Arial", 12), bg='#3C3E45', fg='white', text="   Make Order", anchor="w",
                               cursor="hand2")
         LMakeOrder["compound"] = tk.LEFT
-        LMakeOrder["image"] = order_ic
+        LMakeOrder["image"] = Icons.order_ic
         LMakeOrder.tkraise(aboveThis=PasekGora)
         LMakeOrder.place(x=15, y=400, width=170, height=40)
 
         LHelp = tk.Label(self.root, font=("Arial", 12), bg='#3C3E45', fg='white', text="   Help", anchor="w",
                          cursor="hand2")
         LHelp["compound"] = tk.LEFT
-        LHelp["image"] = help_ic
+        LHelp["image"] = Icons.help_ic
         LHelp.tkraise(aboveThis=PasekGora)
         LHelp.place(x=15, y=450, width=170, height=40)
 
@@ -193,19 +160,8 @@ class MainWindow:
             Chemistry.place_forget()
             FMakeOrder.place_forget()
 
-        def powrotkolorow(event):
-            event.widget.config(fg='white')
-
-        def zwolnienie(event):
-            event.widget.config(bg='#3C3E45')
-
-        def aktywny(event):
-            event.widget.config(fg='white')
-
         def showHome(event):
-            print("Work1")
             forgetFrames()
-            aktywny(event)
             Home.place(x=199, y=118, height=590, width=850)
 
         def showAddEq(event):
@@ -213,23 +169,17 @@ class MainWindow:
             AddEq.place(x=199, y=118, height=590, width=850)
             AddEquipmentFirst(master=AddEq)
 
-
-
         def showDeleteEq(event):
-            print("Work3")
             forgetFrames()
             DeleteEq.place(x=199, y=118, height=610, width=850)
 
         def showShowEq(event):
-            print("Work4")
             forgetFrames()
             ShowEq.place(x=199, y=118, height=610, width=850)
 
         def showChemistry(event):
-            print("Work5")
             forgetFrames()
             Chemistry.place(x=199, y=118, height=610, width=850)
-
 
         def showFMakeOrder(event):
             FMakeOrder.place(x=199, y=118, height=590, width=850)
@@ -262,163 +212,7 @@ class MainWindow:
         LMakeOrder.bind("<Leave>", cl.zwolnienie)
         LMakeOrder.bind("<Button-1>", showFMakeOrder)
 
-        ### showMakeOrder
-
         LHelp.bind("<Enter>", cl.click)
         LHelp.bind("<Leave>", cl.zwolnienie)
         LHelp.bind("<Button-1>", showHelp)
 
-
-class MakeOrder:
-    def __init__(self, master,*args):
-        self.Make_Order = tk.Frame(master, bg=Color.WidgetBackground)
-        self.Make_Order.place(x=0, y=0, height=610, width=850)
-
-        self.conf = tk.IntVar()
-
-        ttk.Style().configure('green/black.TCheckbutton', foreground='blue',background=Color.WidgetBackground, font=("Helvetica", 12))
-
-        self.Confirmation = ttk.Checkbutton(self.Make_Order, text="I accept the terms and conditions of orders ",
-                                            style='green/black.TCheckbutton', variable=self.conf)
-
-        self.Confirmation.place(height=40, width=400, x=15, y=520)
-
-        self.BOrder = tk.Button(self.Make_Order, text='Make Order', font=14, bg='#0052cc',
-                                fg=Color.WidgetForegrounds, )
-        self.BOrder.place(height=40, width=100, x=730, y=520)
-
-        # Label
-
-        self.Order_Title = tk.Label(self.Make_Order, text='Order Management',
-                                    fg=Color.WidgetForegrounds, bg=Color.WidgetBackground, font=("Helvetica", 20), anchor='w')
-        self.Order_Title.place(height=55, width=630, x=15, y=0)
-
-        self.OrderT = tk.Label(self.Make_Order,
-                               text='Write an order, put your items with quantity and links that you want to order:',
-                               anchor='w',
-                               font=("Helvetica", 12), bg=Color.WidgetBackground)
-        self.OrderT.place(height=55, width=520, x=15, y=60)
-
-        self.SepOrd = ttk.Separator(self.Make_Order, orient='horizontal')
-        self.SepOrd.place(width=820, x=12.5, y=500)
-
-        self.lName_of_the_Order = tk.Label(self.Make_Order, text='Name of the order:', anchor='w', bg=Color.WidgetBackground,
-                                           font=("Helvetica", 12))
-        self.lName_of_the_Order.place(height=60, width=160, x=15, y=100)
-
-        # Wejscia
-
-        self.elName_of_the_Order = tk.Text(self.Make_Order)
-        self.elName_of_the_Order.place(height=20, width=650, x=180, y=120)
-
-        self.eOrder = tk.Text(self.Make_Order)
-        self.eOrder.place(height=320, width=815, x=15, y=160)
-
-
-size = 0
-count = 0
-class AddEquipmentFirst:
-    def __init__(self, master):
-        self.Add_EQ = tk.Frame(master, bg="red")
-        self.Add_EQ.place(x=0, y=0, height=610, width=850)
-
-        ###colory
-        colortło1AddEq = '#404040'
-        colortło2AddEq = '#737373'
-        colorPrzyciskowAddEq = '#404040'
-
-
-
-        self.PadAdd1 = tk.PanedWindow(self.Add_EQ, bg=colortło1AddEq, handlepad=True)
-        self.PadAdd1.place(height=700, width=140, x=0, y=0)
-
-        self.PadAdd2 = tk.PanedWindow(self.Add_EQ, bg="blue")
-        self.PadAdd2.place(height=640, width=720, x=140, y=0)
-
-        # Tworzenie widgetów dla Padd1
-
-        self.TitlePad1 = tk.Label(self.PadAdd1, text="Options")
-        # self.TitlePad1.place(width=80 ,height=40 ,x=5 ,y=5 )
-
-        self.Sep1Padd1 = ttk.Separator(self.PadAdd1, orient='horizontal')
-        self.Sep1Padd1.place(width=130, x=5, y=40)
-
-        self.AddComponent = tk.Label(self.PadAdd1, font=("Arial", 13), bg=colorPrzyciskowAddEq, fg='white',
-                                     text="Choose a type")
-        self.AddComponent.place(width=120, height=40, x=5, y=0)
-
-        # Funkcje dla pad 1
-
-        self.AddSemiconductors = tk.Label(self.PadAdd1, font=("Arial", 10), bg=colorPrzyciskowAddEq, fg='white',
-                                          anchor="w", text="Semiconductors", cursor="hand2")
-        self.AddSemiconductors.place(width=110, height=40, x=15, y=50)
-
-        self.AddPassiveElements = tk.Label(self.PadAdd1, font=("Arial", 10), bg=colorPrzyciskowAddEq, fg='white',
-                                           anchor="w", text="PassiveElements", cursor="hand2")
-        self.AddPassiveElements.place(width=110, height=40, x=15, y=100)
-
-        self.AddOptoelectronic = tk.Label(self.PadAdd1, font=("Arial", 10), bg=colorPrzyciskowAddEq, fg='white',
-                                          anchor="w", text="Optoelectronic", cursor="hand2")
-        self.AddOptoelectronic.place(width=110, height=40, x=15, y=150)
-
-        self.AddSemiconductors.bind("<Button-1>", lambda x: self.expand())
-
-        self.AddPassiveElements.bind("<Button-1>",self.Add3)
-
-
-    def Add2(self,x):
-       AddEquipmentSecond(master=self.PadAdd2)
-
-    def expand(self):
-        global size, count
-        if count < 850:
-            size += 1
-            print(size)
-            self.AddSemiconductors.place(width=110, height=size, x=15, y=50)
-            count += 1
-            self.Add_EQ.after(100, self.expand)
-
-
-
-    def Add3(self,x):
-        AddEQuipmentThird(master=self.PadAdd2)
-
-class AddSemi:
-    def __init__(self):
-        print("asddas")
-
-
-class AddEquipmentSecond:
-    def __init__(self, master):
-        print("dwa")
-
-
-        self.Add_Semi = tk.Frame(master, bg="red")
-        self.Add_Semi.place(x=0, y=0, height=610, width=850)
-
-        self.Semiconductors = tk.Frame(self.Add_Semi, bg="black")
-
-        self.AddComponent = tk.Button(self.Add_Semi, text='Add', font=14, bg='#0052cc', fg='white',command = self.expand
-                                      )
-        self.AddComponent.place(height=40, width=80, x=0, y=0)
-
-    def expand(self):
-        global size, count
-        if count < 850:
-            size += 1
-            print(size)
-            self.AddComponent.place(height=40, width=size, x=0, y=0)
-            count += 1
-            self.Add_Semi.after(100, self.expand)
-
-class AddEQuipmentThird:
-    def __init__(self, master):
-        print("dwa")
-        self.Add_Semi = tk.Frame(master, bg="white")
-        self.Add_Semi.place(x=0, y=0, height=610, width=850)
-
-        self.Semiconductors = tk.Frame(self.Add_Semi, bg="black")
-
-        self.AddComponent = tk.Button(self.Add_Semi, text='Add', font=14, bg='#0052cc', fg='white'
-                                      )
-        self.AddComponent.place(height=40, width=80, x=0, y=0)
