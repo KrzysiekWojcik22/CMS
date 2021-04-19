@@ -1,23 +1,22 @@
 import tkinter as tk
 from tkinter import ttk
-import classes as cl
+import Colors as Col
 
-Color = cl.ColoursMainWindow()
+Color = Col.ColoursMainWindow()
 
 
 class MakeOrder:
     def __init__(self, master, *args):
         self.Make_Order = tk.Frame(master, bg=Color.WidgetBackground)
-        self.Make_Order.place(x=0, y=0, height=610, width=850)
+        self.Make_Order.place(x=0, y=0, height=620, width=850)
 
-        self.conf = tk.IntVar()
-
+        self.conf = tk.BooleanVar()
+        self.conf.set(True)
         ttk.Style().configure('green/black.TCheckbutton', foreground='blue',
                               background=Color.WidgetBackground, font=("Helvetica", 12))
 
         self.Confirmation = ttk.Checkbutton(self.Make_Order, text="I accept the terms and conditions of orders ",
                                             style='green/black.TCheckbutton', variable=self.conf)
-
         self.Confirmation.place(height=40, width=400, x=15, y=520)
 
         self.BOrder = tk.Button(self.Make_Order, text='Make Order', font=14, bg='#0052cc',

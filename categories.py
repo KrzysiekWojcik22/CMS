@@ -77,7 +77,7 @@ class EquipmentCategoriesConnectors:
         # self.Other_connectors
 
 
-class EquipmentCategoriesEnergySources():
+class EquipmentCategoriesEnergySources:
     def __init__(self):
         self.Battery = ["tak"]
 
@@ -113,9 +113,11 @@ class EquipmentCategoriesWires:
         self.Cables_Accessories = ["Cable Ties and Holders", "Cable Holders", "Worm Gear Clamps and Fixing Clamps",
                                    "Wire Markers,Glands and Grommets", "Cable Chains", "Gel Cable Joints"]
 
+
 class EquipmentCategoriesMechanics:
     def __init__(self):
         self.Mechanics = ["Bolts", "Screws", "Nuts", "Spacers","Enclosures" ,"Others"]
+
 
 class EquipmentCategoriesLaboratory:
     def __init__(self):
@@ -149,6 +151,5 @@ class EquipmentCategoriesLaboratory:
         self.Antistatic_Protection= ["Storage"]
 
 
-
-
-# class EquipmentCategoriesOthers():
+class EquipmentCategoriesOthers():
+    pass

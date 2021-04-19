@@ -10,11 +10,12 @@ from PIL import ImageTk , Image
 import Function as F
 from categories import EquipmentCategoriesPassiveElements
 import classes as cl
+import Colors as Col
 
-Color = cl.ColoursMainWindow()
+Color = Col.ColoursMainWindow()
 
 
-class MainWindow(tk.Frame):
+class MainWindow:
     def __init__(self):
         self.root = tk.Toplevel()
         self.root.overrideredirect(True)
@@ -29,8 +30,6 @@ class MainWindow(tk.Frame):
         self.root.configure(bg=Color.MainBackground)
 
         ### Pasek Górny
-
-        
 
         PasekGora = tk.Canvas(self.root, bg='grey', height=725, width=1050)  # Budowa tła niebieskie
         PasekGora.tag_raise(1)
@@ -1111,7 +1110,7 @@ class MainWindow(tk.Frame):
         self.root.state('withdrawn')
         self.root.state('iconic')
 
-class MakeOrder(tk.Frame):
+class MakeOrder:
     def __init__(self):
         MakeOrder = tk.Frame(self.root, bg="pink")
         MakeOrder.place(x=199, y=118, height=610, width=850)

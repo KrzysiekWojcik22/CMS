@@ -7,24 +7,25 @@ import classes as cl
 from tkinter import messagebox
 from tkinter import ttk
 from MainWindow import MainWindow
-from PIL import ImageTk , Image
 import windowxd as w
+import Colors as Col
 
 ### Definie colours
-Colors = cl.ColoursLoginWindow()
+Colors = Col.ColoursLoginWindow()
 Type_of_Users = cl.TypeUsers()
+
 
 class LoginToApp:
     def __init__(self):
-        self.Login = tk.Tk()                                  #Tworzenie okna głównego
-        self.Login.overrideredirect(True)                     #Usuwanie ochydenej ramki windows
-        screen_width = self.Login.winfo_screenwidth()         #Konfiguracja Okienka
+        self.Login = tk.Tk()  # Tworzenie okna głównego
+        self.Login.overrideredirect(True)  # Usuwanie ochydenej ramki windows
+        screen_width = self.Login.winfo_screenwidth()  # Konfiguracja Okienka
         screen_height = self.Login.winfo_screenheight()
-        Login_width = 480
-        Login_height = 260
-        center_x = int(screen_width / 2 - Login_width / 2)
-        center_y = int(screen_height / 2 - Login_height / 2)
-        self.Login.geometry(f'{Login_width}x{Login_height}+{center_x}+{center_y}')
+        login_width = 480
+        login_height = 260
+        center_x = int(screen_width / 2 - login_width / 2)
+        center_y = int(screen_height / 2 - login_height / 2)
+        self.Login.geometry(f'{login_width}x{login_height}+{center_x}+{center_y}')
         self.Login.resizable(False, False)
         self.Login.attributes('-topmost', True)
         self.Login.configure(bg=Colors.Main_Background)
@@ -39,11 +40,11 @@ class LoginToApp:
 
         ##################### Labels
 
-        self.LoginTitle = tk.Label(self.Login, text='Component Database Management', anchor='w',
+        self.LoginTitle = tk.Label(self.Login, text='Component Database Management',
                                    bg=Colors.Label_Title_Background, fg=Colors.Label_Title_Foreground,
                                    font=("Helvetica", 16))
 
-        self.LoginTitle.place(height=55, width=340, x=0, y=0)
+        self.LoginTitle.place(height=55, width=380, x=0, y=0)
 
         self.close = tk.Label(self.Login, font=("Arial", 11), anchor=tk.CENTER, bg='#0052cc', text="X", cursor="hand2")
         self.close.tkraise(aboveThis=myCanvas)
@@ -91,12 +92,16 @@ class LoginToApp:
         self.LoginTitle.bind("<B1-Motion>", self.moving)
 
         self.CreateNewAccount.bind("<Button-1>", CreateNewAccount)
+        self.CreateNewAccount.bind("<Enter>", cl.UnderlineOn)
+        self.CreateNewAccount.bind("<Leave>",cl.UnderLineOff)
+
         self.UserLoginLabel.bind("<Button-1>", ForgotPassword)
+        self.UserLoginLabel.bind("<Enter>", cl.UnderlineOn)
+        self.UserLoginLabel.bind("<Leave>", cl.UnderLineOff)
 
         #####################
 
         self.Login.mainloop()  # wywołanie pętli komunikatów
-
 
     def login(self):
         global User
@@ -106,10 +111,10 @@ class LoginToApp:
         print(User, Password)
 
         w.MainWindow(master=None)
-        #MainWindow()
+        # MainWindow()
 
         if (User == '' or Password == ''):
-           # tk.messagebox.showerror("Login Error", "All fields are required  ")
+            # tk.messagebox.showerror("Login Error", "All fields are required  ")
             self.UserName.delete(0, 'end')
             self.UserPassword.delete(0, 'end')
         else:
@@ -120,7 +125,8 @@ class LoginToApp:
                 database="sql-kurs"
             )
             mycursor = mydb.cursor()
-            sql = mycursor.execute(f"SELECT UserPasswordOryginal, UserPasswordChanged FROM useraccount WHERE UserName = '{User}'")
+            sql = mycursor.execute(
+                f"SELECT UserPasswordOryginal, UserPasswordChanged FROM useraccount WHERE UserName = '{User}'")
             mycursor.execute(sql)
             myresult = mycursor.fetchone()
             mydb.close()
@@ -161,7 +167,7 @@ class LoginToApp:
 
             print(mycursor.rowcount, "record inserted.")'''
 
-    def SendEmail(self,sender_email, receiver_email, message):
+    def SendEmail(self, sender_email, receiver_email, message):
         password = "krzysiek123"
         port = 465
         smtp_serwer = "smtp.gmail.com"
@@ -185,7 +191,7 @@ class LoginToApp:
         self.CHP.configure(bg='white')
 
         self.CHPTitle = tk.Label(self.CHP, text='Change Password',
-                                  bg='#0052cc', fg='white', font=("Helvetica", 14))
+                                 bg='#0052cc', fg='white', font=("Helvetica", 14))
         self.CHPTitle.place(height=55, width=400, x=0, y=0)
 
         self.Sep5 = ttk.Separator(self.CHP, orient='horizontal')
@@ -216,7 +222,7 @@ class LoginToApp:
 
         elif (rNewPassword != rNewPasswordConfrimation):
             tk.messagebox.showerror('Error', "Password must be the same")
-        elif(rNewPassword == rNewPasswordConfrimation):
+        elif (rNewPassword == rNewPasswordConfrimation):
 
             mydb = mysql.connector.connect(
                 host="localhost",
@@ -227,9 +233,11 @@ class LoginToApp:
 
             mycursor = mydb.cursor()
 
-            sql2 = mycursor.execute(f"Update useraccount SET UserPasswordChanged ='{rNewPassword}' WHERE UserPasswordOryginal = '{Password}'")
+            sql2 = mycursor.execute(
+                f"Update useraccount SET UserPasswordChanged ='{rNewPassword}' WHERE UserPasswordOryginal = '{Password}'")
             mycursor.execute(sql2)
-            sql3 = mycursor.execute(f"Update useraccount SET UserPasswordOryginal ='HasloZmienione' WHERE UserPasswordOryginal = '{Password}'")
+            sql3 = mycursor.execute(
+                f"Update useraccount SET UserPasswordOryginal ='HasloZmienione' WHERE UserPasswordOryginal = '{Password}'")
             mycursor.execute(sql3)
             mydb.commit()
             mydb.close()
@@ -246,19 +254,19 @@ class LoginToApp:
 
         if (RUserName == '' or RUserEmail == '' or RUserEGM == '' or
                 RUserDivision == '' or RUserReason == ''):
-            tk.messagebox.showerror('Error' , 'All fields are requaired')
-            self.eNewUserName.delete(0,'end')
-            self.eNewUserEmail.delete(0,'end')
-            self.eNewUserEGM.delete(0,'end')
-            self.eNewUserDivision.delete(0,'end')
+            tk.messagebox.showerror('Error', 'All fields are requaired')
+            self.eNewUserName.delete(0, 'end')
+            self.eNewUserEmail.delete(0, 'end')
+            self.eNewUserEGM.delete(0, 'end')
+            self.eNewUserDivision.delete(0, 'end')
         else:
             newmessage = (RUserName + " " + RUserEmail + " " + RUserEGM + " " + RUserDivision + " " + RUserReason)
             self.SendEmail("krzysiekpython@gmail.com", "krzysiu.w@spoko.pl", newmessage)
-            tk.messagebox.showinfo('Info' , 'Your request was send succesfully')
+            tk.messagebox.showinfo('Info', 'Your request was send succesfully')
             self.CNAW.destroy()
 
     def fforgotpas1sword(self):
-        Letters ="1234567890qwertyuiopasdfghjklzxcvbnmQWERTYUIOPASDFGHJKLZXCVBNM!@#$%^&*[]{}:;'"
+        Letters = "1234567890qwertyuiopasdfghjklzxcvbnmQWERTYUIOPASDFGHJKLZXCVBNM!@#$%^&*[]{}:;'"
         PasswordLength = 10
         Password = "".join(random.sample(Letters, PasswordLength))
         Name = self.eNewUserName.get()
@@ -278,7 +286,7 @@ class LoginToApp:
         mydb.close()
 
         messege = (f"Your password was changed to '{Password}'")
-        self.SendEmail("krzysiekpython@gmail.com", Email , messege)
+        self.SendEmail("krzysiekpython@gmail.com", Email, messege)
         tk.messagebox.showinfo('Info', 'Your password was changed - Check your email box ')
 
     def startMove(self, event):
@@ -294,11 +302,11 @@ class LoginToApp:
         y = (event.y_root - self.y - self.Login.winfo_rooty() + self.Login.winfo_rooty())
         self.Login.geometry("+%s+%s" % (x, y))
 
-    def exitProgram(self, asdasd):
+    def exitProgram(self, *args):
         self.Login.destroy()
 
     def frame_mapped(self, e):
-        print(self,e)
+        print(self, e)
         self.Login.update_idletasks()
         self.Login.overrideredirect(True)
         self.Login.state('normal')
@@ -307,6 +315,7 @@ class LoginToApp:
 class ChangePassword:
     def __init__(self):
         self.CHP = tk.Toplevel()
+        self.CHP.overrideredirect(True)
         self.CHP.title('Change Password')  # ustawienie tytułu okna głównego
         screen_width = self.CHP.winfo_screenwidth()
         screen_height = self.CHP.winfo_screenheight()
@@ -344,8 +353,9 @@ class ChangePassword:
 
 
 class ForgotPassword:
-    def __init__(self,x):
+    def __init__(self, *args):
         self.CNFW = tk.Toplevel()
+        self.CNFW.overrideredirect(True)
         self.CNFW.title('Forgot Password')  # ustawienie tytułu okna głównego
         screen_width = self.CNFW.winfo_screenwidth()
         screen_height = self.CNFW.winfo_screenheight()
@@ -378,27 +388,28 @@ class ForgotPassword:
         self.eNewUserEmail.place(height=30, width=220, x=150, y=120)
 
         self.ForgotPassword = tk.Button(self.CNFW, text='Request for Account', font=14, bg='#0052cc', fg='white',
-                                        command = cl.GenerateNewPassword)
+                                        command=cl.GenerateNewPassword)
         self.ForgotPassword.place(height=50, width=150, x=220, y=190)
 
 
 class CreateNewAccount:
-    def __init__(self,x):
+    def __init__(self, *args):
         self.CNAW = tk.Toplevel()
+        self.CNAW.overrideredirect(True)
         self.CNAW.title('Create New Account')  # ustawienie tytułu okna głównego
         screen_width = self.CNAW.winfo_screenwidth()
         screen_height = self.CNAW.winfo_screenheight()
-        Login_width = 450
-        Login_height = 500
-        center_x = int(screen_width / 2 - Login_width / 2)
-        center_y = int(screen_height / 2 - Login_height / 2)
-        self.CNAW.geometry(f'{Login_width}x{Login_height}+{center_x}+{center_y}')
+        CNAW_width = 450
+        CNAW_height = 500
+        center_x = int(screen_width / 2 - CNAW_width / 2)
+        center_y = int(screen_height / 2 - CNAW_height / 2)
+        self.CNAW.geometry(f'{CNAW_width}x{CNAW_height}+{center_x}+{center_y}')
         self.CNAW.resizable(False, False)
         self.CNAW.attributes('-topmost')
         self.CNAW.configure(bg='white')
 
         self.CNAWTitle = tk.Label(self.CNAW, text='Create New Account',
-                              bg='#0052cc', fg='white', font=("Helvetica", 14))
+                                  bg='#0052cc', fg='white', font=("Helvetica", 14))
         self.CNAWTitle.place(height=55, width=480, x=0, y=0)
 
         self.Sep3 = ttk.Separator(self.CNAW, orient='horizontal')
@@ -434,8 +445,9 @@ class CreateNewAccount:
         self.eNewUserReason = ttk.Entry(self.CNAW, width=50)
         self.eNewUserReason.place(height=30, width=280, x=150, y=300)
 
-        self.NewUserRequest = tk.Button(self.CNAW, text='Request for Account', font=14, bg='#0052cc', fg='white',)
-                                    #command=self.requestForNewAccount)
+        self.NewUserRequest = tk.Button(self.CNAW, text='Request for Account', font=14, bg='#0052cc', fg='white', )
+        # command=self.requestForNewAccount)
         self.NewUserRequest.place(height=50, width=150, x=280, y=420)
+
 
 LoginToApp()
