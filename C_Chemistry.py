@@ -19,6 +19,10 @@ class Chemistry:
         self.Sep1Pad1 = ttk.Separator(self.Chem_1, orient='horizontal')
         self.Sep1Pad1.place(width=130, x=5, y=40)
 
+        self.ChemistryTitle = tk.Label(self.Chem_1, font=("Arial", 13), bg=Color.Buttons_Background, fg='white',
+                                     text="Chemistry")
+        self.ChemistryTitle.place(width=120, height=40, x=5, y=0)
+
         self.Material_Safety_Data_Sheet = tk.Label(self.Chem_1, text="Material Safety DS",
                                                    bg=Color.Labels_Background_FrameMenu, fg="white", anchor="w",
                                                    cursor="hand2")
@@ -41,16 +45,44 @@ class Chemistry:
 
         self.Material_Safety_Data_Sheet.bind("<Enter>", cl.click)
         self.Material_Safety_Data_Sheet.bind("<Leave>", cl.zwolnienie)
-        self.Material_Safety_Data_Sheet.bind("<Button-1>")
+        self.Material_Safety_Data_Sheet.bind("<Button-1>", lambda x: MaterialDS(master=self.Chem_2))
 
         self.Material_Safety_Doc_Word.bind("<Enter>", cl.click)
         self.Material_Safety_Doc_Word.bind("<Leave>", cl.zwolnienie)
-        self.Material_Safety_Doc_Word.bind("<Button-1>")
+        self.Material_Safety_Doc_Word.bind("<Button-1>", lambda x: MaterialWord(master=self.Chem_2))
 
         self.Products.bind("<Enter>", cl.click)
         self.Products.bind("<Leave>", cl.zwolnienie)
-        self.Products.bind("<Button-1>")
+        self.Products.bind("<Button-1>", lambda x: Products(master=self.Chem_2))
 
         self.NewChemistry.bind("<Enter>", cl.click)
         self.NewChemistry.bind("<Leave>", cl.zwolnienie)
-        self.NewChemistry.bind("<Button-1>")
+        self.NewChemistry.bind("<Button-1>", lambda x: NewChemistry(master=self.Chem_2))
+
+
+class MaterialDS:
+    def __init__(self, master):
+        self.MaterialDS = tk.Frame(master, bg="red")
+        self.MaterialDS.place(height=640, width=720, x=0, y=0)
+
+        self.Add_New_Material_DS = tk.Button()
+        self.Add_New_Material_DS.place()
+
+
+
+class MaterialWord:
+    def __init__(self, master):
+        self.MaterialWord = tk.Frame(master, bg="blue")
+        self.MaterialWord.place(height=640, width=720, x=0, y=0)
+
+
+class Products:
+    def __init__(self, master):
+        self.Products = tk.Frame(master, bg="green")
+        self.Products.place(height=640, width=720, x=0, y=0)
+
+
+class NewChemistry:
+    def __init__(self, master):
+        self.NewChemistry = tk.Frame(master, bg="pink")
+        self.NewChemistry.place(height=640, width=720, x=0, y=0)

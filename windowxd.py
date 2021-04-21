@@ -7,6 +7,7 @@ from C_Add import AddEquipmentFirst
 from C_Help import Help
 from C_Chemistry import Chemistry
 from C_Items import Items
+from C_Home import StartPage
 
 Color = Col.ColoursMainWindow()
 
@@ -26,7 +27,7 @@ class MainWindow:
         self.master.configure(bg=Color.MainBackground)
 
         PasekGora = tk.Canvas(self.master, bg='grey', height=725, width=1050)  # Budowa tła niebieskie
-        PasekGora.tag_raise(1)
+        PasekGora.tag_raise(0)
         PasekGora.place(x=-2, y=-1.5)
         PasekGora.create_rectangle(0, 0, 1045, 56, fill='#004554', outline='#004554')
         PasekGora.create_rectangle(0, 57, 1050, 120, fill='#3C3E45', outline='#3C3E45')
@@ -45,11 +46,24 @@ class MainWindow:
         logo.photo = Icons.my_img
         logo.place(x=10, y=2.5, height=48, width=48)
 
+
         ## Głowny interfejs
 
         self.rootTitle = tk.Label(self.master, text='Component Database Management',
-                                  bg='#004554', fg='white', font=("Helvetica", 14))
-        self.rootTitle.place(height=55, width=400, x=60, y=0)
+                                  bg='#004554', fg='white', font=("Helvetica", 14),anchor="w")
+        self.rootTitle.place(height=55, width=400, x=65, y=0)
+
+        self.EP = tk.Label(self.master, font=("Arial", 12), bg=Color.MainBg_Label, fg='white',
+                           text="Enterprise Park")
+        self.EP.place(height=40, width=150, x=325, y=65)
+
+        self.EQ = tk.Label(self.master, font=("Arial", 12), bg=Color.MainBg_Label, fg='white',
+                           text="Technical Center")
+        self.EQ.place(height=40, width=150, x=575, y=65)
+
+        self.TCK = tk.Label(self.master, font=("Arial", 12), bg=Color.MainBg_Label, fg='white',
+                            text="Equal Business Park")
+        self.TCK.place(height=40, width=150, x=825, y=65)
 
         ### Separatory
 
@@ -140,13 +154,15 @@ class MainWindow:
         ### Potrzebuje ramki dla dodawania, show, order, chemistry,
 
 
-        Home = tk.Frame(self.master, bg='yellow')
+        Home = tk.Frame(self.master)
         Home.place(x=199, y=118, height=610, width=850)
-        AddEq = tk.Frame(self.master, bg='red')
-        DeleteEq = tk.Frame(self.master, bg='black')
-        ShowEq = tk.Frame(self.master, bg='blue')
-        FChemistry = tk.Frame(self.master, bg='pink')
-        FMakeOrder = tk.Frame(self.master, bg='white')
+        StartPage(master=Home)
+
+        AddEq = tk.Frame(self.master)
+        DeleteEq = tk.Frame(self.master)
+        ShowEq = tk.Frame(self.master)
+        FChemistry = tk.Frame(self.master)
+        FMakeOrder = tk.Frame(self.master)
 
 
         ### Bindowanie klawiszy funkcyjnych
@@ -162,6 +178,7 @@ class MainWindow:
         def show_home(event):
             forgetFrames()
             Home.place(x=199, y=118, height=610, width=850)
+            StartPage(master=Home)
 
         def show_add_eq(event):
             forgetFrames()
@@ -243,4 +260,8 @@ class MainWindow:
         self.master.overrideredirect(True)
         self.master.state('normal')
 
-
+    def menu(self, master, *args):
+        self.file_menu = tk.Menu(master, tearoff=False)
+        self.file_menu.add_command(label='New')
+        self.file_menu.add_command(label='Open...')
+        self.file_menu.add_command(label='Close')
