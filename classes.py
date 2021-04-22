@@ -40,7 +40,7 @@ class Icons:
 
 
 class Icons:
-    def __init__(self,master):
+    def __init__(self, master):
         from PIL import ImageTk, Image
         import tkinter as tk
 
@@ -82,6 +82,16 @@ class Icons:
         self.help_ic = ImageTk.PhotoImage(Image.open("ikoneczki\info.png"))
         self.helpL = tk.Label(master, image=self.help_ic)
         self.helpL.photo = self.help_ic
+
+        self.ch_add_ic = ImageTk.PhotoImage(Image.open("ikoneczki\chem\ch_add.png"))
+        self.ch_addL = tk.Label(master, image=self.ch_add_ic)
+        self.ch_addL.photo = self.ch_add_ic
+
+
+
+
+
+
 
 
 

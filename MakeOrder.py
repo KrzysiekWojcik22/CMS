@@ -14,8 +14,8 @@ from _datetime import datetime
 class CMakeOrder:
     def __init__(self):
 
-        self.Order = tk.Tk()  # tworzenie okna głównego
-        self.Order.title('Order Menagement')  # ustawienie tytułu okna głównego
+        self.Order = tk.Tk()
+        self.Order.title('Order Menagement')
         screen_width = self.Order.winfo_screenwidth()
         screen_height = self.Order.winfo_screenheight()
         Login_width = 630
@@ -25,8 +25,6 @@ class CMakeOrder:
         self.Order.geometry(f'{Login_width}x{Login_height}+{center_x}+{center_y}')
         self.Order.resizable(False, False)
         self.Order.attributes('-topmost')
-        #photo = PhotoImage(file="komparator1.png")
-        #self.Order.iconphoto(False, photo)
         self.Order.configure(bg='white')
 
         self.OrderTitle = tk.Label(self.Order, text='Order Menagement',

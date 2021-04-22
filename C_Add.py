@@ -7,6 +7,9 @@ import categories as cat
 Color = Col.ColoursMainWindow()
 Cat_Semi = cat.EquipmentCategoriesSemiconductors()
 Cat_Passive = cat.EquipmentCategoriesPassiveElements()
+Cat_Connectors = cat.EquipmentCategoriesConnectors()
+Cat_Wires = cat.EquipmentCategoriesWires()
+
 
 class AddEquipmentFirst:
     def __init__(self, master):
@@ -227,7 +230,7 @@ class AddEquipmentSemiconductors:
         self.Obraz = ttk.Button(self.Add_Semi, text="tutaj bedzie obraz")
         self.Obraz.place(height=250, width=250, x=360, y=70)
 
-    def choose_esubcategory (self, *args):
+    def choose_esubcategory(self, *args):
         category = self.eGroup.get()
         if category == 'Diodes':
             self.eSubCategory.config(values=Cat_Semi.Diodes)
@@ -346,7 +349,7 @@ class AddEquipmentPassiveElements:
         self.Obraz = ttk.Button(self.Add_Passive, text="tutaj bedzie obraz")
         self.Obraz.place(height=250, width=250, x=360, y=70)
 
-    def choose_passive (self, *args):
+    def choose_passive(self, *args):
         category = self.eGroupPassive.get()
         if category == 'Resistors':
             self.eSubCategoryPassive.config(values=Cat_Passive.Resistors)
@@ -424,10 +427,11 @@ class AddConnectors:
         self.eNameCon = ttk.Entry(self.Add_Con, width=50)
         self.eNameCon.place(height=20, width=230, x=100, y=70)
 
-        self.eGroupCon = ttk.Combobox(self.Add_Con, )
+        self.eGroupCon = ttk.Combobox(self.Add_Con, values=Cat_Connectors.Connectors_group)
         self.eGroupCon.place(height=20, width=230, x=100, y=110)
 
-        self.eSubCategoryCon = ttk.Combobox(self.Add_Con, )
+        self.eSubCategoryCon = ttk.Combobox(self.Add_Con)
+        self.eSubCategoryCon.bind("<Button-1>", self.choose_connectors)
         self.eSubCategoryCon.place(height=20, width=230, x=100, y=150)
 
         self.eModelCon = ttk.Entry(self.Add_Con, width=50)
@@ -451,6 +455,21 @@ class AddConnectors:
 
         self.Obraz = ttk.Button(self.Add_Con, text="tutaj bedzie obraz")
         self.Obraz.place(height=250, width=250, x=360, y=70)
+
+    def choose_connectors(self, *args):
+        category = self.eGroupCon.get()
+        if category == 'Signal connectors':
+            self.eSubCategoryCon.config(values=Cat_Connectors.Signal_connectors)
+        elif category == 'Data connectors':
+            self.eSubCategoryCon.config(values=Cat_Connectors.Data_connectors)
+        elif category == 'RF connectors':
+            self.eSubCategoryCon.config(values=Cat_Connectors.RF_connectors)
+        elif category == 'Power connectors':
+            self.eSubCategoryCon.config(values=Cat_Connectors.Power_connectors)
+        elif category == 'Push on connectors and cable terminals':
+            self.eSubCategoryCon.config(values=Cat_Connectors.Push_on_connectors_and_cable_terminals)
+        elif category == 'Industrial connectors':
+            self.eSubCategoryCon.config(values=Cat_Connectors.Industrial_connectors)
 
 
 class AddEnergySources:
@@ -586,10 +605,11 @@ class AddWires:
         self.eNameWires = ttk.Entry(self.Add_Wires, width=50)
         self.eNameWires.place(height=20, width=230, x=100, y=70)
 
-        self.eGroupWires= ttk.Combobox(self.Add_Wires, )
+        self.eGroupWires = ttk.Combobox(self.Add_Wires, values=Cat_Wires.Wires_group)
         self.eGroupWires.place(height=20, width=230, x=100, y=110)
 
-        self.eSubCategoryWires = ttk.Combobox(self.Add_Wires, )
+        self.eSubCategoryWires = ttk.Combobox(self.Add_Wires)
+        self.eSubCategoryWires.bind("<Button-1>", self.choose_wires)
         self.eSubCategoryWires.place(height=20, width=230, x=100, y=150)
 
         self.eModelWires = ttk.Entry(self.Add_Wires, width=50)
@@ -607,3 +627,14 @@ class AddWires:
 
         self.Obraz = ttk.Button(self.Add_Wires, text="tutaj bedzie obraz")
         self.Obraz.place(height=250, width=250, x=360, y=70)
+
+    def choose_wires(self, *args):
+        category = self.eGroupWires.get()
+        if category == 'Cables':
+            self.eSubCategoryWires.config(values=Cat_Wires.Cables)
+        elif category == 'Cables Assemblies':
+            self.eSubCategoryWires.config(values=Cat_Wires.Cables_Assemblies)
+        elif category == 'Conduits and Insulating Sleeves':
+            self.eSubCategoryWires.config(values=Cat_Wires.Conduits_and_Insulating_Sleeves)
+        elif category == 'Cables Accessories':
+            self.eSubCategoryWires.config(values=Cat_Wires.Cables_Accessories)

@@ -23,6 +23,9 @@ class ColoursLoginWindow:
 
 class ColoursMainWindow:
     def __init__(self):
+
+        self.MainBg_Label = "#3C3E45"
+
         self.Border = ""
 
         self.MainBackground = "white"

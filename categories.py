@@ -1,5 +1,8 @@
 class EquipmentCategoriesSemiconductors:
     def __init__(self):
+
+        self.SemiCat = ["Diodes","Thyristors"]
+
         self.Diodes = ["Universal diodes", "Schottky diodes", "Zener diodes", "Transil diodes",
                        "Single phase bridge rectifiers", "Three phase bridge rectifiers"]
 
@@ -19,6 +22,9 @@ class EquipmentCategoriesSemiconductors:
 
 class EquipmentCategoriesPassiveElements:
     def __init__(self):
+
+        self.PassiveElementsGroup = ["Resistors","Capacitors","Inductors"]
+
         self.Resistors = ["SMD resistors", "SMD precision resistors", "Carbon THT resistors",
                           "Metal film THT resistors",
                           "Power resistors", "Fusible resistors", "Heating resistors", "Resistor networks",
@@ -51,6 +57,9 @@ class EquipmentCategoriesPassiveElements:
 
 class EquipmentCategoriesConnectors:
     def __init__(self):
+
+        self.Connectors_group = ["Signal connectors", "Data connectors", "RF connectors", "Power connectors", "Push on connectors and cable terminals", "Industrial connectors"]
+
         self.Signal_connectors = ["Pin headers", "CE100 connectors 2,54mm", "CE156 connectors 3,96mm",
                                   "DIN 41.612DIN 41.617connectors", "Dubox connectors 2,54mm", "FFC(FPC) connectors",
                                   "IDC connectors", "Micro - Match connectors 1,27mm", "Mini - Clamp connectors 2mm",
@@ -94,6 +103,9 @@ class EquipmentCategoriesPCAccessories:
 
 class EquipmentCategoriesWires:
     def __init__(self):
+
+        self.Wires_group = ["Cables", "Cables Assemblies", "Conduits and Insulating Sleeves", "Cables Accessories"]
+
         self.Cables = ["Single Core Cables", "Test Leads", "Power Cords", "Data Transmission Cables",
                        "Multicore Cables", "Cables for Power Chains",
                        "Silicone Cables", "Heat resistant cablesCar", "Installation Cables - FLRY,Coaxial Cables",
@@ -151,5 +163,14 @@ class EquipmentCategoriesLaboratory:
         self.Antistatic_Protection= ["Storage"]
 
 
-class EquipmentCategoriesOthers():
+class EquipmentCategoriesOthers:
     pass
+
+
+class EquipmentCategoriesChemistry:
+    def __init__(self):
+        self.Units = ["g", "mg", "kg", "lbs", "oz", "mL", "L"]
+        self.Location = ["EP", "EQ", "TCK"]
+        self.EP = ["Main LAB", "ProtoLAB", "EMC TENT"]
+        self.EQ = ["Main LAB"]
+        self.TCK = ["Main LAB"]
