@@ -1,7 +1,6 @@
 class EquipmentCategoriesSemiconductors:
     def __init__(self):
-
-        self.SemiCat = ["Diodes","Thyristors"]
+        self.SemiCat = ["Diodes", "Thyristors", "Triacs", "Diacs", "Transistors", "Integrated circuits"]
 
         self.Diodes = ["Universal diodes", "Schottky diodes", "Zener diodes", "Transil diodes",
                        "Single phase bridge rectifiers", "Three phase bridge rectifiers"]
@@ -22,8 +21,7 @@ class EquipmentCategoriesSemiconductors:
 
 class EquipmentCategoriesPassiveElements:
     def __init__(self):
-
-        self.PassiveElementsGroup = ["Resistors","Capacitors","Inductors"]
+        self.PassiveElementsGroup = ["Resistors", "Capacitors", "Inductors"]
 
         self.Resistors = ["SMD resistors", "SMD precision resistors", "Carbon THT resistors",
                           "Metal film THT resistors",
@@ -52,13 +50,30 @@ class EquipmentCategoriesPassiveElements:
         self.NTC_thermistors = ["Measurement NTC thermistors", "Protection NTC thermistors"]
 
 
-# class EquipmentCategoriesOptoElectronics():
+class EquipmentCategoriesOptoElectronics:
+    def __init__(self):
+        self.Opto_Group = ["LEDs", "LED_indicators", "Displays", "Optocouplers", "Photoelements", "Laser"]
+
+        self.LEDs = ["THT LEDs", "SMD LEDs", "Power LEDs", "Special effect LED's", "IR LEDs", "UV LEDs",
+                     "Plants growth LED", "LED light sources"]
+
+        self.LED_indicators = ["LED PCB indicators", "LED Panel Mount Indicators"]
+
+        self.Displays = ["LED displays", "OLED displays", "LCD displays", "TFT displays", "VFD displays",
+                         "Intelligent displays modules", "E-paper", "Displays - accessories", "HMI Panels"]
+
+        self.Optocouplers = ["Optocouplers - analog output", "Optocouplers - digital output", "Optocouplers - others",
+                             "Optotriacs"]
+
+        self.Photoelements = ["Photodiodes", "IR receiver modules", "Phototransistors", "Photoresistors"]
+
+        self.Laser = ["Laser diodes", "Laser modules"]
 
 
 class EquipmentCategoriesConnectors:
     def __init__(self):
-
-        self.Connectors_group = ["Signal connectors", "Data connectors", "RF connectors", "Power connectors", "Push on connectors and cable terminals", "Industrial connectors"]
+        self.Connectors_group = ["Signal connectors", "Data connectors", "RF connectors", "Power connectors",
+                                 "Push on connectors and cable terminals", "Industrial connectors"]
 
         self.Signal_connectors = ["Pin headers", "CE100 connectors 2,54mm", "CE156 connectors 3,96mm",
                                   "DIN 41.612DIN 41.617connectors", "Dubox connectors 2,54mm", "FFC(FPC) connectors",
@@ -98,12 +113,35 @@ class EquipmentCategoriesPCAccessories:
                                      "Privacy Filters"]
 
 
-# class EquipmentCategoriesSwitches():
+class EquipmentCategoriesSwitches:
+    def __init__(self):
+
+        self.Switches_Group = ["Microswitches", "Panel_Mount_Switches", "Rocker_Switches", "Dip_Switches",
+                               "Rotary_Switches", "Toggle_Switches", "Push_Button_Switches",
+                               "Vandal_Resistant_Switches", "Indicators"]
+
+        self.Microswitches = []
+
+        self.Panel_Mount_Switches = ["Panel Mount Switches", "Standard 16mm", "Panel Mount Switches", "Standard 22mm",
+                                     "Panel Mount Switches", "Standard 30mm", "Panel Mount Accessories"]
+        self.Rocker_Switches = []
+
+        self.Dip_Switches = []
+
+        self.Rotary_Switches = []
+
+        self.Toggle_Switches = []
+
+        self.Push_Button_Switches = ["Standard Switches", "Keypad Switches", "Door Switches", "Push-Pull Switches",
+                                     "Detect Switches"]
+
+        self.Vandal_Resistant_Switches = ["Push Button Switches", "Piezoelectric Switches", "Capacitive switches"]
+
+        self.Indicators = ["LED Panel Mount Indicators", "Neon Indicators"]
 
 
 class EquipmentCategoriesWires:
     def __init__(self):
-
         self.Wires_group = ["Cables", "Cables Assemblies", "Conduits and Insulating Sleeves", "Cables Accessories"]
 
         self.Cables = ["Single Core Cables", "Test Leads", "Power Cords", "Data Transmission Cables",
@@ -128,39 +166,40 @@ class EquipmentCategoriesWires:
 
 class EquipmentCategoriesMechanics:
     def __init__(self):
-        self.Mechanics = ["Bolts", "Screws", "Nuts", "Spacers","Enclosures" ,"Others"]
+        self.Mechanics = ["Bolts", "Screws", "Nuts", "Spacers", "Enclosures", "Others"]
 
 
 class EquipmentCategoriesLaboratory:
     def __init__(self):
-        self.Measuring_Instruments = ["Analog Multimeters","Digital Multimeters","Meters - Accessories",
-                                    "Meters and Clamp Probes","Testers and Meters For El. Installations",
-                                    "Meters of environmental conditions", "Inspection Cameras", "Boroscopes",
-                                    "Automotive meters", "Panel Meters Laboratory", "instruments Laboratory",
-                                    "instruments - Others" "Laboratory Power Supplies" "Oscilloscopes and Scopemeters",
-                                    "LAN and Telephone Networks Testers"]
+        self.Measuring_Instruments = ["Analog Multimeters", "Digital Multimeters", "Meters - Accessories",
+                                      "Meters and Clamp Probes", "Testers and Meters For El. Installations",
+                                      "Meters of environmental conditions", "Inspection Cameras", "Boroscopes",
+                                      "Automotive meters", "Panel Meters Laboratory", "instruments Laboratory",
+                                      "instruments - Others" "Laboratory Power Supplies" "Oscilloscopes and Scopemeters",
+                                      "LAN and Telephone Networks Testers"]
 
-        self.Measuring_Accessories = ["Test Leads","Probes - Test Plugs", "Test hooks", "Test Clips", "Crocodile Clips",
-                                    "Banana & Fork Plugs", "Banana Sockets", "Laboratory Clamps",
-                                    "Hangers and uprights on wires","Contact Probes",
-                                    "Laboratory Connectors - Others" ]
+        self.Measuring_Accessories = ["Test Leads", "Probes - Test Plugs", "Test hooks", "Test Clips",
+                                      "Crocodile Clips",
+                                      "Banana & Fork Plugs", "Banana Sockets", "Laboratory Clamps",
+                                      "Hangers and uprights on wires", "Contact Probes",
+                                      "Laboratory Connectors - Others"]
 
-        self.PCB_prototyping_and_production=["Copper laminates","Universal PCBs","Assembly kits",
-                                             "Materials for PCB production", ]
+        self.PCB_prototyping_and_production = ["Copper laminates", "Universal PCBs", "Assembly kits",
+                                               "Materials for PCB production", ]
 
-        self.Soldering_and_Welding_Equipment=["Soldering irons and guns","Gas soldering irons & torches",
-                                              "Soldering & desoldering stations", "Soldering stations - accessories",
-                                              "Soldering tips & nozzles", "Soldering fume extraction systems",
-                                              "Soldering pots & baths", "Soldering Devices & Exposure Units",
-                                              "Auxiliary soldering tools", "Desoldering wicks",
-                                              "Dispensers & accessories", "Solders", "Fluxes",
-                                              "Soldering chemicals", "Welding Equipment" ]
+        self.Soldering_and_Welding_Equipment = ["Soldering irons and guns", "Gas soldering irons & torches",
+                                                "Soldering & desoldering stations", "Soldering stations - accessories",
+                                                "Soldering tips & nozzles", "Soldering fume extraction systems",
+                                                "Soldering pots & baths", "Soldering Devices & Exposure Units",
+                                                "Auxiliary soldering tools", "Desoldering wicks",
+                                                "Dispensers & accessories", "Solders", "Fluxes",
+                                                "Soldering chemicals", "Welding Equipment"]
 
-        self.Tools= ["Tools"]
+        self.Tools = ["Tools"]
 
-        self.Storage= ["Storage"]
+        self.Storage = ["Storage"]
 
-        self.Antistatic_Protection= ["Storage"]
+        self.Antistatic_Protection = ["Storage"]
 
 
 class EquipmentCategoriesOthers:

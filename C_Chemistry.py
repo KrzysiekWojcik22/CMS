@@ -3,11 +3,14 @@ import Colors as Col
 import classes as cl
 from tkinter import ttk
 from categories import EquipmentCategoriesChemistry
+from tkinter import filedialog
+
 
 Color = Col.ColoursMainWindow()
 Chem_cat = EquipmentCategoriesChemistry()
 Units = Chem_cat.Units
 Location = Chem_cat.Location
+
 
 class Chemistry:
     def __init__(self, master, *args):
@@ -230,15 +233,57 @@ class Locations:
 
 class MSDSandFileStorage:
     def __init__(self, master):
-        self.MSDSF = tk.Frame(master, bg="pink")
-        self.MSDSF.place(height=640, width=720, x=0, y=0)
-    '''
-    All Files 
-    MSDS
-    COA
-    Risk Assessments
-    Edit Categories
-    Search files
-    Upload Files
-    
-    '''
+        self.MSDSF = tk.Frame(master, bg="gray")
+        self.MSDSF.place(height=640, width=720, x=-1, y=0)
+
+        Ikony = cl.Icons(master=self.MSDSF)
+
+        self.TitleFrame = tk.Canvas(self.MSDSF, bg='grey', height=90, width=722)  # Budowa tła niebieskie
+        self.TitleFrame.create_rectangle(-1, 42, 722, 90, fill='#004554', outline='#004554')
+        self.TitleFrame.tag_raise(0)
+        self.TitleFrame.place(x=-2, y=-2)
+
+        self.MSDSF_Title = tk.Label(self.MSDSF, text="  (M)SDS and File Storage", font=(14), anchor = 'w')
+        self.MSDSF_Title["compound"] = tk.LEFT
+        self.MSDSF_Title["image"] = Ikony.document_ic
+        self.MSDSF_Title.place(height=40, width=300, x=10, y=0)
+
+        self.Sep1 = ttk.Separator(self.MSDSF, orient='vertical')
+        self.Sep1.place(width=720, x=0, y=90)
+
+        self.Sep2 = ttk.Separator(orient='horizontal')
+        self.Sep2.place(width=10, height=10, x=10, y=20)
+
+        self.Search = ttk.Entry(self.MSDSF, width=25,)
+        self.Search.place(height=25, width=120, x=460, y=7.5)
+
+        self.Upload_Files = tk.Button(self.MSDSF, text=" Upload Files", image=Ikony.upload_ic, compound=tk.LEFT)
+        self.Upload_Files.place(height=30, width=100, x=600, y=5)
+
+        self.All_Files = tk.Label(self.MSDSF, text="All Files", font=(14), anchor='w', cursor="hand2")
+        self.All_Files.place(height=30, width=70, x=10, y=50)
+
+        self.MSDS = tk.Label(self.MSDSF, text="(M)SDS", font=(14), anchor='w', cursor="hand2")
+        self.MSDS.place(height=30, width=70, x=110, y=50)
+
+        self.COA = tk.Label(self.MSDSF, text="COA", font=(14), anchor='w', cursor="hand2")
+        self.COA.place(height=30, width=70, x=210, y=50)
+
+        self.Risk_Assessments = tk.Label(self.MSDSF, text="Risk Assessments", font=(14), anchor='w', cursor="hand2" )
+        self.Risk_Assessments.place(height=30, width=140, x=310, y=50)
+
+        self.All_Files.bind("<Enter>", cl.click)
+        self.All_Files.bind("<Leave>", cl.zwolnienie)
+       # self.All_Files.bind("<Button-1>", show_chemistry)
+
+        self.MSDS.bind("<Enter>", cl.click)
+        self.MSDS.bind("<Leave>", cl.zwolnienie)
+       # self.MSDS.bind("<Button-1>", show_chemistry)
+
+        self.COA.bind("<Enter>", cl.click)
+        self.COA.bind("<Leave>", cl.zwolnienie)
+        #self.COA.bind("<Button-1>", show_chemistry)
+
+        self.Risk_Assessments.bind("<Enter>", cl.click)
+        self.Risk_Assessments.bind("<Leave>", cl.zwolnienie)
+       # self.Risk_Assessments.bind("<Button-1>", show_chemistry)

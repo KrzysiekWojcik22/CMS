@@ -87,9 +87,17 @@ class Icons:
         self.ch_addL = tk.Label(master, image=self.ch_add_ic)
         self.ch_addL.photo = self.ch_add_ic
 
+        self.upload_ic = ImageTk.PhotoImage(Image.open("ikoneczki\wyslij.png"))
+        self.uploadL = tk.Label(master, image=self.upload_ic)
+        self.uploadL.photo = self.upload_ic
 
+        self.search_ic = ImageTk.PhotoImage(Image.open("ikoneczki\search.png"))
+        self.searchL = tk.Label(master, image=self.search_ic)
+        self.searchL.photo = self.search_ic
 
-
+        self.document_ic = ImageTk.PhotoImage(Image.open("ikoneczki\document.png"))
+        self.documentL = tk.Label(master, image=self.document_ic)
+        self.documentL.photo = self.document_ic
 
 
 
