@@ -213,3 +213,26 @@ class EquipmentCategoriesChemistry:
         self.EP = ["Main LAB", "ProtoLAB", "EMC TENT"]
         self.EQ = ["Main LAB"]
         self.TCK = ["Main LAB"]
+
+
+class SearchEquipmentGroup:
+    def __init__(self):
+        self.Group = ["All", "Semiconductors", "Passive elements", "Optoelectronic", "Connector", "Energy Sources",
+                      "PC accessories", "Switches", "Wires", "Mechanics", "Laboratory", "Others"]
+
+
+class SearchEquipmentCategory:
+    def __init__(self):
+        self.AllCategory = []
+
+
+
+
+
+
+
+
+
+
+
+

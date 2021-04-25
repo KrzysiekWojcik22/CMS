@@ -3,12 +3,21 @@ from tkinter import ttk
 import classes as cl
 import Colors as Col
 import categories as cat
+import mysql.connector
+from mysql.connector import errorcode
 
 Color = Col.ColoursMainWindow()
 Cat_Semi = cat.EquipmentCategoriesSemiconductors()
 Cat_Passive = cat.EquipmentCategoriesPassiveElements()
+Cat_Opto = cat.EquipmentCategoriesOptoElectronics()
 Cat_Connectors = cat.EquipmentCategoriesConnectors()
+Cat_Energy = cat.EquipmentCategoriesEnergySources()
+Cat_PC = cat.EquipmentCategoriesPCAccessories()
+Cat_Switches = cat.EquipmentCategoriesSwitches()
 Cat_Wires = cat.EquipmentCategoriesWires()
+Cat_Mechanics = cat.EquipmentCategoriesMechanics()
+Cat_Lab = cat.EquipmentCategoriesLaboratory()
+Cat_Others = cat.EquipmentCategoriesOthers()
 
 
 class AddEquipmentFirst:
@@ -93,7 +102,7 @@ class AddEquipmentFirst:
 
         self.AddOptoelectronic.bind("<Enter>", cl.click)
         self.AddOptoelectronic.bind("<Leave>", cl.zwolnienie)
-       # self.AddOptoelectronic.bind("<Button-1>", showOptoelectronic)
+        # self.AddOptoelectronic.bind("<Button-1>", showOptoelectronic)
 
         self.AddConnectors.bind("<Enter>", cl.click)
         self.AddConnectors.bind("<Leave>", cl.zwolnienie)
@@ -105,11 +114,11 @@ class AddEquipmentFirst:
 
         self.AddPCAccesories.bind("<Enter>", cl.click)
         self.AddPCAccesories.bind("<Leave>", cl.zwolnienie)
-       # self.AddPCAccesories.bind("<Button-1>", showPCAccessories)
+        # self.AddPCAccesories.bind("<Button-1>", showPCAccessories)
 
         self.AddSwitches.bind("<Enter>", cl.click)
         self.AddSwitches.bind("<Leave>", cl.zwolnienie)
-        #self.AddSwitches.bind("<Button-1>", showSwitches)
+        # self.AddSwitches.bind("<Button-1>", showSwitches)
 
         self.AddWires.bind("<Enter>", cl.click)
         self.AddWires.bind("<Leave>", cl.zwolnienie)
@@ -117,21 +126,24 @@ class AddEquipmentFirst:
 
         self.AddMechanics.bind("<Enter>", cl.click)
         self.AddMechanics.bind("<Leave>", cl.zwolnienie)
-       # self.AddMechanics.bind("<Button-1>", showMechanics)
+        # self.AddMechanics.bind("<Button-1>", showMechanics)
 
         self.AddLaboratory.bind("<Enter>", cl.click)
         self.AddLaboratory.bind("<Leave>", cl.zwolnienie)
-        #self.AddLaboratory.bind("<Button-1>", showLaboratory)
+        # self.AddLaboratory.bind("<Button-1>", showLaboratory)
 
         self.AddOthers.bind("<Enter>", cl.click)
         self.AddOthers.bind("<Leave>", cl.zwolnienie)
-        #self.AddOthers.bind("<Button-1>", showOthers)
+        # self.AddOthers.bind("<Button-1>", showOthers)
 
     def add_semiconductors(self):
         AddEquipmentSemiconductors(master=self.PadAdd2)
 
     def add_passive_elements(self):
         AddEquipmentPassiveElements(master=self.PadAdd2)
+
+    def add_opto_electronics(self):
+        pass
 
     def add_connectors(self):
         AddConnectors(master=self.PadAdd2)
@@ -140,8 +152,20 @@ class AddEquipmentFirst:
         print("Hello")
         AddEnergySources(master=self.PadAdd2)
 
+    def add_pc_accessories(self):
+        pass
+
     def add_wires(self):
         AddWires(master=self.PadAdd2)
+
+    def add_mechanics(self):
+        pass
+
+    def add_lab(self):
+        pass
+
+    def add_others(self):
+        pass
 
 
 class AddEquipmentSemiconductors:
@@ -149,12 +173,12 @@ class AddEquipmentSemiconductors:
         self.Add_Semi = tk.Frame(master, bg=Color.FrameBackground)
         self.Add_Semi.place(x=0, y=0, height=610, width=850)
 
-        self.AddComponent = tk.Button(self.Add_Semi, text='Add', font=14, bg=Color.WidgetButtons, fg='white'
-                                    )
+        self.AddComponent = tk.Button(self.Add_Semi, text='Add', font=14, bg=Color.WidgetButtons, fg='white',
+                                      command= self.polacz)
         self.AddComponent.place(height=40, width=80, x=15, y=445)
 
         self.ClearComponent = tk.Button(self.Add_Semi, text='Clear', font=14, bg=Color.WidgetButtons, fg='white',
-                                    )
+                                        command=self.clear_enters)
         self.ClearComponent.place(height=40, width=80, x=110, y=445)
 
         self.UploadLink = tk.Button(self.Add_Semi, text='Upload Link', font=14, bg=Color.WidgetButtons, fg='white',
@@ -192,7 +216,7 @@ class AddEquipmentSemiconductors:
         self.lWhere = tk.Label(self.Add_Semi, text="Where:", bg=Color.FrameBackground)
         self.lWhere.place(height=40, width=80, x=10, y=300)
 
-        self.lQuintity = tk.Label(self.Add_Semi, text="Quantity:",  bg=Color.FrameBackground)
+        self.lQuintity = tk.Label(self.Add_Semi, text="Quantity:", bg=Color.FrameBackground)
         self.lQuintity.place(height=40, width=80, x=10, y=340)
 
         # Entry
@@ -210,7 +234,7 @@ class AddEquipmentSemiconductors:
         self.eModel = ttk.Entry(self.Add_Semi, width=50)
         self.eModel.place(height=20, width=230, x=100, y=190)
 
-        self.eAssembly = ttk.Combobox(self.Add_Semi, )#values=self.SposobMontazu)
+        self.eAssembly = ttk.Combobox(self.Add_Semi)
         self.eAssembly.place(height=20, width=230, x=100, y=230)
 
         self.eSize = ttk.Entry(self.Add_Semi, width=50)
@@ -238,12 +262,26 @@ class AddEquipmentSemiconductors:
             self.eSubCategory.config(values=Cat_Semi.Thyristors)
         elif category == 'Triacs':
             self.eSubCategory.config(values=Cat_Semi.Triacs)
-        elif category =='Diacs':
+        elif category == 'Diacs':
             self.eSubCategory.config(values=Cat_Semi.Diacs)
-        elif category =='Transistors':
+        elif category == 'Transistors':
             self.eSubCategory.config(values=Cat_Semi.Transistors)
-        elif category =='Integrated circuits':
+        elif category == 'Integrated circuits':
             self.eSubCategory.config(values=Cat_Semi.Integrated_circuits)
+
+    def clear_enters(self, *args):
+        self.eName.delete(0, tk.END)
+        self.eGroup.delete(0, tk.END)
+        self.eSubCategory.delete(0, tk.END)
+        self.eModel.delete(0, tk.END)
+        self.eAssembly.delete(0, tk.END)
+        self.eSize.delete(0, tk.END)
+        self.eWhere.delete(0, tk.END)
+        self.eQuintity.delete(0, tk.END)
+
+    def polacz(self, *args):
+        ConnectDatabase.__init__(self, host='localhost', user='root', password='KrzysiekmySql12', database="sql-kurs")
+        ConnectDatabase.open_mysql(self)
 
 
 class AddEquipmentPassiveElements:
@@ -306,7 +344,6 @@ class AddEquipmentPassiveElements:
         self.lQuantityPassive = tk.Label(self.Add_Passive, text="Quantity:", bg=Color.FrameBackground)
         self.lQuantityPassive.place(height=40, width=80, x=10, y=460)
 
-
         # Wejscia
 
         self.eNamePassive = ttk.Entry(self.Add_Passive, width=50)
@@ -321,7 +358,7 @@ class AddEquipmentPassiveElements:
         self.eModelPassive = ttk.Entry(self.Add_Passive, width=50)
         self.eModelPassive.place(height=20, width=230, x=100, y=190)
 
-        self.eAssemblyPassive = ttk.Combobox(self.Add_Passive,)
+        self.eAssemblyPassive = ttk.Combobox(self.Add_Passive, )
         self.eAssemblyPassive.place(height=20, width=230, x=100, y=230)
 
         self.eSizePassive = ttk.Entry(self.Add_Passive, width=50)
@@ -357,11 +394,11 @@ class AddEquipmentPassiveElements:
             self.eSubCategoryPassive.config(values=Cat_Passive.Capacitors)
         elif category == 'Inductors':
             self.eSubCategoryPassive.config(values=Cat_Passive.Inductors)
-        elif category =='EMI_EMC_components':
+        elif category == 'EMI_EMC_components':
             self.eSubCategoryPassive.config(values=Cat_Passive.EMI_EMC_components)
-        elif category =='Quartz_crystals_and_filters':
+        elif category == 'Quartz_crystals_and_filters':
             self.eSubCategoryPassive.config(values=Cat_Passive.Quartz_crystals_and_filters)
-        elif category =='Potentiometers':
+        elif category == 'Potentiometers':
             self.eSubCategoryPassive.config(values=Cat_Passive.Potentiometers)
         elif category == 'Encoders':
             self.eSubCategoryPassive.config(values=Cat_Passive.Encoders)
@@ -377,11 +414,11 @@ class AddConnectors:
         ### BUTTONS
 
         self.AddCon = tk.Button(self.Add_Con, text='Add', font=14, bg=Color.WidgetButtons, fg='white'
-                                      )
+                                )
         self.AddCon.place(height=40, width=80, x=15, y=445)
 
         self.ClearCon = tk.Button(self.Add_Con, text='Clear', font=14, bg=Color.WidgetButtons, fg='white',
-                                        )
+                                  )
         self.ClearCon.place(height=40, width=80, x=110, y=445)
 
         self.UploadLink = tk.Button(self.Add_Con, text='Upload Link', font=14, bg=Color.WidgetButtons, fg='white',
@@ -395,7 +432,7 @@ class AddConnectors:
         ### Labels
 
         self.AddTitleCon = tk.Label(self.Add_Con, font=("Arial", 20), text="Add new item:", anchor='w',
-                                 bg=Color.FrameBackground, fg='white')
+                                    bg=Color.FrameBackground, fg='white')
         self.AddTitleCon.place(height=40, width=280, x=10, y=10)
 
         self.lNameCon = tk.Label(self.Add_Con, text="Name:", bg=Color.FrameBackground)
@@ -480,11 +517,11 @@ class AddEnergySources:
         #### BUTTONS
 
         self.AddEnergy = tk.Button(self.Add_Energy, text='Add', font=14, bg=Color.WidgetButtons, fg='white'
-                                      )
+                                   )
         self.AddEnergy.place(height=40, width=80, x=15, y=445)
 
         self.ClearEnergy = tk.Button(self.Add_Energy, text='Clear', font=14, bg=Color.WidgetButtons, fg='white',
-                                        )
+                                     )
         self.ClearEnergy.place(height=40, width=80, x=110, y=445)
 
         self.UploadLink = tk.Button(self.Add_Energy, text='Upload Link', font=14, bg=Color.WidgetButtons, fg='white',
@@ -498,7 +535,7 @@ class AddEnergySources:
         ### Labels
 
         self.AddTitleEnergy = tk.Label(self.Add_Energy, font=("Arial", 20), text="Add new item:", anchor='w',
-                                 bg=Color.FrameBackground, fg='white')
+                                       bg=Color.FrameBackground, fg='white')
         self.AddTitleEnergy.place(height=40, width=280, x=10, y=10)
 
         self.lNameEnergy = tk.Label(self.Add_Energy, text="Name:", bg=Color.FrameBackground)
@@ -561,11 +598,11 @@ class AddWires:
         ### BUTTONS
 
         self.AddWires = tk.Button(self.Add_Wires, text='Add', font=14, bg=Color.WidgetButtons, fg='white'
-                                      )
+                                  )
         self.AddWires.place(height=40, width=80, x=15, y=445)
 
         self.ClearWires = tk.Button(self.Add_Wires, text='Clear', font=14, bg=Color.WidgetButtons, fg='white',
-                                        )
+                                    )
         self.ClearWires.place(height=40, width=80, x=110, y=445)
 
         self.UploadLink = tk.Button(self.Add_Wires, text='Upload Link', font=14, bg=Color.WidgetButtons, fg='white',
@@ -579,7 +616,7 @@ class AddWires:
         ### Labels
 
         self.AddTitleWires = tk.Label(self.Add_Wires, font=("Arial", 20), text="Add new item:", anchor='w',
-                                 bg=Color.FrameBackground, fg='white')
+                                      bg=Color.FrameBackground, fg='white')
         self.AddTitleWires.place(height=40, width=280, x=10, y=10)
 
         self.lNameWires = tk.Label(self.Add_Wires, text="Name:", bg=Color.FrameBackground)
@@ -638,3 +675,31 @@ class AddWires:
             self.eSubCategoryWires.config(values=Cat_Wires.Conduits_and_Insulating_Sleeves)
         elif category == 'Cables Accessories':
             self.eSubCategoryWires.config(values=Cat_Wires.Cables_Accessories)
+
+
+class ConnectDatabase:
+    __host = None
+    __user = None
+    __password = None
+    __database = None
+
+    def __init__(self, host='localhost', user='root', password='', database=''):
+        self.__host = host
+        self.__user = user
+        self.__password = password
+        self.__database = database
+
+    def open_mysql(self):
+        try:
+            mydb = mysql.connector.connect(host=self.__host, user=self.__user,
+                                           password=self.__password,
+                                           database=self.__database)
+            self.__connection = mydb
+            self.__session = mydb.cursor()
+
+        except mysql.connector.Error as err:
+            if err.errno == errorcode.ER_ACCESS_DENIED_ERROR:
+                print("Something is wrong with your user name or password")
+            elif err.errno == errorcode.ER_BAD_DB_ERROR:
+                print("Database does not exists")
+

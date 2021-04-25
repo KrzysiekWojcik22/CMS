@@ -111,9 +111,11 @@ class UnderlineOn:
     def __init__(self,event):
         event.widget.config(underline=True)
 
+
 class UnderLineOff:
     def __init__(self,event):
         event.widget.config(underline=False)
+
 
 class Hover:
     def __init__(self ,event):
@@ -123,6 +125,7 @@ class Hover:
 class Unhover:
     def __init__(self ,event):
         event.widget.config(bg='#0052cc')
+
 
 class click:
     def __init__(self ,event):
