@@ -5,7 +5,6 @@ from tkinter import ttk
 from categories import EquipmentCategoriesChemistry
 from tkinter import filedialog
 
-
 Color = Col.ColoursMainWindow()
 Chem_cat = EquipmentCategoriesChemistry()
 Units = Chem_cat.Units
@@ -87,23 +86,25 @@ class Search:
 
         ## search
 
-        self.Search_title = tk.Label(self.Search, text="Search for a Container", font=('Arial', 12), fg="black", anchor="w",)
+        self.Search_title = tk.Label(self.Search, text="Search for a Container", font=('Arial', 12), fg="black",
+                                     anchor="w", )
         self.Search_title.place(height=40, width=350, x=15, y=15)
 
         Obramowanie = tk.Canvas(self.Search, bg='grey', height=350, width=350)
         Obramowanie.tag_raise(0)
         Obramowanie.place(x=15, y=60)
 
-        self.Name = tk.Label(self.Search, text="Name:", font=('Arial', 10), fg="black", anchor="w",bg='gray')
+        self.Name = tk.Label(self.Search, text="Name:", font=('Arial', 10), fg="black", anchor="w", bg='gray')
         self.Name.place(height=20, width=80, x=35, y=80)
 
-        self.CAS = tk.Label(self.Search, text="CAS Number:", font=('Arial', 10), fg="black", anchor="w",bg='gray')
+        self.CAS = tk.Label(self.Search, text="CAS Number:", font=('Arial', 10), fg="black", anchor="w", bg='gray')
         self.CAS.place(height=20, width=80, x=35, y=160)
-#
-        self.Barcode = tk.Label(self.Search, text="Barcode", font=('Arial', 10), fg="black", anchor="w",bg='gray')
+        #
+        self.Barcode = tk.Label(self.Search, text="Barcode", font=('Arial', 10), fg="black", anchor="w", bg='gray')
         self.Barcode.place(height=20, width=80, x=35, y=240)
 
-        self.Limit_search = tk.Label(self.Search, text="Limit Search to:", font=('Arial', 8), fg="black", anchor="w",bg='gray')
+        self.Limit_search = tk.Label(self.Search, text="Limit Search to:", font=('Arial', 8), fg="black", anchor="w",
+                                     bg='gray')
         self.Limit_search.place(height=20, width=120, x=35, y=310)
 
         # Enters
@@ -129,112 +130,174 @@ class Search:
 class AddaContainer:
     def __init__(self, master):
         self.Container = tk.Frame(master, bg=Color.WidgetBackground)
-        self.Container.place(height=640, width=720, x=0, y=0)
+        self.Container.place(height=640, width=720, x=-1, y=-1)
 
-        self.Container_Name = tk.Label(self.Container, text="Container Name:", font=('Arial', 12), fg="black", anchor="w",)
-        self.Container_Name.place(height=40, width=350, x=15, y=15)
+        self.Container_title = tk.Label(self.Container, text="Add a Container", font=('Arial', 14), fg="black",
+                                        anchor="w", )
+        self.Container_title.place(height=40, width=150, x=10, y=5)
 
-        self.CAS_Number = tk.Label(self.Container, text="CAS Number:", font=('Arial', 12), fg="black", anchor="w",)
-        self.CAS_Number.place(height=40, width=350, x=15, y=15)
+        self.Container_Name = tk.Label(self.Container, text="Container Name:", font=('Arial', 10), fg="black",
+                                       anchor="w", )
+        self.Container_Name.place(height=20, width=120, x=10, y=60)
 
-        self.Container_Size = tk.Label(self.Container, text="Container Size:", font=('Arial', 12), fg="black", anchor="w",)
-        self.Container_Size.place(height=40, width=350, x=15, y=15)
+        self.CAS_Number = tk.Label(self.Container, text="CAS Number:", font=('Arial', 10), fg="black", anchor="w", )
+        self.CAS_Number.place(height=20, width=120, x=10, y=110)
 
-        self.Container_Unit = tk.Label(self.Container, text="Units:", font=('Arial', 12), fg="black", anchor="w",)
-        self.Container_Unit.place(height=40, width=350, x=15, y=15)
+        self.Container_Size = tk.Label(self.Container, text="Container Size:", font=('Arial', 10), fg="black",
+                                       anchor="w", )
+        self.Container_Size.place(height=20, width=120, x=10, y=160)
 
-        self.Barcode = tk.Label(self.Container, text="Barcode:", font=('Arial', 12), fg="black", anchor="w",)
-        self.Barcode.place(height=40, width=350, x=15, y=15)
+        self.Barcode = tk.Label(self.Container, text="Barcode:", font=('Arial', 10), fg="black", anchor="w", )
+        self.Barcode.place(height=20, width=120, x=10, y=210)
 
-        self.Location = tk.Label(self.Container, text="Location:", font=('Arial', 12), fg="black", anchor="w",)
-        self.Location.place(height=40, width=350, x=15, y=15)
+        self.Location = tk.Label(self.Container, text="Location:", font=('Arial', 10), fg="black", anchor="w", )
+        self.Location.place(height=20, width=120, x=10, y=260)
 
-        self.Supplier = tk.Label(self.Container, text="Supplier:", font=('Arial', 12), fg="black", anchor="w",)
-        self.Supplier.place(height=40, width=350, x=15, y=15)
+        self.Supplier = tk.Label(self.Container, text="Supplier:", font=('Arial', 10), fg="black", anchor="w", )
+        self.Supplier.place(height=20, width=120, x=10, y=310)
 
-        self.Expiry_Date = tk.Label(self.Container, text="Expiry Date:", font=('Arial', 12), fg="black", anchor="w",)
-        self.Expiry_Date.place(height=40, width=350, x=15, y=15)
+        self.Expiry_Date = tk.Label(self.Container, text="Expiry Date:", font=('Arial', 10), fg="black", anchor="w", )
+        self.Expiry_Date.place(height=20, width=120, x=10, y=360)
 
-        self.Product_Code = tk.Label(self.Container, text="Product Code", font=('Arial', 12), fg="black", anchor="w",)
-        self.Product_Code.place(height=40, width=350, x=15, y=15)
+        self.Product_Code = tk.Label(self.Container, text="Product Code", font=('Arial', 10), fg="black", anchor="w", )
+        self.Product_Code.place(height=20, width=120, x=10, y=410)
 
-        self.Documents = tk.Label(self.Container, text="Upload Documents:", font=('Arial', 12), fg="black", anchor="w",)
-        self.Documents.place(height=40, width=350, x=15, y=15)
+        self.Documents = tk.Label(self.Container, text="Upload links to product:", font=('Arial', 10), fg="black",
+                                  anchor="w", )
+        self.Documents.place(height=20, width=160, x=10, y=460)
 
         # Enters
 
-        self.e_Container_Name = ttk.Entry(self.Container, width=50)
-        self.e_Container_Name.place(height=40, width=350, x=15, y=15)
+        self.e_Container_Name = ttk.Entry(self.Container)
+        self.e_Container_Name.place(height=20, width=350, x=10, y=85)
 
-        self.e_CAS_Number = ttk.Entry(self.Container, width=50)
-        self.e_CAS_Number.place(height=40, width=350, x=15, y=15)
+        self.e_CAS_Number = ttk.Entry(self.Container)
+        self.e_CAS_Number.place(height=20, width=350, x=10, y=135)
 
-        self.e_Container_Size = ttk.Entry(self.Container, width=50)
-        self.e_Container_Size.place(height=40, width=350, x=15, y=15)
+        self.e_Container_Size = ttk.Entry(self.Container)
+        self.e_Container_Size.place(height=20, width=245, x=10, y=185)
 
-        self.e_Container_Unit = ttk.Combobox(self.Container, values=Units )
-        self.e_Container_Unit.place(height=40, width=350, x=15, y=15)
+        self.e_Container_Unit = ttk.Combobox(self.Container, values=Units)
+        self.e_Container_Unit.place(height=20, width=75, x=285, y=185)
+
+        self.e_Barcode = ttk.Entry(self.Container)
+        self.e_Barcode.place(height=20, width=350, x=10, y=235)
 
         self.e_Location = ttk.Combobox(self.Container, values=Location)
-        self.e_Location.place(height=40, width=350, x=15, y=15)
+        self.e_Location.place(height=20, width=350, x=10, y=285)
 
-        self.e_Supplier = ttk.Entry(self.Container, width=50)
-        self.e_Supplier.place(height=40, width=350, x=15, y=15)
+        self.e_Supplier = ttk.Entry(self.Container)
+        self.e_Supplier.place(height=20, width=350, x=10, y=335)
 
-        self.e_Expiry_Date = ttk.Entry(self.Container, width=50)
-        self.e_Expiry_Date.place(height=40, width=350, x=15, y=15)
+        self.e_Expiry_Date = ttk.Entry(self.Container)
+        self.e_Expiry_Date.place(height=20, width=350, x=10, y=385)
 
-        self.e_Product_Code = ttk.Entry(self.Container, width=50)
-        self.e_Product_Code.place(height=40, width=350, x=15, y=15)
+        self.e_Product_Code = ttk.Entry(self.Container)
+        self.e_Product_Code.place(height=20, width=350, x=10, y=435)
 
-        self.e_Documents = ttk.Entry(self.Container, width=50)
-        self.e_Documents.place(height=40, width=350, x=15, y=15)
+        self.e_Documents = ttk.Entry(self.Container)
+        self.e_Documents.place(height=20, width=350, x=10, y=485)
 
         # Buttons
 
-        self.b_Add_Comment = tk.Button(self.Container)
-        self.b_Add_Comment.place(height=40, width=350, x=15, y=15)
+        self.b_Clear_Container = tk.Button(self.Container, text="Clear", command=self.clear_container)
+        self.b_Clear_Container.place(height=20, width=40, x=200, y=535)
 
-        self.b_Add = tk.Button(self.Container)
-        self.b_Add.place(height=40, width=350, x=15, y=15)
+        self.b_Add_Container = tk.Button(self.Container, text="Add")
+        self.b_Add_Container.place(height=20, width=40, x=300, y=535)
+
+    def clear_container(self):
+        self.e_Container_Name.delete(0, tk.END)
+        self.e_CAS_Number.delete(0, tk.END)
+        self.e_Container_Size.delete(0, tk.END)
+        self.e_Container_Unit.delete(0, tk.END)
+        self.e_Barcode.delete(0, tk.END)
+        self.e_Location.delete(0, tk.END)
+        self.e_Supplier.delete(0, tk.END)
+        self.e_Expiry_Date.delete(0, tk.END)
+        self.e_Product_Code.delete(0, tk.END)
+        self.e_Documents.delete(0, tk.END)
+
+    def add_container(self):
+        pass
 
 
 class OrderRequest:
     def __init__(self, master):
         self.Products = tk.Frame(master, bg="green")
-        self.Products.place(height=640, width=720, x=0, y=0)
+        self.Products.place(height=640, width=720, x=-1, y=-1)
 
-        self.Container_Name = tk.Label(self.Products, text="Container Name:", font=('Arial', 12), fg="black",
-                                       anchor="w", )
-        self.Container_Name.place(height=40, width=350, x=15, y=15)
+        self.Container_Order_Title = tk.Label(self.Products, text="Container Name:", font=('Arial', 14), fg="black",
+                                              anchor="w", )
 
-        self.CAS_Number = tk.Label(self.Products, text="CAS Number:", font=('Arial', 12), fg="black", anchor="w", )
-        self.CAS_Number.place(height=40, width=350, x=15, y=15)
+        self.Container_Order_Title.place(height=40, width=150, x=10, y=5)
 
-        self.Container_Size = tk.Label(self.Products, text="Container Size:", font=('Arial', 12), fg="black",
-                                       anchor="w", )
-        self.Container_Size.place(height=40, width=350, x=15, y=15)
+        self.Container_Order_Name = tk.Label(self.Products, text="Container Name:", font=('Arial', 10), fg="black",
+                                             anchor="w", )
+        self.Container_Order_Name.place(height=20, width=120, x=10, y=60)
 
-        self.Container_Unit = tk.Label(self.Products, text="Units:", font=('Arial', 12), fg="black", anchor="w", )
-        self.Container_Unit.place(height=40, width=350, x=15, y=15)
+        self.CAS_Order_Number = tk.Label(self.Products, text="CAS Number:", font=('Arial', 10), fg="black",
+                                         anchor="w", )
+        self.CAS_Order_Number.place(height=20, width=120, x=10, y=110)
 
-        self.Comment = tk.Label(self.Products, text="Units:", font=('Arial', 12), fg="black", anchor="w", )
-        self.Comment.place(height=40, width=350, x=15, y=15)
+        self.Container_Order_Size = tk.Label(self.Products, text="Container Size:", font=('Arial', 10), fg="black",
+                                             anchor="w", )
+        self.Container_Order_Size.place(height=20, width=120, x=10, y=160)
 
-        self.Quantity = tk.Label(self.Products, text="Units:", font=('Arial', 12), fg="black", anchor="w", )
-        self.Quantity.place(height=40, width=350, x=15, y=15)
+        self.Container_Order_Supplier = tk.Label(self.Products, text="Supplier:", font=('Arial', 10), fg="black", anchor="w", )
+        self.Container_Order_Supplier.place(height=20, width=120, x=10, y=210)
+
+        self.Container_Order_Quantity = tk.Label(self.Products, text="Quantity:", font=('Arial', 10), fg="black", anchor="w", )
+        self.Container_Order_Quantity.place(height=20, width=120, x=10, y=260)
+
+        self.Container_Order_Link = tk.Label(self.Products, text="Link:", font=('Arial', 10), fg="black", anchor="w", )
+        self.Container_Order_Link.place(height=20, width=120, x=115, y=260)
+
+        self.Container_Order_Comment = tk.Label(self.Products, text="Comments", font=('Arial', 10), fg="black",
+                                                anchor="w", )
+        self.Container_Order_Comment.place(height=20, width=120, x=10, y=310)
+
+        # Enters
+
+        self.e_Container_Order_Name = ttk.Entry(self.Products)
+        self.e_Container_Order_Name.place(height=20, width=350, x=10, y=85)
+
+        self.e_CAS_Order_Number = ttk.Entry(self.Products)
+        self.e_CAS_Order_Number.place(height=20, width=350, x=10, y=135)
+
+        self.e_Container_Order_Size = ttk.Entry(self.Products)
+        self.e_Container_Order_Size.place(height=20, width=245, x=10, y=185)
+
+        self.e_Container_Order_Unit = ttk.Combobox(self.Products, values=Units)
+        self.e_Container_Order_Unit.place(height=20, width=75, x=285, y=185)
+
+        self.e_Container_Order_Supplier = ttk.Entry(self.Products)
+        self.e_Container_Order_Supplier.place(height=20, width=350, x=10, y=235)
+
+        self.e_Container_Order_Quantity = ttk.Entry(self.Products)
+        self.e_Container_Order_Quantity.place(height=20, width=75, x=10, y=285)
+
+        self.e_Container_Order_Link = ttk.Entry(self.Products)
+        self.e_Container_Order_Link.place(height=20, width=245, x=115, y=285)
+
+        self.e_Container_Comments = tk.Text(self.Products)
+        self.e_Container_Comments.place(height=80, width=350, x=10, y=335)
 
 
 class Locations:
     def __init__(self, master):
-        self.NewChemistry = tk.Frame(master, bg="pink")
-        self.NewChemistry.place(height=640, width=720, x=0, y=0)
+        self.Location = tk.Frame(master, bg="pink")
+        self.Location.place(height=640, width=720, x=0, y=0)
+
+        self.Location_Title = tk.Label(self.Location, text="Location", font=('Arial', 14), fg="black", anchor="w")
+
+        self.Location_Title.place(height=40, width=150, x=10, y=5)
 
 
 class MSDSandFileStorage:
     def __init__(self, master):
         self.MSDSF = tk.Frame(master, bg="gray")
-        self.MSDSF.place(height=640, width=720, x=-1, y=0)
+        self.MSDSF.place(height=640, width=720, x=-1, y=-1)
 
         Ikony = cl.Icons(master=self.MSDSF)
 
@@ -243,7 +306,7 @@ class MSDSandFileStorage:
         self.TitleFrame.tag_raise(0)
         self.TitleFrame.place(x=-2, y=-2)
 
-        self.MSDSF_Title = tk.Label(self.MSDSF, text="  (M)SDS and File Storage", font=(14), anchor = 'w')
+        self.MSDSF_Title = tk.Label(self.MSDSF, text="  (M)SDS and File Storage", font=(14), anchor='w')
         self.MSDSF_Title["compound"] = tk.LEFT
         self.MSDSF_Title["image"] = Ikony.document_ic
         self.MSDSF_Title.place(height=40, width=300, x=10, y=0)
@@ -254,7 +317,7 @@ class MSDSandFileStorage:
         self.Sep2 = ttk.Separator(orient='horizontal')
         self.Sep2.place(width=10, height=10, x=10, y=20)
 
-        self.Search = ttk.Entry(self.MSDSF, width=25,)
+        self.Search = ttk.Entry(self.MSDSF, width=25, )
         self.Search.place(height=25, width=120, x=460, y=7.5)
 
         self.Upload_Files = tk.Button(self.MSDSF, text=" Upload Files", image=Ikony.upload_ic, compound=tk.LEFT)
@@ -269,21 +332,21 @@ class MSDSandFileStorage:
         self.COA = tk.Label(self.MSDSF, text="COA", font=(14), anchor='w', cursor="hand2")
         self.COA.place(height=30, width=70, x=210, y=50)
 
-        self.Risk_Assessments = tk.Label(self.MSDSF, text="Risk Assessments", font=(14), anchor='w', cursor="hand2" )
+        self.Risk_Assessments = tk.Label(self.MSDSF, text="Risk Assessments", font=(14), anchor='w', cursor="hand2")
         self.Risk_Assessments.place(height=30, width=140, x=310, y=50)
 
         self.All_Files.bind("<Enter>", cl.click)
         self.All_Files.bind("<Leave>", cl.zwolnienie)
-       # self.All_Files.bind("<Button-1>", show_chemistry)
+        # self.All_Files.bind("<Button-1>", show_chemistry)
 
         self.MSDS.bind("<Enter>", cl.click)
         self.MSDS.bind("<Leave>", cl.zwolnienie)
-       # self.MSDS.bind("<Button-1>", show_chemistry)
+        # self.MSDS.bind("<Button-1>", show_chemistry)
 
         self.COA.bind("<Enter>", cl.click)
         self.COA.bind("<Leave>", cl.zwolnienie)
-        #self.COA.bind("<Button-1>", show_chemistry)
+        # self.COA.bind("<Button-1>", show_chemistry)
 
         self.Risk_Assessments.bind("<Enter>", cl.click)
         self.Risk_Assessments.bind("<Leave>", cl.zwolnienie)
-       # self.Risk_Assessments.bind("<Button-1>", show_chemistry)
+    # self.Risk_Assessments.bind("<Button-1>", show_chemistry)

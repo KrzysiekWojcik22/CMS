@@ -33,3 +33,26 @@ class Help:
 
         self.Sep5 = ttk.Separator(self.Help, orient='horizontal')
         self.Sep5.place(width=370, x=15, y=180)
+
+        self.CHPTitle.bind("<Button-1>", self.start_move)
+        self.CHPTitle.bind("<ButtonRelease-1>", self.stop_move)
+        self.CHPTitle.bind("<B1-Motion>", self.moving)
+
+    def start_move(self, event):
+        self.x = event.x
+        self.y = event.y
+
+    def stop_move(self, event):
+        self.x = None
+        self.y = None
+
+    def moving(self, event):
+        x = (event.x_root - self.x - self.Help.winfo_rootx() + self.Help.winfo_rootx())
+        y = (event.y_root - self.y - self.Help.winfo_rooty() + self.Help.winfo_rooty())
+        self.Help.geometry("+%s+%s" % (x, y))
+
+    def frame_mapped(self, e):
+        print(self, e)
+        self.Help.update_idletasks()
+        self.Help.overrideredirect(True)
+        self.Help.state('normal')

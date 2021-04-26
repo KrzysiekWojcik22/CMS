@@ -39,7 +39,7 @@ class MainWindow:
         PasekGora.bind("<Double-Button-1>", self.minimize)
         PasekGora.bind("<Map>", self.frame_mapped)
 
-        ### icony
+        # icony
 
         Icons = cl.Icons(self.master)
         logo = Icons.myLabel
@@ -153,7 +153,6 @@ class MainWindow:
 
         ### Potrzebuje ramki dla dodawania, show, order, chemistry,
 
-
         Home = tk.Frame(self.master)
         Home.place(x=199, y=118, height=610, width=850)
         StartPage(master=Home)
@@ -163,7 +162,6 @@ class MainWindow:
         ShowEq = tk.Frame(self.master)
         FChemistry = tk.Frame(self.master)
         FMakeOrder = tk.Frame(self.master)
-
 
         ### Bindowanie klawiszy funkcyjnych
 

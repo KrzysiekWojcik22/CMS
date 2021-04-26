@@ -1,10 +1,13 @@
 import tkinter as tk
 from tkinter import ttk
+from tkinter import messagebox
 import classes as cl
 import Colors as Col
 import categories as cat
 import mysql.connector
 from mysql.connector import errorcode
+import DataBaseOperation
+
 
 Color = Col.ColoursMainWindow()
 Cat_Semi = cat.EquipmentCategoriesSemiconductors()
@@ -280,8 +283,25 @@ class AddEquipmentSemiconductors:
         self.eQuintity.delete(0, tk.END)
 
     def polacz(self, *args):
-        ConnectDatabase.__init__(self, host='localhost', user='root', password='KrzysiekmySql12', database="sql-kurs")
-        ConnectDatabase.open_mysql(self)
+
+        RVName_S = self.eName.get()
+        RVGroup_S = self.eGroup.get()
+        RVSubCategory_S = self.eSubCategory.get()
+        RVModel_S = self.eModel.get()
+        RVAssembly_S = self.eAssembly.get()
+        RVSize_S = self.eSize.get()
+        RVWhere_S = self.eWhere.get()
+        RVQuantity_S = self.eQuintity.get()
+
+        print(RVName_S, RVGroup_S, RVSubCategory_S, RVModel_S, RVAssembly_S, RVSize_S, RVWhere_S, RVQuantity_S)
+
+        DataBaseOperation.ConnectDatabase.__init__(self, host='localhost', user='root', password='KrzysiekmySql12', database="sql-kurs")
+        DataBaseOperation.ConnectDatabase._open(self)
+        DataBaseOperation.ConnectDatabase.insert_semi(self, VName_S=RVName_S, VGroup_S=RVGroup_S, VSubCategory_S=RVSubCategory_S, VModel_S=RVModel_S,
+                              VAssembly_S=RVAssembly_S, VSize_S=RVSize_S, VWhere_S=RVWhere_S, VQuantity_S=RVQuantity_S)
+        DataBaseOperation.ConnectDatabase._close(self)
+        print("work ?")
+
 
 
 class AddEquipmentPassiveElements:
@@ -677,29 +697,4 @@ class AddWires:
             self.eSubCategoryWires.config(values=Cat_Wires.Cables_Accessories)
 
 
-class ConnectDatabase:
-    __host = None
-    __user = None
-    __password = None
-    __database = None
-
-    def __init__(self, host='localhost', user='root', password='', database=''):
-        self.__host = host
-        self.__user = user
-        self.__password = password
-        self.__database = database
-
-    def open_mysql(self):
-        try:
-            mydb = mysql.connector.connect(host=self.__host, user=self.__user,
-                                           password=self.__password,
-                                           database=self.__database)
-            self.__connection = mydb
-            self.__session = mydb.cursor()
-
-        except mysql.connector.Error as err:
-            if err.errno == errorcode.ER_ACCESS_DENIED_ERROR:
-                print("Something is wrong with your user name or password")
-            elif err.errno == errorcode.ER_BAD_DB_ERROR:
-                print("Database does not exists")
 

@@ -60,14 +60,14 @@ class MakeOrder:
     def check_order(self):
         check = self.conf.get()
         if check:
-            self.sent_order()
+            self.make_order()
             tk.messagebox.showinfo("Info", "Order was sent correctly")
             self.elName_of_the_Order.delete('1.0', 'end')
             self.eOrder.delete('1.0', 'end')
         elif not check:
             tk.messagebox.showerror("Error", "You must accept the terms of the orders")
 
-    def sent_order(self):
+    def make_order(self):
         receiver = "krzysiu.w@spoko.pl"
         Message = self.eOrder.get(1.0, "end-1c")
         yag = yagmail.SMTP("krzysiekpython@gmail.com", password="krzysiek123")
