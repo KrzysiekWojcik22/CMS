@@ -8,7 +8,6 @@ import mysql.connector
 from mysql.connector import errorcode
 import DataBaseOperation
 
-
 Color = Col.ColoursMainWindow()
 Cat_Semi = cat.EquipmentCategoriesSemiconductors()
 Cat_Passive = cat.EquipmentCategoriesPassiveElements()
@@ -176,17 +175,13 @@ class AddEquipmentSemiconductors:
         self.Add_Semi = tk.Frame(master, bg=Color.FrameBackground)
         self.Add_Semi.place(x=0, y=0, height=610, width=850)
 
-        self.AddComponent = tk.Button(self.Add_Semi, text='Add', font=14, bg=Color.WidgetButtons, fg='white',
-                                      command= self.polacz)
-        self.AddComponent.place(height=40, width=80, x=15, y=445)
+        self.b_AddComponent = tk.Button(self.Add_Semi, text='Add', font=14, bg=Color.WidgetButtons, fg='white',
+                                        command=self.process_add_semi)
+        self.b_AddComponent.place(height=40, width=80, x=15, y=445)
 
-        self.ClearComponent = tk.Button(self.Add_Semi, text='Clear', font=14, bg=Color.WidgetButtons, fg='white',
-                                        command=self.clear_enters)
-        self.ClearComponent.place(height=40, width=80, x=110, y=445)
-
-        self.UploadLink = tk.Button(self.Add_Semi, text='Upload Link', font=14, bg=Color.WidgetButtons, fg='white',
-                                    )
-        self.UploadLink.place(height=40, width=100, x=205, y=445)
+        self.b_ClearComponent = tk.Button(self.Add_Semi, text='Clear', font=14, bg=Color.WidgetButtons, fg='white',
+                                          command=self.clear_enters)
+        self.b_ClearComponent.place(height=40, width=80, x=110, y=445)
 
         self.UploadPdf = tk.Button(self.Add_Semi, text='Upload PDF', font=14, bg=Color.WidgetButtons, fg='white',
                                    )
@@ -198,110 +193,119 @@ class AddEquipmentSemiconductors:
                                  bg=Color.FrameBackground, fg='white')
         self.AddTitle.place(height=40, width=280, x=10, y=10)
 
-        self.lName = tk.Label(self.Add_Semi, text="Name:", bg=Color.FrameBackground)
-        self.lName.place(height=40, width=80, x=10, y=60)
+        self.l_Name = tk.Label(self.Add_Semi, text="Name:", bg=Color.FrameBackground)
+        self.l_Name.place(height=40, width=80, x=10, y=60)
 
-        self.lGroup = tk.Label(self.Add_Semi, text="Group:", bg=Color.FrameBackground)
-        self.lGroup.place(height=40, width=80, x=10, y=100)
+        self.l_Group = tk.Label(self.Add_Semi, text="Group:", bg=Color.FrameBackground)
+        self.l_Group.place(height=40, width=80, x=10, y=100)
 
-        self.lSubCategory = tk.Label(self.Add_Semi, text="SubCategory:", bg=Color.FrameBackground)
-        self.lSubCategory.place(height=40, width=80, x=10, y=140)
+        self.l_Category = tk.Label(self.Add_Semi, text="Category:", bg=Color.FrameBackground)
+        self.l_Category.place(height=40, width=80, x=10, y=140)
 
-        self.lModel = tk.Label(self.Add_Semi, text="Model:", bg=Color.FrameBackground)
-        self.lModel.place(height=40, width=80, x=10, y=180)
+        self.l_Model = tk.Label(self.Add_Semi, text="Model:", bg=Color.FrameBackground)
+        self.l_Model.place(height=40, width=80, x=10, y=180)
 
-        self.lAssembly = tk.Label(self.Add_Semi, text="Assembly:", bg=Color.FrameBackground)
-        self.lAssembly.place(height=40, width=80, x=10, y=220)
+        self.l_Assembly = tk.Label(self.Add_Semi, text="Assembly:", bg=Color.FrameBackground)
+        self.l_Assembly.place(height=40, width=80, x=10, y=220)
 
-        self.lSize = tk.Label(self.Add_Semi, text="Size:", bg=Color.FrameBackground)
-        self.lSize.place(height=40, width=80, x=10, y=260)
+        self.l_Size = tk.Label(self.Add_Semi, text="Size:", bg=Color.FrameBackground)
+        self.l_Size.place(height=40, width=80, x=10, y=260)
 
-        self.lWhere = tk.Label(self.Add_Semi, text="Where:", bg=Color.FrameBackground)
-        self.lWhere.place(height=40, width=80, x=10, y=300)
+        self.l_Where = tk.Label(self.Add_Semi, text="Where:", bg=Color.FrameBackground)
+        self.l_Where.place(height=40, width=80, x=10, y=300)
 
-        self.lQuintity = tk.Label(self.Add_Semi, text="Quantity:", bg=Color.FrameBackground)
-        self.lQuintity.place(height=40, width=80, x=10, y=340)
+        self.l_Quantity = tk.Label(self.Add_Semi, text="Quantity:", bg=Color.FrameBackground)
+        self.l_Quantity.place(height=40, width=80, x=10, y=340)
+
+        self.Link = tk.Label(self.Add_Semi, text="Link:", bg=Color.FrameBackground)
+        self.Link.place(height=40, width=40, x=360, y=340)
 
         # Entry
 
-        self.eName = ttk.Entry(self.Add_Semi, width=50)
-        self.eName.place(height=20, width=230, x=100, y=70)
+        self.e_Name = ttk.Entry(self.Add_Semi, width=50)
+        self.e_Name.place(height=20, width=230, x=100, y=70)
 
-        self.eGroup = ttk.Combobox(self.Add_Semi, values=Cat_Semi.SemiCat)
-        self.eGroup.place(height=20, width=230, x=100, y=110)
+        self.e_Group = ttk.Combobox(self.Add_Semi, values=Cat_Semi.SemiCat)
+        self.e_Group.place(height=20, width=230, x=100, y=110)
 
-        self.eSubCategory = ttk.Combobox(self.Add_Semi)
-        self.eSubCategory.bind("<Button-1>", self.choose_esubcategory)
-        self.eSubCategory.place(height=20, width=230, x=100, y=150)
+        self.e_Category = ttk.Combobox(self.Add_Semi)
+        self.e_Category.bind("<Button-1>", self.choose_category)
+        self.e_Category.place(height=20, width=230, x=100, y=150)
 
-        self.eModel = ttk.Entry(self.Add_Semi, width=50)
-        self.eModel.place(height=20, width=230, x=100, y=190)
+        self.e_Model = ttk.Entry(self.Add_Semi, width=50)
+        self.e_Model.place(height=20, width=230, x=100, y=190)
 
-        self.eAssembly = ttk.Combobox(self.Add_Semi)
-        self.eAssembly.place(height=20, width=230, x=100, y=230)
+        self.e_Assembly = ttk.Combobox(self.Add_Semi)
+        self.e_Assembly.place(height=20, width=230, x=100, y=230)
 
-        self.eSize = ttk.Entry(self.Add_Semi, width=50)
-        self.eSize.place(height=20, width=230, x=100, y=270)
+        self.e_Size = ttk.Entry(self.Add_Semi, width=50)
+        self.e_Size.place(height=20, width=230, x=100, y=270)
 
-        self.eWhere = ttk.Entry(self.Add_Semi, width=50)
-        self.eWhere.place(height=20, width=230, x=100, y=310)
+        self.e_Where = ttk.Entry(self.Add_Semi, width=50)
+        self.e_Where.place(height=20, width=230, x=100, y=310)
 
-        self.eQuintity = ttk.Entry(self.Add_Semi, width=50)
-        self.eQuintity.place(height=20, width=230, x=100, y=350)
+        self.e_Quantity = ttk.Entry(self.Add_Semi, width=50)
+        self.e_Quantity.place(height=20, width=230, x=100, y=350)
+
+        self.e_Link = tk.Entry(self.Add_Semi)
+        self.e_Link.place(height=20, width=250, x=410, y=350)
 
         # Wejscia link i dokumenty i obrazy
 
-        self.Link = tk.Label(self.Add_Semi, text="Tutaj będzie link", bg=Color.FrameBackground)
-        self.Link.place(height=40, width=180, x=360, y=340)
-
         self.Obraz = ttk.Button(self.Add_Semi, text="tutaj bedzie obraz")
-        self.Obraz.place(height=250, width=250, x=360, y=70)
+        self.Obraz.place(height=250, width=250, x=410, y=70)
 
-    def choose_esubcategory(self, *args):
-        category = self.eGroup.get()
+    def process_add_semi(self):
+        self.sent_to_database()
+        self.clear_enters()
+        tk.messagebox.showinfo("Add", "Item was added")
+
+    def choose_category(self, *args):
+        category = self.e_Group.get()
         if category == 'Diodes':
-            self.eSubCategory.config(values=Cat_Semi.Diodes)
+            self.e_Category.config(values=Cat_Semi.Diodes)
         elif category == 'Thyristors':
-            self.eSubCategory.config(values=Cat_Semi.Thyristors)
+            self.e_Category.config(values=Cat_Semi.Thyristors)
         elif category == 'Triacs':
-            self.eSubCategory.config(values=Cat_Semi.Triacs)
+            self.e_Category.config(values=Cat_Semi.Triacs)
         elif category == 'Diacs':
-            self.eSubCategory.config(values=Cat_Semi.Diacs)
+            self.e_Category.config(values=Cat_Semi.Diacs)
         elif category == 'Transistors':
-            self.eSubCategory.config(values=Cat_Semi.Transistors)
+            self.e_Category.config(values=Cat_Semi.Transistors)
         elif category == 'Integrated circuits':
-            self.eSubCategory.config(values=Cat_Semi.Integrated_circuits)
+            self.e_Category.config(values=Cat_Semi.Integrated_circuits)
 
     def clear_enters(self, *args):
-        self.eName.delete(0, tk.END)
-        self.eGroup.delete(0, tk.END)
-        self.eSubCategory.delete(0, tk.END)
-        self.eModel.delete(0, tk.END)
-        self.eAssembly.delete(0, tk.END)
-        self.eSize.delete(0, tk.END)
-        self.eWhere.delete(0, tk.END)
-        self.eQuintity.delete(0, tk.END)
+        self.e_Name.delete(0, tk.END)
+        self.e_Group.delete(0, tk.END)
+        self.e_Category.delete(0, tk.END)
+        self.e_Model.delete(0, tk.END)
+        self.e_Assembly.delete(0, tk.END)
+        self.e_Size.delete(0, tk.END)
+        self.e_Where.delete(0, tk.END)
+        self.e_Quantity.delete(0, tk.END)
+        self.e_Link.delete(0, tk.END)
 
-    def polacz(self, *args):
+    def sent_to_database(self, *args):
 
-        RVName_S = self.eName.get()
-        RVGroup_S = self.eGroup.get()
-        RVSubCategory_S = self.eSubCategory.get()
-        RVModel_S = self.eModel.get()
-        RVAssembly_S = self.eAssembly.get()
-        RVSize_S = self.eSize.get()
-        RVWhere_S = self.eWhere.get()
-        RVQuantity_S = self.eQuintity.get()
+        RVName_S = self.e_Name.get()
+        RVGroup_S = self.e_Group.get()
+        RVSubCategory_S = self.e_Category.get()
+        RVModel_S = self.e_Model.get()
+        RVAssembly_S = self.e_Assembly.get()
+        RVSize_S = self.e_Size.get()
+        RVWhere_S = self.e_Where.get()
+        RVQuantity_S = self.e_Quantity.get()
 
-        print(RVName_S, RVGroup_S, RVSubCategory_S, RVModel_S, RVAssembly_S, RVSize_S, RVWhere_S, RVQuantity_S)
-
-        DataBaseOperation.ConnectDatabase.__init__(self, host='localhost', user='root', password='KrzysiekmySql12', database="sql-kurs")
+        DataBaseOperation.ConnectDatabase.__init__(self, host='localhost', user='root', password='KrzysiekmySql12',
+                                                   database="sql-kurs")
         DataBaseOperation.ConnectDatabase._open(self)
-        DataBaseOperation.ConnectDatabase.insert_semi(self, VName_S=RVName_S, VGroup_S=RVGroup_S, VSubCategory_S=RVSubCategory_S, VModel_S=RVModel_S,
-                              VAssembly_S=RVAssembly_S, VSize_S=RVSize_S, VWhere_S=RVWhere_S, VQuantity_S=RVQuantity_S)
-        DataBaseOperation.ConnectDatabase._close(self)
-        print("work ?")
 
+        DataBaseOperation.ConnectDatabase.insert_semi(self, VName_S=RVName_S, VGroup_S=RVGroup_S,
+                                                      VSubCategory_S=RVSubCategory_S, VModel_S=RVModel_S,
+                                                      VAssembly_S=RVAssembly_S, VSize_S=RVSize_S, VWhere_S=RVWhere_S,
+                                                      VQuantity_S=RVQuantity_S)
+        DataBaseOperation.ConnectDatabase._close(self)
 
 
 class AddEquipmentPassiveElements:
@@ -695,6 +699,3 @@ class AddWires:
             self.eSubCategoryWires.config(values=Cat_Wires.Conduits_and_Insulating_Sleeves)
         elif category == 'Cables Accessories':
             self.eSubCategoryWires.config(values=Cat_Wires.Cables_Accessories)
-
-
-

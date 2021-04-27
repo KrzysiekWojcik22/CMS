@@ -22,7 +22,6 @@ class ConnectDatabase:
                                            database=self.__database)
             self.__connection = mydb
             self.__session = mydb.cursor()
-            print("połaczyłem sie")
 
         except mysql.connector.Error as err:
             if err.errno == errorcode.ER_ACCESS_DENIED_ERROR:
@@ -33,7 +32,6 @@ class ConnectDatabase:
     def _close(self):
         self.__session.close()
         self.__connection.close()
-        print("Zamknołem ")
 
     def insert_semi(self, VName_S, VGroup_S, VSubCategory_S, VModel_S, VAssembly_S, VSize_S, VWhere_S, VQuantity_S ):
         AddSemi = (f"Insert Into semiconductors(Name_S, Group_S, "
@@ -144,14 +142,14 @@ class ConnectDatabase:
         self.__connection.commit()
         messagebox.showinfo("Add EQ", "Item was added sucesfully")
         return self.__session.lastrowid
-    '''
-    def insert_make_order(self, user,when,stat):
-        Order = (f"Insert Into historyorder(Name_S, Group_S, "
-                   f"SubCategory_S, Model_S, Assembly_S, Size_S, Where_S, Quantity_S) "
-                   f"VALUES('{VName_S}','{VGroup_S}','{VSubCategory_S}','{VModel_S}',"
-                   f"'{VAssembly_S}','{VSize_S}','{VWhere_S}','{VQuantity_S}')")
-        self.__session.execute(AddSemi)
+
+    def insert_make_order(self, user_h, when_h, status_h, order_h, order_title, order_details):
+        Order = (f"Insert Into historyorder(User_H, When_H, "
+                   f"Status_H, Order_H, Order_Title, Order_Details) "
+                   f"VALUES('{user_h}','{when_h}','{status_h}','{order_h}',"
+                   f"'{order_title}','{order_details}')")
+
+        self.__session.execute(Order)
         self.__connection.commit()
-        messagebox.showinfo("Add EQ", "Item was added sucesfully")
+        messagebox.showinfo("Order", "Your order was sent")
         return self.__session.lastrowid
-    '''
