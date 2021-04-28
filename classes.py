@@ -137,13 +137,7 @@ class zwolnienie:
         event.widget.config(bg='#3C3E45')
 
 
-class GenerateNewPassword:
-    def __init__(self):
-        import random
-        self.Letters = "1234567890qwertyuiopasdfghjklzxcvbnmQWERTYUIOPASDFGHJKLZXCVBNM!@#$%^&*[]{}:;'"
-        self.PasswordLength = 10
-        self.Password = "".join(random.sample(self.Letters, self.PasswordLength))
-        print(self.Password)
+
 
 class PasswordMessage:
     def __init__(self,Password):

@@ -9,6 +9,9 @@ from tkinter import ttk
 from MainWindow import MainWindow
 import windowxd as w
 import Colors as Col
+import DataBaseOperation
+import MySQLdb
+
 
 ### Definie colours
 Colors = Col.ColoursLoginWindow()
@@ -93,7 +96,7 @@ class LoginToApp:
 
         self.CreateNewAccount.bind("<Button-1>", CreateNewAccount)
         self.CreateNewAccount.bind("<Enter>", cl.UnderlineOn)
-        self.CreateNewAccount.bind("<Leave>",cl.UnderLineOff)
+        self.CreateNewAccount.bind("<Leave>", cl.UnderLineOff)
 
         self.UserLoginLabel.bind("<Button-1>", ForgotPassword)
         self.UserLoginLabel.bind("<Enter>", cl.UnderlineOn)
@@ -415,20 +418,20 @@ class CreateNewAccount:
         self.Sep3 = ttk.Separator(self.CNAW, orient='horizontal')
         self.Sep3.place(width=420, x=15, y=380)
 
-        self.NewUserName = tk.Label(self.CNAW, text='Add User Name', fg='black', bg='white')
+        self.NewUserName = tk.Label(self.CNAW, text='Name:', fg='black', bg='white')
         self.NewUserName.place(height=40, width=100, x=0, y=90)
 
-        self.NewUserEmail = tk.Label(self.CNAW, text='Add User Email', fg='black', bg='white')
+        self.NewUserEmail = tk.Label(self.CNAW, text='Email:', fg='black', bg='white')
         self.NewUserEmail.place(height=40, width=100, x=0, y=140)
 
-        self.NewUserEGM = tk.Label(self.CNAW, text='Add User EGM ', fg='black', bg='white')
-        self.NewUserEGM.place(height=40, width=100, x=0, y=190)
+        self.NewUserSupervisor = tk.Label(self.CNAW, text='Supervisor:', fg='black', bg='white')
+        self.NewUserSupervisor.place(height=40, width=100, x=0, y=190)
 
-        self.NewUserDivision = tk.Label(self.CNAW, text='Add User Division ', fg='black', bg='white')
-        self.NewUserDivision.place(height=40, width=100, x=0, y=240)
+        self.NewUserRole = tk.Label(self.CNAW, text='Role:', fg='black', bg='white')
+        self.NewUserRole.place(height=40, width=100, x=0, y=240)
 
-        self.NewUserReason = tk.Label(self.CNAW, text='Add User Reason ', fg='black', bg='white')
-        self.NewUserReason.place(height=40, width=100, x=0, y=290)
+        self.NewUserDivision = tk.Label(self.CNAW, text='Division:', fg='black', bg='white')
+        self.NewUserDivision.place(height=40, width=100, x=0, y=290)
 
         self.eNewUserName = ttk.Entry(self.CNAW, width=50)
         self.eNewUserName.place(height=30, width=280, x=150, y=100)
@@ -436,18 +439,72 @@ class CreateNewAccount:
         self.eNewUserEmail = ttk.Entry(self.CNAW, width=50)
         self.eNewUserEmail.place(height=30, width=280, x=150, y=150)
 
-        self.eNewUserEGM = ttk.Entry(self.CNAW, width=50)
-        self.eNewUserEGM.place(height=30, width=280, x=150, y=200)
+        self.eNewUserSupervisor = ttk.Entry(self.CNAW, width=50)
+        self.eNewUserSupervisor.place(height=30, width=280, x=150, y=200)
+
+        self.eNewUserRole = ttk.Entry(self.CNAW, width=50)
+        self.eNewUserRole.place(height=30, width=280, x=150, y=250)
 
         self.eNewUserDivision = ttk.Entry(self.CNAW, width=50)
-        self.eNewUserDivision.place(height=30, width=280, x=150, y=250)
+        self.eNewUserDivision.place(height=30, width=280, x=150, y=300)
 
-        self.eNewUserReason = ttk.Entry(self.CNAW, width=50)
-        self.eNewUserReason.place(height=30, width=280, x=150, y=300)
-
-        self.NewUserRequest = tk.Button(self.CNAW, text='Request for Account', font=14, bg='#0052cc', fg='white', )
-        # command=self.requestForNewAccount)
+        self.NewUserRequest = tk.Button(self.CNAW, text='Request for Account', font=14, bg='#0052cc', fg='white',
+                                        command=self.start_process_create_new_account)
         self.NewUserRequest.place(height=50, width=150, x=280, y=420)
 
+        self.CNAWTitle.bind("<Button-1>", self.startMove)
+        self.CNAWTitle.bind("<ButtonRelease-1>", self.stopMove)
+        self.CNAWTitle.bind("<B1-Motion>", self.moving)
+
+    def startMove(self, event):
+        self.x = event.x
+        self.y = event.y
+
+    def stopMove(self, event):
+        self.x = None
+        self.y = None
+
+    def moving(self, event):
+        x = (event.x_root - self.x - self.CNAW.winfo_rootx() + self.CNAW.winfo_rootx())
+        y = (event.y_root - self.y - self.CNAW.winfo_rooty() + self.CNAW.winfo_rooty())
+        self.CNAW.geometry("+%s+%s" % (x, y))
+
+    def start_process_create_new_account(self):
+        self.get_values()
+        self.generate_password()
+        self.sent_to_database()
+        #self.test()
+        self.clear_values()
+
+    def get_values(self):
+        self.Name = self.eNewUserName.get()
+        self.Email = self.eNewUserEmail.get()
+        self.Supervisor = self.eNewUserSupervisor.get()
+        self.Role = self.eNewUserRole.get()
+        self.Division = self.eNewUserDivision.get()
+
+
+    def clear_values(self):
+        self.eNewUserName.delete(0, tk.END)
+        self.eNewUserEmail.delete(0, tk.END)
+        self.eNewUserSupervisor.delete(0, tk.END)
+        self.eNewUserRole.delete(0, tk.END)
+        self.eNewUserDivision.delete(0, tk.END)
+
+    def generate_password(self):
+        import random
+        self.Letters = "1234567890qwertyuiopasdfghjklzxcvbnmQWERTYUIOPASDFGHJKLZXCVBNM!@#$%^&*[]{}:;'"
+        self.PasswordLength = 10
+        self.Password = "".join(random.sample(self.Letters, self.PasswordLength))
+
+    def sent_to_database(self):
+        DataBaseOperation.ConnectDatabase.__init__(self, host="192.168.0.18", port=3306, user="Krzysiek", password="start123", database="CMS")
+        DataBaseOperation.ConnectDatabase._open(self)
+        DataBaseOperation.ConnectDatabase.insert_create_new_account(self, User_name=self.Name, User_email=self.Email,
+                                                                    User_supervisor=self.Supervisor,
+                                                                    User_role=self.Role,
+                                                                    User_password=self.Password)
+
+        DataBaseOperation.ConnectDatabase._close(self)
 
 LoginToApp()
