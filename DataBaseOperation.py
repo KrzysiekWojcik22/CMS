@@ -36,15 +36,14 @@ class ConnectDatabase:
         self.__session.close()
         self.__connection.close()
 
-    def insert_semi(self, VName_S, VGroup_S, VSubCategory_S, VModel_S, VAssembly_S, VSize_S, VWhere_S, VQuantity_S):
-        AddSemi = (f"Insert Into semiconductors(Name_S, Group_S, "
-                   f"SubCategory_S, Model_S, Assembly_S, Size_S, Where_S, Quantity_S) "
-                   f"VALUES('{VName_S}','{VGroup_S}','{VSubCategory_S}','{VModel_S}',"
-                   f"'{VAssembly_S}','{VSize_S}','{VWhere_S}','{VQuantity_S}')")
+    def insert_semi(self, Name_S, Group_S, Category_S, Model_S, Assembly_S, Size_S, Where_S, Quantity_S, Link_S, Picture_S):
+        AddSemi = (f"Insert Into Semiconductors(Name_S, Group_S, "
+                   f"Category_S, Model_S, Assembly_S, Size_S, Where_S, Quantity_S, Link_S, Picture_S) "
+                   f"VALUES('{Name_S}','{Group_S}','{Category_S}','{Model_S}',"
+                   f"'{Assembly_S}','{Size_S}','{Where_S}','{Quantity_S}','{Link_S}','{Picture_S}')")
         self.__session.execute(AddSemi)
         self.__connection.commit()
         messagebox.showinfo("Add EQ", "Item was added sucesfully")
-        return self.__session.lastrowid
 
     def insert_pasive(self, VName_S, VGroup_S, VSubCategory_S, VModel_S, VAssembly_S, VSize_S, VWhere_S, VQuantity_S):
         AddSemi = (f"Insert Into semiconductors(Name_S, Group_S, "
@@ -161,10 +160,10 @@ class ConnectDatabase:
         return self.__session.lastrowid
 
 
-    def insert_create_new_account(self, User_name, User_email, User_supervisor, User_role, User_password):
+    def insert_create_new_account(self, User_name, User_email, User_supervisor, User_role, User_division, User_password):
         Create_new_account = (f"Insert Into Users(User_name, User_email, "
-                              f"User_supervisor, User_role, User_password) "
-                              f"VALUES('{User_name}','{User_email}','{User_supervisor}','{User_role}','{User_password}')")
+                              f"User_supervisor, User_role,User_division, User_password) "
+                              f"VALUES('{User_name}','{User_email}','{User_supervisor}','{User_role}','{User_division}','{User_password}')")
 
         self.__session.execute(Create_new_account)
         self.__connection.commit()

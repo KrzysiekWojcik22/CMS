@@ -1,12 +1,16 @@
 import tkinter as tk
 from tkinter import ttk
 from tkinter import messagebox
+from tkinter import filedialog
 import classes as cl
 import Colors as Col
 import categories as cat
 import mysql.connector
 from mysql.connector import errorcode
 import DataBaseOperation
+from PIL import ImageTk, Image
+import MySQLdb
+
 
 Color = Col.ColoursMainWindow()
 Cat_Semi = cat.EquipmentCategoriesSemiconductors()
@@ -252,13 +256,8 @@ class AddEquipmentSemiconductors:
 
         # Wejscia link i dokumenty i obrazy
 
-        self.Obraz = ttk.Button(self.Add_Semi, text="tutaj bedzie obraz")
+        self.Obraz = ttk.Button(self.Add_Semi, text="tutaj bedzie obraz",command = self.open_img)
         self.Obraz.place(height=250, width=250, x=410, y=70)
-
-    def process_add_semi(self):
-        self.sent_to_database()
-        self.clear_enters()
-        tk.messagebox.showinfo("Add", "Item was added")
 
     def choose_category(self, *args):
         category = self.e_Group.get()
@@ -275,6 +274,27 @@ class AddEquipmentSemiconductors:
         elif category == 'Integrated circuits':
             self.e_Category.config(values=Cat_Semi.Integrated_circuits)
 
+    def open_img(self):
+
+        path = filedialog.askopenfilename()
+        img = Image.open(path)
+        img = img.resize((250, 250), Image.ANTIALIAS)
+        img=ImageTk.PhotoImage(img)
+        panel = tk.Label(self.Add_Semi, image=img)
+        panel.image = img
+        panel.place(height=250, width=250, x=410, y=70)
+
+        
+
+
+
+
+    def process_add_semi(self):
+        self.get_values()
+        self.sent_to_database()
+        self.clear_enters()
+        tk.messagebox.showinfo("Add", "Item was added")
+
     def clear_enters(self, *args):
         self.e_Name.delete(0, tk.END)
         self.e_Group.delete(0, tk.END)
@@ -286,25 +306,29 @@ class AddEquipmentSemiconductors:
         self.e_Quantity.delete(0, tk.END)
         self.e_Link.delete(0, tk.END)
 
+    def get_values(self):
+        self.RVName_S = self.e_Name.get()
+        self.RVGroup_S = self.e_Group.get()
+        self.RVSubCategory_S = self.e_Category.get()
+        self.RVModel_S = self.e_Model.get()
+        self.RVAssembly_S = self.e_Assembly.get()
+        self.RVSize_S = self.e_Size.get()
+        self.RVWhere_S = self.e_Where.get()
+        self.RVQuantity_S = self.e_Quantity.get()
+        self.RVLink_S = self.e_Link.get()
+        self.Namepictures = "tak"
+
+
     def sent_to_database(self, *args):
+        DataBaseOperation.ConnectDatabase.__init__(self, host="10.224.20.18", port=3306, user="Krzysiek", password="start123", database="CMS")
 
-        RVName_S = self.e_Name.get()
-        RVGroup_S = self.e_Group.get()
-        RVSubCategory_S = self.e_Category.get()
-        RVModel_S = self.e_Model.get()
-        RVAssembly_S = self.e_Assembly.get()
-        RVSize_S = self.e_Size.get()
-        RVWhere_S = self.e_Where.get()
-        RVQuantity_S = self.e_Quantity.get()
-
-        DataBaseOperation.ConnectDatabase.__init__(self, host='localhost', user='root', password='KrzysiekmySql12',
-                                                   database="sql-kurs")
         DataBaseOperation.ConnectDatabase._open(self)
 
-        DataBaseOperation.ConnectDatabase.insert_semi(self, VName_S=RVName_S, VGroup_S=RVGroup_S,
-                                                      VSubCategory_S=RVSubCategory_S, VModel_S=RVModel_S,
-                                                      VAssembly_S=RVAssembly_S, VSize_S=RVSize_S, VWhere_S=RVWhere_S,
-                                                      VQuantity_S=RVQuantity_S)
+        DataBaseOperation.ConnectDatabase.insert_semi(self, Name_S=self.RVName_S, Group_S=self.RVGroup_S,
+                                                      Category_S=self.RVSubCategory_S, Model_S=self.RVModel_S,
+                                                      Assembly_S=self.RVAssembly_S, Size_S=self.RVSize_S,
+                                                      Where_S=self.RVWhere_S, Quantity_S=self.RVQuantity_S,
+                                                      Link_S=self.RVLink_S, Picture_S=self.Namepictures)
         DataBaseOperation.ConnectDatabase._close(self)
 
 
