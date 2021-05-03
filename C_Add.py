@@ -1,16 +1,13 @@
 import tkinter as tk
-from tkinter import ttk
-from tkinter import messagebox
-from tkinter import filedialog
 import classes as cl
 import Colors as Col
 import categories as cat
-import mysql.connector
-from mysql.connector import errorcode
 import DataBaseOperation
-from PIL import ImageTk, Image
-import MySQLdb
 
+from tkinter import ttk
+from tkinter import messagebox
+from tkinter import filedialog
+from PIL import ImageTk, Image
 
 Color = Col.ColoursMainWindow()
 Cat_Semi = cat.EquipmentCategoriesSemiconductors()
@@ -108,7 +105,7 @@ class AddEquipmentFirst:
 
         self.AddOptoelectronic.bind("<Enter>", cl.click)
         self.AddOptoelectronic.bind("<Leave>", cl.zwolnienie)
-        # self.AddOptoelectronic.bind("<Button-1>", showOptoelectronic)
+        self.AddOptoelectronic.bind("<Button-1>", lambda x: self.add_optoelectronics())
 
         self.AddConnectors.bind("<Enter>", cl.click)
         self.AddConnectors.bind("<Leave>", cl.zwolnienie)
@@ -120,11 +117,11 @@ class AddEquipmentFirst:
 
         self.AddPCAccesories.bind("<Enter>", cl.click)
         self.AddPCAccesories.bind("<Leave>", cl.zwolnienie)
-        # self.AddPCAccesories.bind("<Button-1>", showPCAccessories)
+        self.AddPCAccesories.bind("<Button-1>", lambda x: self.add_pc_accessories())
 
         self.AddSwitches.bind("<Enter>", cl.click)
         self.AddSwitches.bind("<Leave>", cl.zwolnienie)
-        # self.AddSwitches.bind("<Button-1>", showSwitches)
+        self.AddSwitches.bind("<Button-1>", lambda x: self.add_switches())
 
         self.AddWires.bind("<Enter>", cl.click)
         self.AddWires.bind("<Leave>", cl.zwolnienie)
@@ -132,15 +129,15 @@ class AddEquipmentFirst:
 
         self.AddMechanics.bind("<Enter>", cl.click)
         self.AddMechanics.bind("<Leave>", cl.zwolnienie)
-        # self.AddMechanics.bind("<Button-1>", showMechanics)
+        self.AddMechanics.bind("<Button-1>", lambda x: self.add_mechanics())
 
         self.AddLaboratory.bind("<Enter>", cl.click)
         self.AddLaboratory.bind("<Leave>", cl.zwolnienie)
-        # self.AddLaboratory.bind("<Button-1>", showLaboratory)
+        self.AddLaboratory.bind("<Button-1>", lambda x: self.add_lab())
 
         self.AddOthers.bind("<Enter>", cl.click)
         self.AddOthers.bind("<Leave>", cl.zwolnienie)
-        # self.AddOthers.bind("<Button-1>", showOthers)
+        self.AddOthers.bind("<Button-1>", lambda x: self.add_others())
 
     def add_semiconductors(self):
         AddEquipmentSemiconductors(master=self.PadAdd2)
@@ -148,30 +145,32 @@ class AddEquipmentFirst:
     def add_passive_elements(self):
         AddEquipmentPassiveElements(master=self.PadAdd2)
 
-    def add_opto_electronics(self):
-        pass
+    def add_optoelectronics(self):
+        AddOptoelectronics(master=self.PadAdd2)
 
     def add_connectors(self):
         AddConnectors(master=self.PadAdd2)
 
     def add_energy_sources(self):
-        print("Hello")
         AddEnergySources(master=self.PadAdd2)
 
     def add_pc_accessories(self):
-        pass
+        AddPCAccessories(master=self.PadAdd2)
+
+    def add_switches(self):
+        AddSwitches(master=self.PadAdd2)
 
     def add_wires(self):
         AddWires(master=self.PadAdd2)
 
     def add_mechanics(self):
-        pass
+        AddMechanics(master=self.PadAdd2)
 
     def add_lab(self):
-        pass
+        AddLaboratory(master=self.PadAdd2)
 
     def add_others(self):
-        pass
+        AddOthers(master=self.PadAdd2)
 
 
 class AddEquipmentSemiconductors:
@@ -193,7 +192,7 @@ class AddEquipmentSemiconductors:
 
         # Labelki
 
-        self.AddTitle = tk.Label(self.Add_Semi, font=("Arial", 20), text="Add new item:", anchor='w',
+        self.AddTitle = tk.Label(self.Add_Semi, font=("Arial", 20), text="Add new item:  Semiconductors", anchor='w',
                                  bg=Color.FrameBackground, fg='white')
         self.AddTitle.place(height=40, width=280, x=10, y=10)
 
@@ -230,6 +229,7 @@ class AddEquipmentSemiconductors:
         self.e_Name.place(height=20, width=230, x=100, y=70)
 
         self.e_Group = ttk.Combobox(self.Add_Semi, values=Cat_Semi.SemiCat)
+        self.e_Group.bind("<Button-1>", self.reset_category)
         self.e_Group.place(height=20, width=230, x=100, y=110)
 
         self.e_Category = ttk.Combobox(self.Add_Semi)
@@ -256,8 +256,11 @@ class AddEquipmentSemiconductors:
 
         # Wejscia link i dokumenty i obrazy
 
-        self.Obraz = ttk.Button(self.Add_Semi, text="tutaj bedzie obraz",command = self.open_img)
+        self.Obraz = ttk.Button(self.Add_Semi, text="tutaj bedzie obraz", command=self.open_img)
         self.Obraz.place(height=250, width=250, x=410, y=70)
+
+    def reset_category(self, *args):
+        self.e_Category.delete(0, tk.END)
 
     def choose_category(self, *args):
         category = self.e_Group.get()
@@ -279,15 +282,10 @@ class AddEquipmentSemiconductors:
         path = filedialog.askopenfilename()
         img = Image.open(path)
         img = img.resize((250, 250), Image.ANTIALIAS)
-        img=ImageTk.PhotoImage(img)
+        img = ImageTk.PhotoImage(img)
         panel = tk.Label(self.Add_Semi, image=img)
         panel.image = img
         panel.place(height=250, width=250, x=410, y=70)
-
-        
-
-
-
 
     def process_add_semi(self):
         self.get_values()
@@ -318,12 +316,10 @@ class AddEquipmentSemiconductors:
         self.RVLink_S = self.e_Link.get()
         self.Namepictures = "tak"
 
-
     def sent_to_database(self, *args):
-        DataBaseOperation.ConnectDatabase.__init__(self, host="10.224.20.18", port=3306, user="Krzysiek", password="start123", database="CMS")
-
+        DataBaseOperation.ConnectDatabase.__init__(self, host="10.224.20.18", port=3306, user="Krzysiek",
+                                                   password="start123", database="CMS")
         DataBaseOperation.ConnectDatabase._open(self)
-
         DataBaseOperation.ConnectDatabase.insert_semi(self, Name_S=self.RVName_S, Group_S=self.RVGroup_S,
                                                       Category_S=self.RVSubCategory_S, Model_S=self.RVModel_S,
                                                       Assembly_S=self.RVAssembly_S, Size_S=self.RVSize_S,
@@ -337,17 +333,13 @@ class AddEquipmentPassiveElements:
         self.Add_Passive = tk.Frame(master, bg=Color.FrameBackground)
         self.Add_Passive.place(x=0, y=0, height=610, width=850)
 
-        self.AddPassive = tk.Button(self.Add_Passive, text='Add', font=14, bg=Color.Buttons_Background,
-                                    fg='white')
-        self.AddPassive.place(height=40, width=80, x=15, y=520)
+        self.b_AddPassive = tk.Button(self.Add_Passive, text='Add', font=14, bg=Color.Buttons_Background,
+                                      fg='white', command=self.process_add_passive)
+        self.b_AddPassive.place(height=40, width=80, x=15, y=520)
 
         self.ClearPassive = tk.Button(self.Add_Passive, text='Clear', font=14, bg=Color.Buttons_Background,
-                                      fg='white')
+                                      fg='white', command=self.clear_enters)
         self.ClearPassive.place(height=40, width=80, x=110, y=520)
-
-        self.UploadLinkPassive = tk.Button(self.Add_Passive, text='Upload Link', font=14, bg=Color.Buttons_Background,
-                                           fg='white')
-        self.UploadLinkPassive.place(height=40, width=100, x=205, y=520)
 
         self.UploadPdfPassive = tk.Button(self.Add_Passive, text='Upload PDF', font=14, bg=Color.Buttons_Background,
                                           fg='white')
@@ -355,103 +347,290 @@ class AddEquipmentPassiveElements:
 
         # Labelki
 
-        self.AddTitlePassive = tk.Label(self.Add_Passive, font=("Arial", 20), text="Add new item:", anchor='w',
-                                        bg=Color.FrameBackground, fg='white')
+        self.AddTitlePassive = tk.Label(self.Add_Passive, font=("Arial", 20), text="Add new item:  Passive elements",
+                                        anchor='w', bg=Color.FrameBackground, fg='white')
         self.AddTitlePassive.place(height=40, width=280, x=10, y=10)
 
-        self.lNamePassive = tk.Label(self.Add_Passive, text="Name:", bg=Color.FrameBackground)
-        self.lNamePassive.place(height=40, width=80, x=10, y=60)
+        self.l_NamePassive = tk.Label(self.Add_Passive, text="Name:", bg=Color.FrameBackground)
+        self.l_NamePassive.place(height=40, width=80, x=10, y=60)
 
-        self.lGroupPassive = tk.Label(self.Add_Passive, text="Group:", bg=Color.FrameBackground)
-        self.lGroupPassive.place(height=40, width=80, x=10, y=100)
+        self.l_GroupPassive = tk.Label(self.Add_Passive, text="Group:", bg=Color.FrameBackground)
+        self.l_GroupPassive.place(height=40, width=80, x=10, y=100)
 
-        self.lSubCategoryPassive = tk.Label(self.Add_Passive, text="SubCategory:", bg=Color.FrameBackground)
-        self.lSubCategoryPassive.place(height=40, width=80, x=10, y=140)
+        self.l_CategoryPassive = tk.Label(self.Add_Passive, text="Category:", bg=Color.FrameBackground)
+        self.l_CategoryPassive.place(height=40, width=80, x=10, y=140)
 
-        self.lModelPassive = tk.Label(self.Add_Passive, text="Model:", bg=Color.FrameBackground)
-        self.lModelPassive.place(height=40, width=80, x=10, y=180)
+        self.l_ModelPassive = tk.Label(self.Add_Passive, text="Model:", bg=Color.FrameBackground)
+        self.l_ModelPassive.place(height=40, width=80, x=10, y=180)
 
-        self.lAssembly = tk.Label(self.Add_Passive, text="Assembly:", bg=Color.FrameBackground)
-        self.lAssembly.place(height=40, width=80, x=10, y=220)
+        self.l_Assembly = tk.Label(self.Add_Passive, text="Assembly:", bg=Color.FrameBackground)
+        self.l_Assembly.place(height=40, width=80, x=10, y=220)
 
-        self.lSizePassive = tk.Label(self.Add_Passive, text="Size:", bg=Color.FrameBackground)
-        self.lSizePassive.place(height=40, width=80, x=10, y=260)
+        self.l_SizePassive = tk.Label(self.Add_Passive, text="Size:", bg=Color.FrameBackground)
+        self.l_SizePassive.place(height=40, width=80, x=10, y=260)
 
-        self.lValuePassive = tk.Label(self.Add_Passive, text="Value:", bg=Color.FrameBackground)
-        self.lValuePassive.place(height=40, width=80, x=10, y=300)
+        self.l_ValuePassive = tk.Label(self.Add_Passive, text="Value:", bg=Color.FrameBackground)
+        self.l_ValuePassive.place(height=40, width=80, x=10, y=300)
 
-        self.lTolerancePassive = tk.Label(self.Add_Passive, text="Tolerance:", bg=Color.FrameBackground)
-        self.lTolerancePassive.place(height=40, width=80, x=10, y=340)
+        self.l_TolerancePassive = tk.Label(self.Add_Passive, text="Tolerance:", bg=Color.FrameBackground)
+        self.l_TolerancePassive.place(height=40, width=80, x=10, y=340)
 
-        self.lWatsPassive = tk.Label(self.Add_Passive, text="Wats:", bg=Color.FrameBackground)
-        self.lWatsPassive.place(height=40, width=80, x=10, y=380)
+        self.l_WatsPassive = tk.Label(self.Add_Passive, text="Wats:", bg=Color.FrameBackground)
+        self.l_WatsPassive.place(height=40, width=80, x=10, y=380)
 
-        self.lWherePassive = tk.Label(self.Add_Passive, text="Where:", bg=Color.FrameBackground)
-        self.lWherePassive.place(height=40, width=80, x=10, y=420)
+        self.l_WherePassive = tk.Label(self.Add_Passive, text="Where:", bg=Color.FrameBackground)
+        self.l_WherePassive.place(height=40, width=80, x=10, y=420)
 
-        self.lQuantityPassive = tk.Label(self.Add_Passive, text="Quantity:", bg=Color.FrameBackground)
-        self.lQuantityPassive.place(height=40, width=80, x=10, y=460)
+        self.l_QuantityPassive = tk.Label(self.Add_Passive, text="Quantity:", bg=Color.FrameBackground)
+        self.l_QuantityPassive.place(height=40, width=80, x=10, y=460)
+
+        self.Link = tk.Label(self.Add_Passive, text="Link:", bg=Color.FrameBackground)
+        self.Link.place(height=40, width=180, x=290, y=340)
 
         # Wejscia
 
-        self.eNamePassive = ttk.Entry(self.Add_Passive, width=50)
-        self.eNamePassive.place(height=20, width=230, x=100, y=70)
-        self.eGroupPassive = ttk.Combobox(self.Add_Passive, values=Cat_Passive.PassiveElementsGroup)
-        self.eGroupPassive.place(height=20, width=230, x=100, y=110)
+        self.e_NamePassive = ttk.Entry(self.Add_Passive, width=50)
+        self.e_NamePassive.place(height=20, width=230, x=100, y=70)
 
-        self.eSubCategoryPassive = ttk.Combobox(self.Add_Passive)
-        self.eSubCategoryPassive.bind("<Button-1>", self.choose_passive)
-        self.eSubCategoryPassive.place(height=20, width=230, x=100, y=150)
+        self.e_GroupPassive = ttk.Combobox(self.Add_Passive, values=Cat_Passive.PassiveElementsGroup)
+        self.e_GroupPassive.bind("<Button-1>", self.reset_category)
+        self.e_GroupPassive.place(height=20, width=230, x=100, y=110)
 
-        self.eModelPassive = ttk.Entry(self.Add_Passive, width=50)
-        self.eModelPassive.place(height=20, width=230, x=100, y=190)
+        self.e_CategoryPassive = ttk.Combobox(self.Add_Passive)
+        self.e_CategoryPassive.bind("<Button-1>", self.choose_passive)
+        self.e_CategoryPassive.place(height=20, width=230, x=100, y=150)
 
-        self.eAssemblyPassive = ttk.Combobox(self.Add_Passive, )
-        self.eAssemblyPassive.place(height=20, width=230, x=100, y=230)
+        self.e_ModelPassive = ttk.Entry(self.Add_Passive, width=50)
+        self.e_ModelPassive.place(height=20, width=230, x=100, y=190)
 
-        self.eSizePassive = ttk.Entry(self.Add_Passive, width=50)
-        self.eSizePassive.place(height=20, width=230, x=100, y=270)
+        self.e_AssemblyPassive = ttk.Combobox(self.Add_Passive, )
+        self.e_AssemblyPassive.place(height=20, width=230, x=100, y=230)
 
-        self.eValuePassive = ttk.Entry(self.Add_Passive, width=50)
-        self.eValuePassive.place(height=20, width=230, x=100, y=310)
+        self.e_SizePassive = ttk.Entry(self.Add_Passive, width=50)
+        self.e_SizePassive.place(height=20, width=230, x=100, y=270)
 
-        self.eTolerancePassive = ttk.Entry(self.Add_Passive, width=50)
-        self.eTolerancePassive.place(height=20, width=230, x=100, y=350)
+        self.e_ValuePassive = ttk.Entry(self.Add_Passive, width=50)
+        self.e_ValuePassive.place(height=20, width=230, x=100, y=310)
 
-        self.eWatsPassive = ttk.Entry(self.Add_Passive, width=50)
-        self.eWatsPassive.place(height=20, width=230, x=100, y=390)
+        self.e_TolerancePassive = ttk.Entry(self.Add_Passive, width=50)
+        self.e_TolerancePassive.place(height=20, width=230, x=100, y=350)
 
-        self.eWherePassive = ttk.Entry(self.Add_Passive, width=50)
-        self.eWherePassive.place(height=20, width=230, x=100, y=430)
+        self.e_WatsPassive = ttk.Entry(self.Add_Passive, width=50)
+        self.e_WatsPassive.place(height=20, width=230, x=100, y=390)
 
-        self.eQuantityPassive = ttk.Entry(self.Add_Passive, width=50)
-        self.eQuantityPassive.place(height=20, width=230, x=100, y=470)
+        self.e_WherePassive = ttk.Entry(self.Add_Passive, width=50)
+        self.e_WherePassive.place(height=20, width=230, x=100, y=430)
+
+        self.e_QuantityPassive = ttk.Entry(self.Add_Passive, width=50)
+        self.e_QuantityPassive.place(height=20, width=230, x=100, y=470)
+
+        self.e_Link = tk.Entry(self.Add_Passive)
+        self.e_Link.place(height=20, width=250, x=410, y=350)
 
         ###
-        self.Link = tk.Label(self.Add_Passive, text="Tutaj będzie link", bg=Color.FrameBackground)
-        self.Link.place(height=40, width=180, x=360, y=340)
-
         self.Obraz = ttk.Button(self.Add_Passive, text="tutaj bedzie obraz")
-        self.Obraz.place(height=250, width=250, x=360, y=70)
+        self.Obraz.place(height=250, width=250, x=410, y=70)
+
+    def reset_category(self, *args):
+        self.e_CategoryPassive.delete(0, tk.END)
 
     def choose_passive(self, *args):
-        category = self.eGroupPassive.get()
+        category = self.e_GroupPassive.get()
         if category == 'Resistors':
-            self.eSubCategoryPassive.config(values=Cat_Passive.Resistors)
+            self.e_CategoryPassive.config(values=Cat_Passive.Resistors)
         elif category == 'Capacitors':
-            self.eSubCategoryPassive.config(values=Cat_Passive.Capacitors)
+            self.e_CategoryPassive.config(values=Cat_Passive.Capacitors)
         elif category == 'Inductors':
-            self.eSubCategoryPassive.config(values=Cat_Passive.Inductors)
-        elif category == 'EMI_EMC_components':
-            self.eSubCategoryPassive.config(values=Cat_Passive.EMI_EMC_components)
-        elif category == 'Quartz_crystals_and_filters':
-            self.eSubCategoryPassive.config(values=Cat_Passive.Quartz_crystals_and_filters)
+            self.e_CategoryPassive.config(values=Cat_Passive.Inductors)
+        elif category == 'EMI EMC components':
+            self.e_CategoryPassive.config(values=Cat_Passive.EMI_EMC_components)
+        elif category == 'Quartz crystals and filters':
+            self.e_CategoryPassive.config(values=Cat_Passive.Quartz_crystals_and_filters)
         elif category == 'Potentiometers':
-            self.eSubCategoryPassive.config(values=Cat_Passive.Potentiometers)
+            self.e_CategoryPassive.config(values=Cat_Passive.Potentiometers)
         elif category == 'Encoders':
-            self.eSubCategoryPassive.config(values=Cat_Passive.Encoders)
-        elif category == 'NTC_thermistors':
-            self.eSubCategoryPassive.config(values=Cat_Passive.NTC_thermistors)
+            self.e_CategoryPassive.config(values=Cat_Passive.Encoders)
+        elif category == 'NTC thermistors':
+            self.e_CategoryPassive.config(values=Cat_Passive.NTC_thermistors)
+
+    def process_add_passive(self):
+        self.get_values()
+        self.clear_enters()
+        self.sent_to_database()
+        messagebox.showinfo("Add EQ", "Item was added successfully")
+
+    def get_values(self):
+        self.name = self.e_NamePassive.get()
+        self.group = self.e_GroupPassive.get()
+        self.category = self.e_CategoryPassive.get()
+        self.model = self.e_ModelPassive.get()
+        self.assembly = self.e_AssemblyPassive.get()
+        self.size = self.e_SizePassive.get()
+        self.value = self.e_ValuePassive.get()
+        self.tolerance = self.e_TolerancePassive.get()
+        self.wats = self.e_WatsPassive.get()
+        self.quantity = self.e_QuantityPassive.get()
+        self.where = self.e_WherePassive.get()
+        self.link = self.e_Link.get()
+
+    def clear_enters(self):
+        self.e_NamePassive.delete(0, tk.END)
+        self.e_GroupPassive.delete(0, tk.END)
+        self.e_CategoryPassive.delete(0, tk.END)
+        self.e_ModelPassive.delete(0, tk.END)
+        self.e_AssemblyPassive.delete(0, tk.END)
+        self.e_SizePassive.delete(0, tk.END)
+        self.e_ValuePassive.delete(0, tk.END)
+        self.e_TolerancePassive.delete(0, tk.END)
+        self.e_WatsPassive.delete(0, tk.END)
+        self.e_QuantityPassive.delete(0, tk.END)
+        self.e_WherePassive.delete(0, tk.END)
+        self.e_Link.delete(0, tk.END)
+
+    def sent_to_database(self, *args):
+        DataBaseOperation.ConnectDatabase.__init__(self, host="10.224.20.18", port=3306, user="Krzysiek",
+                                                   password="start123", database="CMS")
+
+        DataBaseOperation.ConnectDatabase._open(self)
+
+        DataBaseOperation.ConnectDatabase.insert_passive(self, name=self.name, group=self.group, category=self.category,
+                                                         model=self.model, assembly=self.assembly, size=self.size,
+                                                         value=self.value, tolerance=self.tolerance, wats=self.wats,
+                                                         where=self.where, quantity=self.quantity,
+                                                         link=self.link, picture='tak')
+        DataBaseOperation.ConnectDatabase._close(self)
+
+
+class AddOptoelectronics:
+    def __init__(self, master):
+        self.Add_Opto = tk.Frame(master, bg="blue")
+        self.Add_Opto.place(x=-1, y=-1, height=610, width=850)
+
+        self.b_Add_Opto = tk.Button(self.Add_Opto, text='Add', font=14, bg=Color.Buttons_Background,
+                                    fg='white', )
+        self.b_Add_Opto.place(height=40, width=80, x=15, y=520)
+
+        self.Clear_Opto = tk.Button(self.Add_Opto, text='Clear', font=14, bg=Color.Buttons_Background,
+                                    fg='white', command=self.clear_enters)
+        self.Clear_Opto.place(height=40, width=80, x=110, y=520)
+
+        self.UploadPdfPassive = tk.Button(self.Add_Opto, text='Upload PDF', font=14, bg=Color.Buttons_Background,
+                                          fg='white')
+        self.UploadPdfPassive.place(height=40, width=100, x=320, y=520)
+
+        # Labelki
+
+        self.Add_Title_Opto = tk.Label(self.Add_Opto, font=("Arial", 20), text="Add new item:  Optoelectronics",
+                                       anchor='w',
+                                       bg=Color.FrameBackground, fg='white')
+        self.Add_Title_Opto.place(height=40, width=480, x=10, y=10)
+
+        self.l_Name_Opto = tk.Label(self.Add_Opto, text="Name:", bg=Color.FrameBackground)
+        self.l_Name_Opto.place(height=40, width=80, x=10, y=60)
+
+        self.l_Group_Opto = tk.Label(self.Add_Opto, text="Group:", bg=Color.FrameBackground)
+        self.l_Group_Opto.place(height=40, width=80, x=10, y=100)
+
+        self.l_Category_Opto = tk.Label(self.Add_Opto, text="Category:", bg=Color.FrameBackground)
+        self.l_Category_Opto.place(height=40, width=80, x=10, y=140)
+
+        self.l_Model_Opto = tk.Label(self.Add_Opto, text="Model:", bg=Color.FrameBackground)
+        self.l_Model_Opto.place(height=40, width=80, x=10, y=180)
+
+        self.l_Assembly_Opto = tk.Label(self.Add_Opto, text="Assembly:", bg=Color.FrameBackground)
+        self.l_Assembly_Opto.place(height=40, width=80, x=10, y=220)
+
+        self.l_Size_Opto = tk.Label(self.Add_Opto, text="Size:", bg=Color.FrameBackground)
+        self.l_Size_Opto.place(height=40, width=80, x=10, y=260)
+
+        self.l_Colour_Opto = tk.Label(self.Add_Opto, text="Colour:", bg=Color.FrameBackground)
+        self.l_Colour_Opto.place(height=40, width=80, x=10, y=300)
+
+        self.l_Wats_Opto = tk.Label(self.Add_Opto, text="Wats:", bg=Color.FrameBackground)
+        self.l_Wats_Opto.place(height=40, width=80, x=10, y=340)
+
+        self.l_Where_Opto = tk.Label(self.Add_Opto, text="Where:", bg=Color.FrameBackground)
+        self.l_Where_Opto.place(height=40, width=80, x=10, y=380)
+
+        self.l_QuantityPassive = tk.Label(self.Add_Opto, text="Quantity:", bg=Color.FrameBackground)
+        self.l_QuantityPassive.place(height=40, width=80, x=10, y=420)
+
+        self.Link_Opto = tk.Label(self.Add_Opto, text="Link:", bg=Color.FrameBackground)
+        self.Link_Opto.place(height=40, width=180, x=290, y=340)
+
+        # Wejscia
+
+        self.e_Name_Opto = ttk.Entry(self.Add_Opto, width=50)
+        self.e_Name_Opto.place(height=20, width=230, x=100, y=70)
+
+        self.e_Group_Opto = ttk.Combobox(self.Add_Opto, values=Cat_Opto.Opto_Group)
+        self.e_Group_Opto.bind("<Button-1>", self.reset_category)
+        self.e_Group_Opto.place(height=20, width=230, x=100, y=110)
+
+        self.e_Category_Opto = ttk.Combobox(self.Add_Opto)
+        self.e_Category_Opto.bind("<Button-1>", self.choose_opto)
+        self.e_Category_Opto.place(height=20, width=230, x=100, y=150)
+
+        self.e_Model_Opto = ttk.Entry(self.Add_Opto, width=50)
+        self.e_Model_Opto.place(height=20, width=230, x=100, y=190)
+
+        self.e_Assembly_Opto = ttk.Combobox(self.Add_Opto, )
+        self.e_Assembly_Opto.place(height=20, width=230, x=100, y=230)
+
+        self.e_Size_Opto = ttk.Entry(self.Add_Opto, width=50)
+        self.e_Size_Opto.place(height=20, width=230, x=100, y=270)
+
+        self.e_Colour_Opto = ttk.Entry(self.Add_Opto, width=50)
+        self.e_Colour_Opto.place(height=20, width=230, x=100, y=310)
+
+        self.e_Wats_Opto = ttk.Entry(self.Add_Opto, width=50)
+        self.e_Wats_Opto.place(height=20, width=230, x=100, y=350)
+
+        self.e_Where_Opto = ttk.Entry(self.Add_Opto, width=50)
+        self.e_Where_Opto.place(height=20, width=230, x=100, y=390)
+
+        self.e_Quantity_Opto = ttk.Entry(self.Add_Opto, width=50)
+        self.e_Quantity_Opto.place(height=20, width=230, x=100, y=430)
+
+        self.e_Link_Opto = tk.Entry(self.Add_Opto)
+        self.e_Link_Opto.place(height=20, width=250, x=410, y=350)
+
+        ###
+        self.Obraz = ttk.Button(self.Add_Opto, text="tutaj bedzie obraz")
+        self.Obraz.place(height=250, width=250, x=410, y=70)
+
+    def reset_category(self, *args):
+        self.e_Category_Opto.delete(0, tk.END)
+
+    def choose_opto(self, *args):
+        category = self.e_Category_Opto.get()
+        if category == 'LEDs':
+            self.e_Category_Opto.config(values=Cat_Opto.LEDs)
+        elif category == 'LED indicators':
+            self.e_Category_Opto.config(values=Cat_Opto.LED_indicators)
+        elif category == 'Displays':
+            self.e_Category_Opto.config(values=Cat_Opto.Displays)
+        elif category == 'Optocouplers':
+            self.e_Category_Opto.config(values=Cat_Opto.Optocouplers)
+        elif category == 'Photoelements':
+            self.e_Category_Opto.config(values=Cat_Opto.Photoelements)
+        elif category == 'Laser':
+            self.e_Category_Opto.config(values=Cat_Opto.Laser)
+
+    def get_values(self):
+        pass
+
+    def clear_enters(self):
+        self.e_Name_Opto.delete(0, tk.END)
+        self.e_Group_Opto.delete(0, tk.END)
+        self.e_Category_Opto.delete(0, tk.END)
+        self.e_Model_Opto.delete(0, tk.END)
+        self.e_Assembly_Opto.delete(0, tk.END)
+        self.e_Size_Opto.delete(0, tk.END)
+        self.e_Colour_Opto.delete(0, tk.END)
+        self.e_Wats_Opto.delete(0, tk.END)
+        self.e_Quantity_Opto.delete(0, tk.END)
+        self.e_Link_Opto.delete(0, tk.END)
 
 
 class AddConnectors:
@@ -638,6 +817,18 @@ class AddEnergySources:
         self.Obraz.place(height=250, width=250, x=360, y=70)
 
 
+class AddPCAccessories:
+    def __init__(self, master):
+        self.Add_PCAccesories = tk.Frame(master, bg="green")
+        self.Add_PCAccesories.place(x=0, y=0, height=610, width=850)
+
+
+class AddSwitches:
+    def __init__(self, master):
+        self.Add_Switches = tk.Frame(master, bg="red")
+        self.Add_Switches.place(x=0, y=0, height=610, width=850)
+
+
 class AddWires:
     def __init__(self, master):
         self.Add_Wires = tk.Frame(master, bg=Color.FrameBackground)
@@ -723,3 +914,21 @@ class AddWires:
             self.eSubCategoryWires.config(values=Cat_Wires.Conduits_and_Insulating_Sleeves)
         elif category == 'Cables Accessories':
             self.eSubCategoryWires.config(values=Cat_Wires.Cables_Accessories)
+
+
+class AddMechanics:
+    def __init__(self, master):
+        self.Add_Mechanics = tk.Frame(master, bg="blue")
+        self.Add_Mechanics.place(x=0, y=0, height=610, width=850)
+
+
+class AddLaboratory:
+    def __init__(self, master):
+        self.Add_Lab = tk.Frame(master, bg="blue")
+        self.Add_Lab.place(x=0, y=0, height=610, width=850)
+
+
+class AddOthers:
+    def __init__(self, master):
+        self.Add_Others = tk.Frame(master, bg="yellow")
+        self.Add_Others.place(x=0, y=0, height=610, width=850)

@@ -362,36 +362,36 @@ class ForgotPassword:
         self.CNFW.title('Forgot Password')  # ustawienie tytułu okna głównego
         screen_width = self.CNFW.winfo_screenwidth()
         screen_height = self.CNFW.winfo_screenheight()
-        CNFW_width = 400
-        CNFW_height = 250
+        CNFW_width = 390
+        CNFW_height = 260
         center_x = int(screen_width / 2 - CNFW_width / 2)
         center_y = int(screen_height / 2 - CNFW_height / 2)
         self.CNFW.geometry(f'{CNFW_width}x{CNFW_height}+{center_x}+{center_y}')
         self.CNFW.resizable(False, False)
-        self.CNFW.attributes('-topmost')
+        self.CNFW.attributes('-topmost', True)
         self.CNFW.configure(bg='white')
 
-        self.CNAWTitle = tk.Label(self.CNFW, text='Forgot Password',
-                                  bg='#0052cc', fg='white', font=("Helvetica", 14))
+        self.CNAWTitle = tk.Label(self.CNFW, text='   Forgot Password ? ',
+                                  bg='#0052cc', fg='white', font=("Helvetica", 14), anchor='w')
         self.CNAWTitle.place(height=55, width=400, x=0, y=0)
 
         self.Sep4 = ttk.Separator(self.CNFW, orient='horizontal')
-        self.Sep4.place(width=370, x=15, y=180)
+        self.Sep4.place(width=355, x=15, y=170)
 
-        self.NewUserName = tk.Label(self.CNFW, text='Add User Name', fg='black', bg='white')
-        self.NewUserName.place(height=40, width=100, x=0, y=60)
+        self.NewUserName = tk.Label(self.CNFW, text='User Name', fg='black', bg='white')
+        self.NewUserName.place(height=40, width=100, x=0, y=70)
 
-        self.NewUserEmail = tk.Label(self.CNFW, text='Add User Email', fg='black', bg='white')
-        self.NewUserEmail.place(height=40, width=100, x=0, y=110)
+        self.NewUserEmail = tk.Label(self.CNFW, text='User Email', fg='black', bg='white')
+        self.NewUserEmail.place(height=40, width=100, x=0, y=120)
 
         self.eNewUserName = ttk.Entry(self.CNFW, width=50)
-        self.eNewUserName.place(height=30, width=220, x=150, y=70)
+        self.eNewUserName.place(height=20, width=220, x=150, y=80)
 
         self.eNewUserEmail = ttk.Entry(self.CNFW, width=50)
-        self.eNewUserEmail.place(height=30, width=220, x=150, y=120)
+        self.eNewUserEmail.place(height=20, width=220, x=150, y=130)
 
-        self.ForgotPassword = tk.Button(self.CNFW, text='Request for Account', font=14, bg='#0052cc', fg='white',
-                                        command=cl.GenerateNewPassword)
+        self.ForgotPassword = tk.Button(self.CNFW, text='Reset Password', font=14, bg='#0052cc', fg='white',
+                                        )
         self.ForgotPassword.place(height=50, width=150, x=220, y=190)
 
 
@@ -402,55 +402,63 @@ class CreateNewAccount:
         self.CNAW.title('Create New Account')  # ustawienie tytułu okna głównego
         screen_width = self.CNAW.winfo_screenwidth()
         screen_height = self.CNAW.winfo_screenheight()
-        CNAW_width = 480
-        CNAW_height = 500
+        CNAW_width = 425
+        CNAW_height = 405
         center_x = int(screen_width / 2 - CNAW_width / 2)
         center_y = int(screen_height / 2 - CNAW_height / 2)
         self.CNAW.geometry(f'{CNAW_width}x{CNAW_height}+{center_x}+{center_y}')
-        self.CNAW.resizable(False, False)
-        self.CNAW.attributes('-topmost')
+        self.CNAW.attributes('-topmost', True)
         self.CNAW.configure(bg='white')
 
         self.CNAWTitle = tk.Label(self.CNAW, text='    Create New Account',
                                   bg='#0052cc', fg='white', font=("Helvetica", 14), anchor = 'w')
         self.CNAWTitle.place(height=55, width=480, x=0, y=0)
 
+        self.close = tk.Label(self.CNAW, font=("Arial", 11), anchor=tk.CENTER, bg='#0052cc', text="X", cursor="hand2")
+        self.close.place(x=370, y=0, width=55, height=55)
+
+        self.close.bind("<Enter>", cl.Hover)
+        self.close.bind("<Leave>", cl.Unhover)
+        self.close.bind("<Button-1>", lambda x: self.CNAW.destroy())
+
         self.Sep3 = ttk.Separator(self.CNAW, orient='horizontal')
-        self.Sep3.place(width=420, x=15, y=380)
+        self.Sep3.place(width=395, x=15, y=320)
 
         self.NewUserName = tk.Label(self.CNAW, text='Name:', fg='black', bg='white', anchor='w')
-        self.NewUserName.place(height=40, width=100, x=20, y=90)
+        self.NewUserName.place(height=40, width=100, x=20, y=70)
 
         self.NewUserEmail = tk.Label(self.CNAW, text='Email:', fg='black', bg='white', anchor='w')
-        self.NewUserEmail.place(height=40, width=100, x=20, y=140)
+        self.NewUserEmail.place(height=40, width=100, x=20, y=120)
 
         self.NewUserSupervisor = tk.Label(self.CNAW, text='Supervisor:', fg='black', bg='white', anchor='w')
-        self.NewUserSupervisor.place(height=40, width=100, x=20, y=190)
+        self.NewUserSupervisor.place(height=40, width=100, x=20, y=170)
 
         self.NewUserRole = tk.Label(self.CNAW, text='Role:', fg='black', bg='white', anchor='w')
-        self.NewUserRole.place(height=20, width=100, x=20, y=240)
+        self.NewUserRole.place(height=20, width=100, x=20, y=230)
 
         self.NewUserDivision = tk.Label(self.CNAW, text='Division:', fg='black', bg='white', anchor='w')
-        self.NewUserDivision.place(height=20, width=100, x=20, y=290)
+        self.NewUserDivision.place(height=20, width=100, x=20, y=280)
 
         self.eNewUserName = ttk.Entry(self.CNAW, width=50)
-        self.eNewUserName.place(height=20, width=260, x=150, y=100)
+        self.eNewUserName.place(height=20, width=260, x=150, y=80)
 
         self.eNewUserEmail = ttk.Entry(self.CNAW, width=50)
-        self.eNewUserEmail.place(height=20, width=260, x=150, y=150)
+        self.eNewUserEmail.place(height=20, width=260, x=150, y=130)
 
         self.eNewUserSupervisor = ttk.Entry(self.CNAW, width=50)
-        self.eNewUserSupervisor.place(height=20, width=260, x=150, y=200)
+        self.eNewUserSupervisor.place(height=20, width=260, x=150, y=180)
 
         self.eNewUserRole = ttk.Entry(self.CNAW, width=50)
-        self.eNewUserRole.place(height=20, width=260, x=150, y=250)
+        self.eNewUserRole.place(height=20, width=260, x=150, y=230)
 
-        self.eNewUserDivision = ttk.Entry(self.CNAW, width=50)
-        self.eNewUserDivision.place(height=20, width=260, x=150, y=300)
+        Division = ["AS&UX", "CS", "UX"]
 
-        self.NewUserRequest = tk.Button(self.CNAW, text='Request for Account', font=14, bg='#0052cc', fg='white',
+        self.eNewUserDivision = ttk.Combobox(self.CNAW, values=Division, width=50)
+        self.eNewUserDivision.place(height=20, width=260, x=150, y=280)
+
+        self.NewUserRequest = tk.Button(self.CNAW, text='Create new account', font=14, bg='#0052cc', fg='white',
                                         command=self.start_process_create_new_account)
-        self.NewUserRequest.place(height=50, width=150, x=260, y=420)
+        self.NewUserRequest.place(height=50, width=150, x=260, y=340)
 
         self.CNAWTitle.bind("<Button-1>", self.startMove)
         self.CNAWTitle.bind("<ButtonRelease-1>", self.stopMove)
@@ -505,5 +513,6 @@ class CreateNewAccount:
                                                                     User_password=self.Password)
 
         DataBaseOperation.ConnectDatabase._close(self)
+
 
 LoginToApp()
