@@ -451,9 +451,9 @@ class CreateNewAccount:
         self.eNewUserRole = ttk.Entry(self.CNAW, width=50)
         self.eNewUserRole.place(height=20, width=260, x=150, y=230)
 
-        Division = ["AS&UX", "CS", "UX"]
+        division = ["AS&UX", "CS", "UX"]
 
-        self.eNewUserDivision = ttk.Combobox(self.CNAW, values=Division, width=50)
+        self.eNewUserDivision = ttk.Combobox(self.CNAW, values=division, width=50)
         self.eNewUserDivision.place(height=20, width=260, x=150, y=280)
 
         self.NewUserRequest = tk.Button(self.CNAW, text='Create new account', font=14, bg='#0052cc', fg='white',
@@ -479,17 +479,21 @@ class CreateNewAccount:
 
     def start_process_create_new_account(self):
         self.get_values()
-        self.generate_password()
-        self.sent_to_database()
-        #self.test()
         self.clear_values()
+        messagebox.showinfo("New account", "Account was created successfully ")
 
     def get_values(self):
-        self.Name = self.eNewUserName.get()
-        self.Email = self.eNewUserEmail.get()
-        self.Supervisor = self.eNewUserSupervisor.get()
-        self.Role = self.eNewUserRole.get()
-        self.Division = self.eNewUserDivision.get()
+        self.name = self.eNewUserName.get()
+        self.email = self.eNewUserEmail.get()
+        self.supervisor = self.eNewUserSupervisor.get()
+        self.role = self.eNewUserRole.get()
+        self.division = self.eNewUserDivision.get()
+
+        if self.name == "" or self.email == "" or self.supervisor == "" or self.role == "" or self.division == "":
+            messagebox.showerror("Error", "All Fields are required")
+        else:
+            self.generate_password()
+            self.sent_to_database()
 
     def clear_values(self):
         self.eNewUserName.delete(0, tk.END)
@@ -507,9 +511,9 @@ class CreateNewAccount:
     def sent_to_database(self):
         DataBaseOperation.ConnectDatabase.__init__(self, host="10.224.20.18", port=3306, user="Krzysiek", password="start123", database="CMS")
         DataBaseOperation.ConnectDatabase._open(self)
-        DataBaseOperation.ConnectDatabase.insert_create_new_account(self, User_name=self.Name, User_email=self.Email,
-                                                                    User_supervisor=self.Supervisor,
-                                                                    User_role=self.Role, User_division=self.Division,
+        DataBaseOperation.ConnectDatabase.insert_create_new_account(self, User_name=self.name, User_email=self.email,
+                                                                    User_supervisor=self.supervisor,
+                                                                    User_role=self.role, User_division=self.division,
                                                                     User_password=self.Password)
 
         DataBaseOperation.ConnectDatabase._close(self)

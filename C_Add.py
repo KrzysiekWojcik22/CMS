@@ -176,7 +176,7 @@ class AddEquipmentFirst:
 class AddEquipmentSemiconductors:
     def __init__(self, master):
         self.Add_Semi = tk.Frame(master, bg=Color.FrameBackground)
-        self.Add_Semi.place(x=0, y=0, height=610, width=850)
+        self.Add_Semi.place(x=-1, y=-1, height=610, width=850)
 
         self.b_AddComponent = tk.Button(self.Add_Semi, text='Add', font=14, bg=Color.WidgetButtons, fg='white',
                                         command=self.process_add_semi)
@@ -194,7 +194,7 @@ class AddEquipmentSemiconductors:
 
         self.AddTitle = tk.Label(self.Add_Semi, font=("Arial", 20), text="Add new item:  Semiconductors", anchor='w',
                                  bg=Color.FrameBackground, fg='white')
-        self.AddTitle.place(height=40, width=280, x=10, y=10)
+        self.AddTitle.place(height=40, width=480, x=10, y=10)
 
         self.l_Name = tk.Label(self.Add_Semi, text="Name:", bg=Color.FrameBackground)
         self.l_Name.place(height=40, width=80, x=10, y=60)
@@ -331,7 +331,7 @@ class AddEquipmentSemiconductors:
 class AddEquipmentPassiveElements:
     def __init__(self, master):
         self.Add_Passive = tk.Frame(master, bg=Color.FrameBackground)
-        self.Add_Passive.place(x=0, y=0, height=610, width=850)
+        self.Add_Passive.place(x=-1, y=-1, height=610, width=850)
 
         self.b_AddPassive = tk.Button(self.Add_Passive, text='Add', font=14, bg=Color.Buttons_Background,
                                       fg='white', command=self.process_add_passive)
@@ -349,7 +349,7 @@ class AddEquipmentPassiveElements:
 
         self.AddTitlePassive = tk.Label(self.Add_Passive, font=("Arial", 20), text="Add new item:  Passive elements",
                                         anchor='w', bg=Color.FrameBackground, fg='white')
-        self.AddTitlePassive.place(height=40, width=280, x=10, y=10)
+        self.AddTitlePassive.place(height=40, width=480, x=10, y=10)
 
         self.l_NamePassive = tk.Label(self.Add_Passive, text="Name:", bg=Color.FrameBackground)
         self.l_NamePassive.place(height=40, width=80, x=10, y=60)
@@ -507,7 +507,7 @@ class AddOptoelectronics:
         self.Add_Opto.place(x=-1, y=-1, height=610, width=850)
 
         self.b_Add_Opto = tk.Button(self.Add_Opto, text='Add', font=14, bg=Color.Buttons_Background,
-                                    fg='white', )
+                                    fg='white', command=self.process_add_connectors)
         self.b_Add_Opto.place(height=40, width=80, x=15, y=520)
 
         self.Clear_Opto = tk.Button(self.Add_Opto, text='Clear', font=14, bg=Color.Buttons_Background,
@@ -603,7 +603,7 @@ class AddOptoelectronics:
         self.e_Category_Opto.delete(0, tk.END)
 
     def choose_opto(self, *args):
-        category = self.e_Category_Opto.get()
+        category = self.e_Group_Opto.get()
         if category == 'LEDs':
             self.e_Category_Opto.config(values=Cat_Opto.LEDs)
         elif category == 'LED indicators':
@@ -617,8 +617,24 @@ class AddOptoelectronics:
         elif category == 'Laser':
             self.e_Category_Opto.config(values=Cat_Opto.Laser)
 
+    def process_add_connectors(self):
+        self.get_values()
+        self.clear_enters()
+        self.sent_to_database()
+        messagebox.showinfo("Add EQ", "Item was added successfully")
+
     def get_values(self):
-        pass
+        self.name = self.e_Name_Opto.get()
+        self.group = self.e_Group_Opto.get()
+        self.category = self.e_Category_Opto.get()
+        self.model = self.e_Model_Opto.get()
+        self.assembly = self.e_Assembly_Opto.get()
+        self.size = self.e_Size_Opto.get()
+        self.colour = self.e_Colour_Opto.get()
+        self.wats = self.e_Wats_Opto.get()
+        self.where = self.e_Where_Opto.get()
+        self.quantity = self.e_Quantity_Opto.get()
+        self.link = self.e_Link_Opto.get()
 
     def clear_enters(self):
         self.e_Name_Opto.delete(0, tk.END)
@@ -632,25 +648,34 @@ class AddOptoelectronics:
         self.e_Quantity_Opto.delete(0, tk.END)
         self.e_Link_Opto.delete(0, tk.END)
 
+    def sent_to_database(self):
+
+        DataBaseOperation.ConnectDatabase.__init__(self, host="10.224.20.18", port=3306, user="Krzysiek",
+                                                   password="start123", database="CMS")
+        DataBaseOperation.ConnectDatabase._open(self)
+
+        DataBaseOperation.ConnectDatabase.insert_opto(self, name=self.name, group=self.group, category=self.category,
+                                                      model=self.model, assembly=self.assembly, size=self.size,
+                                                      colour=self.colour, wats=self.wats, where=self.where,
+                                                      quantity=self.quantity, link=self.link)
+        DataBaseOperation.ConnectDatabase._close(self)
+
 
 class AddConnectors:
     def __init__(self, master):
         self.Add_Con = tk.Frame(master, bg=Color.FrameBackground)
-        self.Add_Con.place(x=0, y=0, height=610, width=850)
+        self.Add_Con.place(x=-1, y=-1, height=610, width=850)
 
         ### BUTTONS
 
-        self.AddCon = tk.Button(self.Add_Con, text='Add', font=14, bg=Color.WidgetButtons, fg='white'
-                                )
+        self.AddCon = tk.Button(self.Add_Con, text='Add', font=14, bg=Color.WidgetButtons, fg='white',
+                                command=self.process_add_connectors)
         self.AddCon.place(height=40, width=80, x=15, y=445)
 
         self.ClearCon = tk.Button(self.Add_Con, text='Clear', font=14, bg=Color.WidgetButtons, fg='white',
-                                  )
-        self.ClearCon.place(height=40, width=80, x=110, y=445)
+                                  command=self.clear_enters)
 
-        self.UploadLink = tk.Button(self.Add_Con, text='Upload Link', font=14, bg=Color.WidgetButtons, fg='white',
-                                    )
-        self.UploadLink.place(height=40, width=100, x=205, y=445)
+        self.ClearCon.place(height=40, width=80, x=110, y=445)
 
         self.UploadPdf = tk.Button(self.Add_Con, text='Upload PDF', font=14, bg=Color.WidgetButtons, fg='white',
                                    )
@@ -658,82 +683,124 @@ class AddConnectors:
 
         ### Labels
 
-        self.AddTitleCon = tk.Label(self.Add_Con, font=("Arial", 20), text="Add new item:", anchor='w',
+        self.AddTitleCon = tk.Label(self.Add_Con, font=("Arial", 20), text="Add new item:  Connectors", anchor='w',
                                     bg=Color.FrameBackground, fg='white')
         self.AddTitleCon.place(height=40, width=280, x=10, y=10)
 
-        self.lNameCon = tk.Label(self.Add_Con, text="Name:", bg=Color.FrameBackground)
-        self.lNameCon.place(height=40, width=80, x=10, y=60)
+        self.l_Name_Con = tk.Label(self.Add_Con, text="Name:", bg=Color.FrameBackground)
+        self.l_Name_Con.place(height=40, width=80, x=10, y=60)
 
-        self.lGroupCon = tk.Label(self.Add_Con, text="Group:", bg=Color.FrameBackground)
-        self.lGroupCon.place(height=40, width=80, x=10, y=100)
+        self.l_Group_Con = tk.Label(self.Add_Con, text="Group:", bg=Color.FrameBackground)
+        self.l_Group_Con.place(height=40, width=80, x=10, y=100)
 
-        self.lSubCategoryCon = tk.Label(self.Add_Con, text="SubCategory:", bg=Color.FrameBackground)
-        self.lSubCategoryCon.place(height=40, width=80, x=10, y=140)
+        self.l_Category_Con = tk.Label(self.Add_Con, text="Category:", bg=Color.FrameBackground)
+        self.l_Category_Con.place(height=40, width=80, x=10, y=140)
 
-        self.lModelCon = tk.Label(self.Add_Con, text="Model:", bg=Color.FrameBackground)
-        self.lModelCon.place(height=40, width=80, x=10, y=180)
+        self.l_Model_Con = tk.Label(self.Add_Con, text="Model:", bg=Color.FrameBackground)
+        self.l_Model_Con.place(height=40, width=80, x=10, y=180)
 
-        self.lAssemblyCon = tk.Label(self.Add_Con, text="Assembly:", bg=Color.FrameBackground)
-        self.lAssemblyCon.place(height=40, width=80, x=10, y=220)
+        self.l_Assembly_Con = tk.Label(self.Add_Con, text="Assembly:", bg=Color.FrameBackground)
+        self.l_Assembly_Con.place(height=40, width=80, x=10, y=220)
 
-        self.lBrandCon = tk.Label(self.Add_Con, text="Brand:", bg=Color.FrameBackground)
-        self.lBrandCon.place(height=40, width=80, x=10, y=260)
+        self.l_Brand_Con = tk.Label(self.Add_Con, text="Brand:", bg=Color.FrameBackground)
+        self.l_Brand_Con.place(height=40, width=80, x=10, y=260)
 
-        self.lWhereCon = tk.Label(self.Add_Con, text="Where:", bg=Color.FrameBackground)
-        self.lWhereCon.place(height=40, width=80, x=10, y=300)
+        self.l_Where_Con = tk.Label(self.Add_Con, text="Where:", bg=Color.FrameBackground)
+        self.l_Where_Con.place(height=40, width=80, x=10, y=300)
 
-        self.lQuintityCon = tk.Label(self.Add_Con, text="Quantity:", bg=Color.FrameBackground)
-        self.lQuintityCon.place(height=40, width=80, x=10, y=340)
+        self.l_Quantity_Con = tk.Label(self.Add_Con, text="Quantity:", bg=Color.FrameBackground)
+        self.l_Quantity_Con.place(height=40, width=80, x=10, y=340)
+
+        self.l_Link_Con = tk.Label(self.Add_Con, text="Link:", bg=Color.FrameBackground)
+        self.l_Link_Con.place(height=40, width=180, x=290, y=340)
 
         ### Enters
 
-        self.eNameCon = ttk.Entry(self.Add_Con, width=50)
-        self.eNameCon.place(height=20, width=230, x=100, y=70)
+        self.e_Name_Con = ttk.Entry(self.Add_Con, width=50)
+        self.e_Name_Con.place(height=20, width=230, x=100, y=70)
 
-        self.eGroupCon = ttk.Combobox(self.Add_Con, values=Cat_Connectors.Connectors_group)
-        self.eGroupCon.place(height=20, width=230, x=100, y=110)
+        self.e_Group_Con = ttk.Combobox(self.Add_Con, values=Cat_Connectors.Connectors_group)
+        self.e_Group_Con.place(height=20, width=230, x=100, y=110)
 
-        self.eSubCategoryCon = ttk.Combobox(self.Add_Con)
-        self.eSubCategoryCon.bind("<Button-1>", self.choose_connectors)
-        self.eSubCategoryCon.place(height=20, width=230, x=100, y=150)
+        self.e_Category_Con = ttk.Combobox(self.Add_Con)
+        self.e_Category_Con.bind("<Button-1>", self.choose_connectors)
+        self.e_Category_Con.place(height=20, width=230, x=100, y=150)
 
-        self.eModelCon = ttk.Entry(self.Add_Con, width=50)
-        self.eModelCon.place(height=20, width=230, x=100, y=190)
+        self.e_Model_Con = ttk.Entry(self.Add_Con, width=50)
+        self.e_Model_Con.place(height=20, width=230, x=100, y=190)
 
-        self.eAssemblyPassive = ttk.Combobox(self.Add_Con, )
-        self.eAssemblyPassive.place(height=20, width=230, x=100, y=230)
+        self.e_Assembly_Con = ttk.Combobox(self.Add_Con, )
+        self.e_Assembly_Con.place(height=20, width=230, x=100, y=230)
 
-        self.eBrandCon = ttk.Entry(self.Add_Con, width=50)
-        self.eBrandCon.place(height=20, width=230, x=100, y=270)
+        self.e_Brand_Con = ttk.Entry(self.Add_Con, width=50)
+        self.e_Brand_Con.place(height=20, width=230, x=100, y=270)
 
-        self.eWhereCon = ttk.Entry(self.Add_Con, width=50)
-        self.eWhereCon.place(height=20, width=230, x=100, y=310)
+        self.e_Where_Con = ttk.Entry(self.Add_Con, width=50)
+        self.e_Where_Con.place(height=20, width=230, x=100, y=310)
 
-        self.eQuantityCon = ttk.Entry(self.Add_Con, width=50)
-        self.eQuantityCon.place(height=20, width=230, x=100, y=350)
+        self.e_Quantity_Con = ttk.Entry(self.Add_Con, width=50)
+        self.e_Quantity_Con.place(height=20, width=230, x=100, y=350)
 
-        ###
-        self.Link = tk.Label(self.Add_Con, text="Tutaj będzie link", bg=Color.FrameBackground)
-        self.Link.place(height=40, width=180, x=360, y=340)
+        self.e_Link_Con = tk.Entry(self.Add_Con)
+        self.e_Link_Con.place(height=20, width=250, x=410, y=350)
 
         self.Obraz = ttk.Button(self.Add_Con, text="tutaj bedzie obraz")
-        self.Obraz.place(height=250, width=250, x=360, y=70)
+        self.Obraz.place(height=250, width=250, x=410, y=70)
 
     def choose_connectors(self, *args):
-        category = self.eGroupCon.get()
+        category = self.e_Group_Con.get()
         if category == 'Signal connectors':
-            self.eSubCategoryCon.config(values=Cat_Connectors.Signal_connectors)
+            self.e_Category_Con.config(values=Cat_Connectors.Signal_connectors)
         elif category == 'Data connectors':
-            self.eSubCategoryCon.config(values=Cat_Connectors.Data_connectors)
+            self.e_Category_Con.config(values=Cat_Connectors.Data_connectors)
         elif category == 'RF connectors':
-            self.eSubCategoryCon.config(values=Cat_Connectors.RF_connectors)
+            self.e_Category_Con.config(values=Cat_Connectors.RF_connectors)
         elif category == 'Power connectors':
-            self.eSubCategoryCon.config(values=Cat_Connectors.Power_connectors)
+            self.e_Category_Con.config(values=Cat_Connectors.Power_connectors)
         elif category == 'Push on connectors and cable terminals':
-            self.eSubCategoryCon.config(values=Cat_Connectors.Push_on_connectors_and_cable_terminals)
+            self.e_Category_Con.config(values=Cat_Connectors.Push_on_connectors_and_cable_terminals)
         elif category == 'Industrial connectors':
-            self.eSubCategoryCon.config(values=Cat_Connectors.Industrial_connectors)
+            self.e_Category_Con.config(values=Cat_Connectors.Industrial_connectors)
+
+    def process_add_connectors(self):
+        self.get_values()
+        self.clear_enters()
+        self.sent_to_database()
+        messagebox.showinfo("Add EQ", "Item was added successfully")
+
+    def get_values(self):
+        self.name = self.e_Name_Con.get()
+        self.group = self.e_Group_Con.get()
+        self.category = self.e_Category_Con.get()
+        self.model = self.e_Model_Con.get()
+        self.brand = self.e_Brand_Con.get()
+        self.assembly = self.e_Assembly_Con.get()
+        self.where = self.e_Where_Con.get()
+        self.quantity = self.e_Quantity_Con.get()
+        self.link = self.e_Link_Con.get()
+
+    def clear_enters(self):
+        self.e_Name_Con.delete(0, tk.END)
+        self.e_Group_Con.delete(0, tk.END)
+        self.e_Category_Con.delete(0, tk.END)
+        self.e_Model_Con.delete(0, tk.END)
+        self.e_Brand_Con.delete(0, tk.END)
+        self.e_Assembly_Con.delete(0, tk.END)
+        self.e_Where_Con.delete(0, tk.END)
+        self.e_Quantity_Con.delete(0, tk.END)
+        self.e_Link_Con.delete(0, tk.END)
+
+    def sent_to_database(self):
+        DataBaseOperation.ConnectDatabase.__init__(self, host="10.224.20.18", port=3306, user="Krzysiek",
+                                                   password="start123", database="CMS")
+        DataBaseOperation.ConnectDatabase._open(self)
+
+        DataBaseOperation.ConnectDatabase.insert_connectors(self, name=self.name, group=self.group,
+                                                            category=self.category, model=self.model,
+                                                            assembly=self.assembly, brand=self.brand,
+                                                            where=self.where, quantity=self.quantity, link=self.link)
+
+        DataBaseOperation.ConnectDatabase._close(self)
 
 
 class AddEnergySources:
@@ -836,17 +903,13 @@ class AddWires:
 
         ### BUTTONS
 
-        self.AddWires = tk.Button(self.Add_Wires, text='Add', font=14, bg=Color.WidgetButtons, fg='white'
-                                  )
+        self.AddWires = tk.Button(self.Add_Wires, text='Add', font=14, bg=Color.WidgetButtons, fg='white',
+                                  command=self.process_add_wires)
         self.AddWires.place(height=40, width=80, x=15, y=445)
 
         self.ClearWires = tk.Button(self.Add_Wires, text='Clear', font=14, bg=Color.WidgetButtons, fg='white',
-                                    )
+                                    command=self.clear_enters)
         self.ClearWires.place(height=40, width=80, x=110, y=445)
-
-        self.UploadLink = tk.Button(self.Add_Wires, text='Upload Link', font=14, bg=Color.WidgetButtons, fg='white',
-                                    )
-        self.UploadLink.place(height=40, width=100, x=205, y=445)
 
         self.UploadPdf = tk.Button(self.Add_Wires, text='Upload PDF', font=14, bg=Color.WidgetButtons, fg='white',
                                    )
@@ -854,66 +917,126 @@ class AddWires:
 
         ### Labels
 
-        self.AddTitleWires = tk.Label(self.Add_Wires, font=("Arial", 20), text="Add new item:", anchor='w',
+        self.AddTitleWires = tk.Label(self.Add_Wires, font=("Arial", 20), text="Add new item: Wires", anchor='w',
                                       bg=Color.FrameBackground, fg='white')
         self.AddTitleWires.place(height=40, width=280, x=10, y=10)
 
-        self.lNameWires = tk.Label(self.Add_Wires, text="Name:", bg=Color.FrameBackground)
-        self.lNameWires.place(height=40, width=80, x=10, y=60)
+        self.l_Name_Wires = tk.Label(self.Add_Wires, text="Name:", bg=Color.FrameBackground)
+        self.l_Name_Wires.place(height=40, width=80, x=10, y=60)
 
-        self.lGroupWires = tk.Label(self.Add_Wires, text="Group:", bg=Color.FrameBackground)
-        self.lGroupWires.place(height=40, width=80, x=10, y=100)
+        self.l_Group_Wires = tk.Label(self.Add_Wires, text="Group:", bg=Color.FrameBackground)
+        self.l_Group_Wires.place(height=40, width=80, x=10, y=100)
 
-        self.lSubCategoryWires = tk.Label(self.Add_Wires, text="SubCategory:", bg=Color.FrameBackground)
-        self.lSubCategoryWires.place(height=40, width=80, x=10, y=140)
+        self.l_Category_Wires = tk.Label(self.Add_Wires, text="SubCategory:", bg=Color.FrameBackground)
+        self.l_Category_Wires.place(height=40, width=80, x=10, y=140)
 
-        self.lModelWires = tk.Label(self.Add_Wires, text="Model:", bg=Color.FrameBackground)
-        self.lModelWires.place(height=40, width=80, x=10, y=180)
+        self.l_Colour_Wires = tk.Label(self.Add_Wires, text="Colour:", bg=Color.FrameBackground)
+        self.l_Colour_Wires.place(height=40, width=80, x=10, y=180)
 
-        self.lWhereWires = tk.Label(self.Add_Wires, text="Where:", bg=Color.FrameBackground)
-        self.lWhereWires.place(height=40, width=80, x=10, y=220)
+        self.l_Length_Wires = tk.Label(self.Add_Wires, text="Length:", bg=Color.FrameBackground)
+        self.l_Length_Wires.place(height=40, width=80, x=10, y=220)
 
-        self.lQuintityWires = tk.Label(self.Add_Wires, text="Quintity:", bg=Color.FrameBackground)
-        self.lQuintityWires.place(height=40, width=80, x=10, y=260)
+        self.l_Number_Cores_Wires = tk.Label(self.Add_Wires, text="Nub. of cores:", bg=Color.FrameBackground)
+        self.l_Number_Cores_Wires.place(height=40, width=80, x=10, y=260)
+
+        self.l_Where_Wires = tk.Label(self.Add_Wires, text="Where:", bg=Color.FrameBackground)
+        self.l_Where_Wires.place(height=40, width=80, x=10, y=300)
+
+        self.l_Quantity_Wires = tk.Label(self.Add_Wires, text="Quantity:", bg=Color.FrameBackground)
+        self.l_Quantity_Wires.place(height=40, width=80, x=10, y=340)
+
+        self.l_Link_Wires = tk.Label(self.Add_Wires, text="Link:", bg=Color.FrameBackground)
+        self.l_Link_Wires.place(height=40, width=40, x=360, y=340)
 
         ### Enters
 
-        self.eNameWires = ttk.Entry(self.Add_Wires, width=50)
-        self.eNameWires.place(height=20, width=230, x=100, y=70)
+        self.e_Name_Wires = ttk.Entry(self.Add_Wires, width=50)
+        self.e_Name_Wires.place(height=20, width=230, x=100, y=70)
 
-        self.eGroupWires = ttk.Combobox(self.Add_Wires, values=Cat_Wires.Wires_group)
-        self.eGroupWires.place(height=20, width=230, x=100, y=110)
+        self.e_Group_Wires = ttk.Combobox(self.Add_Wires, values=Cat_Wires.Wires_group)
+        self.e_Group_Wires.bind("<Button-1>", self.reset_category)
+        self.e_Group_Wires.place(height=20, width=230, x=100, y=110)
 
-        self.eSubCategoryWires = ttk.Combobox(self.Add_Wires)
-        self.eSubCategoryWires.bind("<Button-1>", self.choose_wires)
-        self.eSubCategoryWires.place(height=20, width=230, x=100, y=150)
+        self.e_Category_Wires = ttk.Combobox(self.Add_Wires)
+        self.e_Category_Wires.bind("<Button-1>", self.choose_wires)
+        self.e_Category_Wires.place(height=20, width=230, x=100, y=150)
 
-        self.eModelWires = ttk.Entry(self.Add_Wires, width=50)
-        self.eModelWires.place(height=20, width=230, x=100, y=190)
+        self.e_Colour_Wires = ttk.Entry(self.Add_Wires, width=50)
+        self.e_Colour_Wires.place(height=20, width=230, x=100, y=190)
 
-        self.eWhereCon = ttk.Entry(self.Add_Wires, width=50)
-        self.eWhereCon.place(height=20, width=230, x=100, y=230)
+        self.e_Length_Wires = ttk.Entry(self.Add_Wires, width=50)
+        self.e_Length_Wires.place(height=20, width=230, x=100, y=230)
 
-        self.eQuantityCon = ttk.Entry(self.Add_Wires, width=50)
-        self.eQuantityCon.place(height=20, width=230, x=100, y=270)
+        self.e_Number_Cores_Wires = ttk.Entry(self.Add_Wires, width=50)
+        self.e_Number_Cores_Wires.place(height=20, width=230, x=100, y=270)
 
-        ###
-        self.Link = tk.Label(self.Add_Wires, text="Tutaj będzie link", bg=Color.FrameBackground)
-        self.Link.place(height=40, width=180, x=360, y=340)
+        self.e_Where_Con = ttk.Entry(self.Add_Wires, width=50)
+        self.e_Where_Con.place(height=20, width=230, x=100, y=310)
+
+        self.e_Quantity_Wires = ttk.Entry(self.Add_Wires, width=50)
+        self.e_Quantity_Wires.place(height=20, width=230, x=100, y=350)
+
+        self.e_Link_Wires = tk.Entry(self.Add_Wires)
+        self.e_Link_Wires.place(height=20, width=250, x=410, y=350)
 
         self.Obraz = ttk.Button(self.Add_Wires, text="tutaj bedzie obraz")
-        self.Obraz.place(height=250, width=250, x=360, y=70)
+        self.Obraz.place(height=250, width=250, x=410, y=70)
+
+    def reset_category(self, *args):
+        self.e_Category_Wires.delete(0, tk.END)
 
     def choose_wires(self, *args):
-        category = self.eGroupWires.get()
+        category = self.e_Group_Wires.get()
         if category == 'Cables':
-            self.eSubCategoryWires.config(values=Cat_Wires.Cables)
+            self.e_Category_Wires.config(values=Cat_Wires.Cables)
         elif category == 'Cables Assemblies':
-            self.eSubCategoryWires.config(values=Cat_Wires.Cables_Assemblies)
+            self.e_Category_Wires.config(values=Cat_Wires.Cables_Assemblies)
         elif category == 'Conduits and Insulating Sleeves':
-            self.eSubCategoryWires.config(values=Cat_Wires.Conduits_and_Insulating_Sleeves)
+            self.e_Category_Wires.config(values=Cat_Wires.Conduits_and_Insulating_Sleeves)
         elif category == 'Cables Accessories':
-            self.eSubCategoryWires.config(values=Cat_Wires.Cables_Accessories)
+            self.e_Category_Wires.config(values=Cat_Wires.Cables_Accessories)
+
+    def process_add_wires(self):
+        self.get_values()
+        self.clear_enters()
+        self.sent_to_database()
+        messagebox.showinfo("Add EQ", "Item was added successfully")
+
+    def get_values(self):
+        self.name = self.e_Name_Wires.get()
+        self.group = self.e_Group_Wires.get()
+        self.category = self.e_Category_Wires.get()
+        self.colour = self.e_Colour_Wires.get()
+        self.length = self.e_Length_Wires.get()
+        self.number_core = self.e_Number_Cores_Wires.get()
+        self.where = self.e_Where_Con.get()
+        self.quantity = self.e_Quantity_Wires.get()
+        self.link = self.e_Link_Wires.get()
+
+    def clear_enters(self):
+        self.e_Name_Wires.delete(0, tk.END)
+        self.e_Group_Wires.delete(0, tk.END)
+        self.e_Category_Wires.delete(0, tk.END)
+        self.e_Colour_Wires.delete(0, tk.END)
+        self.e_Length_Wires.delete(0, tk.END)
+        self.e_Number_Cores_Wires.delete(0, tk.END)
+        self.e_Where_Con.delete(0, tk.END)
+        self.e_Quantity_Wires.delete(0, tk.END)
+        self.e_Link_Wires.delete(0, tk.END)
+
+    def sent_to_database(self):
+
+        DataBaseOperation.ConnectDatabase.__init__(self, host="10.224.20.18", port=3306, user="Krzysiek",
+                                                   password="start123", database="CMS")
+
+        DataBaseOperation.ConnectDatabase._open(self)
+
+        DataBaseOperation.ConnectDatabase.insert_wires(self, name=self.name, group=self.group, category=self.category,
+                                                       colour=self.colour, length=self.length,
+                                                       number_core=self.number_core, where=self.where,
+                                                       quantity=self.quantity, link=self.link)
+
+        DataBaseOperation.ConnectDatabase._close(self)
 
 
 class AddMechanics:

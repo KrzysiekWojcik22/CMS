@@ -21,7 +21,8 @@ class EquipmentCategoriesSemiconductors:
 
 class EquipmentCategoriesPassiveElements:
     def __init__(self):
-        self.PassiveElementsGroup = ["Resistors", "Capacitors", "Inductors"]
+        self.PassiveElementsGroup = ["Resistors", "Capacitors", "Inductors", "EMI EMC components",
+                                     "Quartz crystals and filters", "Potentiometers", "Encoders", "NTC thermistors"]
 
         self.Resistors = ["SMD resistors", "SMD precision resistors", "Carbon THT resistors",
                           "Metal film THT resistors",
@@ -52,7 +53,7 @@ class EquipmentCategoriesPassiveElements:
 
 class EquipmentCategoriesOptoElectronics:
     def __init__(self):
-        self.Opto_Group = ["LEDs", "LED_indicators", "Displays", "Optocouplers", "Photoelements", "Laser"]
+        self.Opto_Group = ["LEDs", "LED indicators", "Displays", "Optocouplers", "Photoelements", "Laser"]
 
         self.LEDs = ["THT LEDs", "SMD LEDs", "Power LEDs", "Special effect LED's", "IR LEDs", "UV LEDs",
                      "Plants growth LED", "LED light sources"]

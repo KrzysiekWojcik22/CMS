@@ -14,7 +14,7 @@ import mysql.connector
 class ShowComponents:
     def __init__(self):
         self.show = tk.Tk()
-        self.show.title('DataBase Menagement System')
+        self.show.title('DataBase Management System')
         screen_width = self.show.winfo_screenwidth()
         screen_height = self.show.winfo_screenheight()
         root_width = 1045
