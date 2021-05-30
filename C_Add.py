@@ -3,6 +3,9 @@ import classes as cl
 import Colors as Col
 import categories as cat
 import DataBaseOperation
+import uuid
+import os
+import SFTP_Operation as sftp
 
 from tkinter import ttk
 from tkinter import messagebox
@@ -256,7 +259,7 @@ class AddEquipmentSemiconductors:
 
         # Wejscia link i dokumenty i obrazy
 
-        self.Obraz = ttk.Button(self.Add_Semi, text="tutaj bedzie obraz", command=self.open_img)
+        self.Obraz = ttk.Button(self.Add_Semi, text="tutaj bedzie obraz", command=self.picture_process)
         self.Obraz.place(height=250, width=250, x=410, y=70)
 
     def reset_category(self, *args):
@@ -277,15 +280,39 @@ class AddEquipmentSemiconductors:
         elif category == 'Integrated circuits':
             self.e_Category.config(values=Cat_Semi.Integrated_circuits)
 
+    def picture_process(self):
+        self.generate_uniqe_id()
+        self.open_img()
+        self.save_picture_in_sftp_server()
+
+    def generate_uniqe_id(self):
+        self.Uniqe_ID = uuid.uuid1()
+        print(self.Uniqe_ID)
+
     def open_img(self):
 
-        path = filedialog.askopenfilename()
-        img = Image.open(path)
+        self.path = filedialog.askopenfilename()
+        img = Image.open(self.path)
         img = img.resize((250, 250), Image.ANTIALIAS)
         img = ImageTk.PhotoImage(img)
         panel = tk.Label(self.Add_Semi, image=img)
         panel.image = img
         panel.place(height=250, width=250, x=410, y=70)
+
+
+
+
+    def save_picture_in_sftp_server(self):
+        host = '10.224.20.12'
+        port = 22
+        username = 'sftpuser'
+        keyfile_path = None
+        password = 'start123'
+        self.sftpclient = sftp.SFTP.create_sftp_client(host, port, username, password, keyfile_path, 'DSA')
+        self.sftpclient.put(f'{self.path}', f'./shared/Semiconductors/{self.Uniqe_ID}.png')
+        self.sftpclient.close()
+
+
 
     def process_add_semi(self):
         self.get_values()
@@ -314,10 +341,10 @@ class AddEquipmentSemiconductors:
         self.RVWhere_S = self.e_Where.get()
         self.RVQuantity_S = self.e_Quantity.get()
         self.RVLink_S = self.e_Link.get()
-        self.Namepictures = "tak"
+        self.Namepictures = self.Uniqe_ID
 
     def sent_to_database(self, *args):
-        DataBaseOperation.ConnectDatabase.__init__(self, host="10.224.20.18", port=3306, user="Krzysiek",
+        DataBaseOperation.ConnectDatabase.__init__(self, host="10.224.20.12", port=3306, user="Krzysiek",
                                                    password="start123", database="CMS")
         DataBaseOperation.ConnectDatabase._open(self)
         DataBaseOperation.ConnectDatabase.insert_semi(self, Name_S=self.RVName_S, Group_S=self.RVGroup_S,

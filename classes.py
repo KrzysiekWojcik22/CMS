@@ -100,12 +100,10 @@ class Icons:
         self.documentL.photo = self.document_ic
 
 
-
-
-
 class TypeUsers:
     def __init__(self):
         self.TypeUsers = ["Default", "Admin"]
+
 
 class UnderlineOn:
     def __init__(self,event):
@@ -137,10 +135,8 @@ class zwolnienie:
         event.widget.config(bg='#3C3E45')
 
 
-
-
 class PasswordMessage:
-    def __init__(self,Password):
+    def __init__(self, Password):
         self.New_Password = Password
 
 

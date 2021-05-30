@@ -1,46 +1,114 @@
-import tkinter
+import paramiko
 
 
-class Application(tkinter.Frame):
-    def __init__(self, master):
-        tkinter.Frame.__init__(self, master)
-        self.master.minsize(width=256, height=256)
-        self.master.config()
-        self.pack()
+def create_sftp_client(host, port, username, password, keyfilepath, keyfiletype):
+    """
+    create_sftp_client(host, port, username, password, keyfilepath, keyfiletype) -> SFTPClient
 
-        self.main_frame = tkinter.Frame()
+    Creates a SFTP client connected to the supplied host on the supplied port authenticating as the user with
+    supplied username and supplied password or with the private key in a file with the supplied path.
+    If a private key is used for authentication, the type of the keyfile needs to be specified as DSA or RSA.
+    :rtype: SFTPClient object.
+    """
+    sftp = None
+    key = None
+    transport = None
+    try:
+        if keyfilepath is not None:
+            # Get private key used to authenticate user.
+            if keyfiletype == 'DSA':
+                # The private key is a DSA type key.
+                key = paramiko.DSSKey.from_private_key_file(keyfilepath)
+            else:
+                # The private key is a RSA type key.
+                key = paramiko.RSAKey.from_private_key(keyfilepath)
 
-        self.some_list = [
-            'One' ' 3123 ',
-            'Two',
-            'Three',
-            'Four'
-        ]
+        # Create Transport object using supplied method of authentication.
+        transport = paramiko.Transport((host, port))
+        transport.connect(None, username, password, key)
 
-        self.some_listbox = tkinter.Listbox(self.main_frame)
+        sftp = paramiko.SFTPClient.from_transport(transport)
 
-        # bind the selection event to a custom function
-        # Note the absence of parentheses because it's a callback function
-        self.some_listbox.bind('<<ListboxSelect>>', self.listbox_changed)
-        self.some_listbox.pack(fill='both', expand=True)
-        self.main_frame.pack(fill='both', expand=True)
+        return sftp
+    except Exception as e:
+        print('An error occurred creating SFTP client: %s: %s' % (e.__class__, e))
+        if sftp is not None:
+            sftp.close()
+        if transport is not None:
+            transport.close()
+        pass
 
-        # insert our items into the list box
-        for i, item in enumerate(self.some_list):
-            self.some_listbox.insert(i, item)
 
-        # make a label to show the selected item
-        self.some_label = tkinter.Label(self.main_frame, text="Welcome to SO!")
-        self.some_label.pack(side='top')
+def create_sftp_client2(host, port, username, password, keyfilepath, keyfiletype):
+    """
+    create_sftp_client(host, port, username, password, keyfilepath, keyfiletype) -> SFTPClient
 
-        # not really necessary, just make things look nice and centered
-        self.main_frame.place(in_=self.master, anchor='c', relx=.5, rely=.5)
+    Creates a SFTP client connected to the supplied host on the supplied port authenticating as the user with
+    supplied username and supplied password or with the private key in a file with the supplied path.
+    If a private key is used for authentication, the type of the keyfile needs to be specified as DSA or RSA.
+    :rtype: SFTPClient object.
+    """
+    ssh = None
+    sftp = None
+    key = None
+    try:
+        if keyfilepath is not None:
+            # Get private key used to authenticate user.
+            if keyfiletype == 'DSA':
+                # The private key is a DSA type key.
+                key = paramiko.DSSKey.from_private_key_file(keyfilepath)
+            else:
+                # The private key is a RSA type key.
+                key = paramiko.RSAKey.from_private_key(keyfilepath)
 
-    def listbox_changed(self, *args, **kwargs):
-        selection_index = self.some_listbox.curselection()
-        selection_text = self.some_listbox.get(selection_index, selection_index)
-        self.some_label.config(text=selection_text)
+        # Connect SSH client accepting all host keys.
+        ssh = paramiko.SSHClient()
+        ssh.set_missing_host_key_policy(paramiko.AutoAddPolicy())
+        ssh.connect(host, port, username, password, key)
 
-root = tkinter.Tk()
-app = Application(root)
-app.mainloop()
+        # Using the SSH client, create a SFTP client.
+        sftp = ssh.open_sftp()
+        # Keep a reference to the SSH client in the SFTP client as to prevent the former from
+        # being garbage collected and the connection from being closed.
+        sftp.sshclient = ssh
+
+        return sftp
+    except Exception as e:
+        print('An error occurred creating SFTP client: %s: %s' % (e.__class__, e))
+        if sftp is not None:
+            sftp.close()
+        if ssh is not None:
+            ssh.close()
+        pass
+
+
+host = '10.224.20.12'
+port = 22
+username = 'sftpuser'
+keyfile_path = None
+password = 'start123'
+
+sftpclient = create_sftp_client(host, port, username, password, keyfile_path, 'DSA')
+
+# List files in the default directory on the remote computer.
+dirlist = sftpclient.listdir('./shared/')
+for row in dirlist:
+    print(row)
+
+dirlist2 = sftpclient.listdir('./shared/Semiconductors/')
+for row in dirlist2:
+    print(row)
+'''
+dirlist3 = sftpclient.listdir('./shared/chemistry/pdf')
+for row in dirlist3:
+    print(row)
+'''
+# Retrieve a file with the name 'remote_file.txt' on the remote computer and store it in a file named 'downloaded_file.txt'
+# next to this SFT client program.
+#sftpclient.get('./shared/testzdj.png', 'zdj1.png')
+
+# Upload a file that locally has the name 'testfile.txt' to a file on the remote computer that will have the name 'remote_testfile.txt'.
+sftpclient.put('test23.txt', './shared/test23.txt')
+
+# We're done with the SFTPClient.
+sftpclient.close()

@@ -1,9 +1,12 @@
 import tkinter as tk
 import Colors as Col
 import classes as cl
-from tkinter import ttk
+import DataBaseOperation
 import categories as cat
-
+import MySQLdb
+from tkinter import ttk
+from mysql.connector import errorcode
+import mysql.connector
 
 Color = Col.ColoursMainWindow()
 Cat_Semi = cat.EquipmentCategoriesSemiconductors()
@@ -18,7 +21,6 @@ Cat_Mechanics = cat.EquipmentCategoriesMechanics()
 Cat_Lab = cat.EquipmentCategoriesLaboratory()
 Cat_Others = cat.EquipmentCategoriesOthers()
 find_group = cat.SearchEquipmentGroup()
-
 
 
 class Items:
@@ -70,7 +72,7 @@ class Items:
 
         self.Machines.bind("<Enter>", cl.click)
         self.Machines.bind("<Leave>", cl.zwolnienie)
-        self.Machines.bind("<Button-1>",  lambda x: self.machines())
+        self.Machines.bind("<Button-1>", lambda x: self.machines())
 
         self.Calibration.bind("<Enter>", cl.click)
         self.Calibration.bind("<Leave>", cl.zwolnienie)
@@ -110,25 +112,48 @@ class ItemsC:
         self.Title = tk.Label(self.ItemF, text="Search for the item:", anchor='w')
         self.Title.place(height=40, width=180, x=10, y=0)
 
-        self.Item_Name = tk.Label(self.ItemF, text="Item name:", anchor='w')
-        self.Item_Name.place(height=40, width=70, x=10, y=40)
-
         self.Search = tk.Entry(self.ItemF, width=30)
-        self.Search.place(height=30, width=150, x=115, y=50)
+        self.Search.place(height=20, width=150, x=10, y=55)
 
         self.GroupSearch = ttk.Combobox(self.ItemF, values=find_group.Group)
         self.GroupSearch.bind("<Button-1>", self.clear_categories)
-        self.GroupSearch.place(height=30, width=150, x=285, y=50)
+        self.GroupSearch.place(height=20, width=150, x=180, y=55)
 
         self.Category2 = ttk.Combobox(self.ItemF)
-        self.Category2.bind("<Button-1>", self.find_categories)
-        self.Category2.place(height=30, width=150, x=455, y=50)
+        self.Category2.bind("<Button-1>", self.find_groups)
+        self.Category2.place(height=20, width=150, x=350, y=55)
+
+        self.Category3 = ttk.Combobox(self.ItemF)
+        self.Category3.bind("<Button-1>", self.find_categories)
+        self.Category3.place(height=20, width=180, x=520, y=55)
+
+        self.Search_item = tk.Button(self.ItemF, text="Search", compound=tk.LEFT, command=self.search)
+        self.Search_item.place(height=30, width=100, x=600, y=5)
+        scrollbar = tk.Scrollbar(self.ItemF,)
+        scrollbar.place(height=100, width=30, x=620, y=100)
+        self.tree = ttk.Treeview(self.ItemF, columns=("ID", "User Name","email","supervisor"))
+        self.tree.place(height=400, width=600, x=15, y=100)
+        self.tree.heading('#0', text='ID')
+        self.tree.heading('#1', text='Name')
+        self.tree.heading('#2', text='email')
+        self.tree.heading('#3', text='supervisor')
+        self.tree.heading('#4', text='role')
+        self.tree.column('#0', stretch=tk.NO)
+        self.tree.column('#1', stretch=tk.YES)
+        self.tree.column('#2', stretch=tk.YES)
+        self.tree.column('#3', stretch=tk.YES)
+        self.id = 1
+        self.iid = 0
+
 
     def clear_categories(self, *args):
         self.Category2.delete(0, tk.END)
+        self.Category3.delete(0, tk.END)
 
-    def find_categories(self, *args):
+    def find_groups(self, *args):
         group = self.GroupSearch.get()
+        self.Category3.delete(0, tk.END)
+
         if group == "All":
             self.Category2.config(values="tak")
         elif group == "Semiconductors":
@@ -153,6 +178,73 @@ class ItemsC:
             self.Category2.config(values=Cat_Lab.Tools)
         elif group == "Others":
             self.Category2.config(values="tak")
+
+    def find_categories(self, *args):
+        category2 = self.Category2.get()
+
+        if category2 == "Diodes":
+            self.Category3.config(values=Cat_Semi.Diodes)
+        elif category2 == "Thyristors":
+            self.Category3.config(values=Cat_Semi.Thyristors)
+        elif category2 == "Triacs":
+            self.Category3.config(values=Cat_Semi.Triacs)
+        elif category2 == "Diacs":
+            self.Category3.config(values=Cat_Semi.Diacs)
+        elif category2 == "Transistors":
+            self.Category3.config(values=Cat_Semi.Transistors)
+        elif category2 == "Integrated circuits":
+            self.Category3.config(values=Cat_Semi.Integrated_circuits)
+
+        elif category2 == 'Resistors':
+            self.Category3.config(values=Cat_Passive.Resistors)
+        elif category2 == 'Capacitors':
+            self.Category3.config(values=Cat_Passive.Capacitors)
+        elif category2 == 'Inductors':
+            self.Category3.config(values=Cat_Passive.Inductors)
+        elif category2 == 'EMI EMC components':
+            self.Category3.config(values=Cat_Passive.EMI_EMC_components)
+        elif category2 == 'Quartz crystals and filters':
+            self.Category3.config(values=Cat_Passive.Quartz_crystals_and_filters)
+        elif category2 == 'Potentiometers':
+            self.Category3.config(values=Cat_Passive.Potentiometers)
+        elif category2 == 'Encoders':
+            self.Category3.config(values=Cat_Passive.Encoders)
+        elif category2 == 'NTC thermistors':
+            self.Category3.config(values=Cat_Passive.NTC_thermistors)
+
+    def search(self):
+
+        group = self.GroupSearch.get()
+        category = self.Category2.get()
+        category2 = self.Category3.get()
+
+        print(group)
+        print(category)
+        print(category2)
+        mydb = MySQLdb.connect(host="10.224.20.18", port=3306, user="Krzysiek",
+                               password="start123", database="CMS")
+        self.__connection = mydb
+        self.__session = mydb.cursor()
+
+        all = ("Select * from CMS.Users")
+
+        self.__session.execute(all)
+        all1 = self.__session.fetchall()
+
+
+        cpt=0
+        for row in all1:
+            self.tree.insert('', 'end', text=str(cpt), values=(row[1], row[2], row[3], row[4]))
+            cpt += 1  # increment the ID
+
+
+
+
+        self.__connection.commit()
+
+        self.__session.close()
+        self.__connection.close()
+
 
 class SuppliersC:
     def __init__(self, master):
