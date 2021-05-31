@@ -299,9 +299,6 @@ class AddEquipmentSemiconductors:
         panel.image = img
         panel.place(height=250, width=250, x=410, y=70)
 
-
-
-
     def save_picture_in_sftp_server(self):
         host = '10.224.20.12'
         port = 22
@@ -311,8 +308,6 @@ class AddEquipmentSemiconductors:
         self.sftpclient = sftp.SFTP.create_sftp_client(host, port, username, password, keyfile_path, 'DSA')
         self.sftpclient.put(f'{self.path}', f'./shared/Semiconductors/{self.Uniqe_ID}.png')
         self.sftpclient.close()
-
-
 
     def process_add_semi(self):
         self.get_values()
@@ -1081,4 +1076,81 @@ class AddLaboratory:
 class AddOthers:
     def __init__(self, master):
         self.Add_Others = tk.Frame(master, bg="yellow")
-        self.Add_Others.place(x=0, y=0, height=610, width=850)
+        self.Add_Others.place(x=-1, y=-1, height=610, width=850)
+
+        self.b_Add_Others = tk.Button(self.Add_Others, text='Add', font=14, bg=Color.WidgetButtons, fg='white',
+                                  command=self.Add_Others)
+        self.b_Add_Others.place(height=40, width=80, x=15, y=445)
+
+        self.b_Clear_Others = tk.Button(self.Add_Others, text='Clear', font=14, bg=Color.WidgetButtons, fg='white',
+                                    command=self.Add_Others)
+        self.b_Clear_Others.place(height=40, width=80, x=110, y=445)
+
+        self.b_Upload_Pdf_Others = tk.Button(self.Add_Others, text='Upload PDF', font=14, bg=Color.WidgetButtons, fg='white',
+                                   )
+        self.b_Upload_Pdf_Others.place(height=40, width=100, x=320, y=445)
+
+        ### Labels
+
+        self.AddTitleWires = tk.Label(self.Add_Others, font=("Arial", 20), text="Add new item: Others", anchor='w',
+                                      bg=Color.FrameBackground, fg='white')
+        self.AddTitleWires.place(height=40, width=280, x=10, y=10)
+
+        self.l_Name_Others = tk.Label(self.Add_Others, text="Name:", bg=Color.FrameBackground)
+        self.l_Name_Others.place(height=40, width=80, x=10, y=60)
+
+        self.l_Description_Others = tk.Label(self.Add_Others, text="Description:", bg=Color.FrameBackground)
+        self.l_Description_Others.place(height=40, width=80, x=10, y=100)
+
+        self.l_Height_Others = tk.Label(self.Add_Others, text="Height:", bg=Color.FrameBackground)
+        self.l_Height_Others.place(height=40, width=80, x=10, y=140)
+
+        self.l_Width_Others = tk.Label(self.Add_Others, text="Width:", bg=Color.FrameBackground)
+        self.l_Width_Others.place(height=40, width=80, x=10, y=180)
+
+        self.l_Length_Others = tk.Label(self.Add_Others, text="Length:", bg=Color.FrameBackground)
+        self.l_Length_Others.place(height=40, width=80, x=10, y=220)
+
+        self.l_Value_Others = tk.Label(self.Add_Others, text="Value:", bg=Color.FrameBackground)
+        self.l_Value_Others.place(height=40, width=80, x=10, y=260)
+
+        self.l_Where_Others = tk.Label(self.Add_Others, text="Where:", bg=Color.FrameBackground)
+        self.l_Where_Others.place(height=40, width=80, x=10, y=300)
+
+        self.l_Quantity_Others = tk.Label(self.Add_Others, text="Quantity:", bg=Color.FrameBackground)
+        self.l_Quantity_Others.place(height=40, width=80, x=10, y=340)
+
+        self.l_Link_Others = tk.Label(self.Add_Others, text="Link:", bg=Color.FrameBackground)
+        self.l_Link_Others.place(height=40, width=40, x=360, y=340)
+
+        ### Enters
+
+        self.e_Name_Others = ttk.Entry(self.Add_Others, width=50)
+        self.e_Name_Others.place(height=20, width=230, x=100, y=70)
+
+        self.e_Description_Others = tk.Text(self.Add_Others)
+        self.e_Description_Others.place(height=20, width=230, x=100, y=110)
+
+        self.e_Height_Others = ttk.Entry(self.Add_Others)
+        self.e_Height_Others.place(height=20, width=230, x=100, y=150)
+
+        self.e_Width_Others = ttk.Entry(self.Add_Others, width=50)
+        self.e_Width_Others.place(height=20, width=230, x=100, y=190)
+
+        self.e_Length_Wires = ttk.Entry(self.Add_Others, width=50)
+        self.e_Length_Wires.place(height=20, width=230, x=100, y=230)
+
+        self.e_Value_Others = ttk.Entry(self.Add_Others, width=50)
+        self.e_Value_Others.place(height=20, width=230, x=100, y=270)
+
+        self.e_Where_Others = ttk.Entry(self.Add_Others, width=50)
+        self.e_Where_Others.place(height=20, width=230, x=100, y=310)
+
+        self.e_Quantity_Others = ttk.Entry(self.Add_Others, width=50)
+        self.e_Quantity_Others.place(height=20, width=230, x=100, y=350)
+
+        self.e_Link_Others = tk.Entry(self.Add_Others)
+        self.e_Link_Others.place(height=20, width=250, x=410, y=350)
+
+        self.Obraz = ttk.Button(self.Add_Others, text="tutaj bedzie obraz")
+        self.Obraz.place(height=250, width=250, x=410, y=70)
