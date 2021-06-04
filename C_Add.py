@@ -88,13 +88,9 @@ class AddEquipmentFirst:
                                      anchor="w", text="Mechanics", cursor="hand2")
         self.AddMechanics.place(width=110, height=40, x=15, y=450)
 
-        self.AddLaboratory = tk.Label(self.PadAdd1, font=("Arial", 10), bg=Color.Buttons_Background, fg='white',
-                                      anchor="w", text="Laboratory", cursor="hand2")
-        self.AddLaboratory.place(width=110, height=40, x=15, y=500)
-
         self.AddOthers = tk.Label(self.PadAdd1, font=("Arial", 10), bg=Color.Buttons_Background, fg='white',
                                   anchor="w", text="Others", cursor="hand2")
-        self.AddOthers.place(width=110, height=40, x=15, y=550)
+        self.AddOthers.place(width=110, height=40, x=15, y=500)
 
         ##################################
 
@@ -134,10 +130,6 @@ class AddEquipmentFirst:
         self.AddMechanics.bind("<Leave>", cl.zwolnienie)
         self.AddMechanics.bind("<Button-1>", lambda x: self.add_mechanics())
 
-        self.AddLaboratory.bind("<Enter>", cl.click)
-        self.AddLaboratory.bind("<Leave>", cl.zwolnienie)
-        self.AddLaboratory.bind("<Button-1>", lambda x: self.add_lab())
-
         self.AddOthers.bind("<Enter>", cl.click)
         self.AddOthers.bind("<Leave>", cl.zwolnienie)
         self.AddOthers.bind("<Button-1>", lambda x: self.add_others())
@@ -169,9 +161,6 @@ class AddEquipmentFirst:
     def add_mechanics(self):
         AddMechanics(master=self.PadAdd2)
 
-    def add_lab(self):
-        AddLaboratory(master=self.PadAdd2)
-
     def add_others(self):
         AddOthers(master=self.PadAdd2)
 
@@ -181,6 +170,8 @@ class AddEquipmentSemiconductors:
         self.Add_Semi = tk.Frame(master, bg=Color.FrameBackground)
         self.Add_Semi.place(x=-1, y=-1, height=610, width=850)
 
+        # Buttons
+
         self.b_AddComponent = tk.Button(self.Add_Semi, text='Add', font=14, bg=Color.WidgetButtons, fg='white',
                                         command=self.process_add_semi)
         self.b_AddComponent.place(height=40, width=80, x=15, y=445)
@@ -189,11 +180,14 @@ class AddEquipmentSemiconductors:
                                           command=self.clear_enters)
         self.b_ClearComponent.place(height=40, width=80, x=110, y=445)
 
-        self.UploadPdf = tk.Button(self.Add_Semi, text='Upload PDF', font=14, bg=Color.WidgetButtons, fg='white',
-                                   )
-        self.UploadPdf.place(height=40, width=100, x=320, y=445)
+        self.b_UploadPdf = tk.Button(self.Add_Semi, text='Upload PDF', font=14, bg=Color.WidgetButtons, fg='white',
+                                     command=self.get_pdf)
+        self.b_UploadPdf.place(height=40, width=100, x=205, y=445)
 
-        # Labelki
+        self.b_Photos = ttk.Button(self.Add_Semi, text="Upload photo", command=self.picture_process)
+        self.b_Photos.place(height=250, width=250, x=410, y=70)
+
+        # Labels
 
         self.AddTitle = tk.Label(self.Add_Semi, font=("Arial", 20), text="Add new item:  Semiconductors", anchor='w',
                                  bg=Color.FrameBackground, fg='white')
@@ -223,10 +217,13 @@ class AddEquipmentSemiconductors:
         self.l_Quantity = tk.Label(self.Add_Semi, text="Quantity:", bg=Color.FrameBackground)
         self.l_Quantity.place(height=40, width=80, x=10, y=340)
 
-        self.Link = tk.Label(self.Add_Semi, text="Link:", bg=Color.FrameBackground)
-        self.Link.place(height=40, width=40, x=360, y=340)
+        self.l_Link = tk.Label(self.Add_Semi, text="Link:", bg=Color.FrameBackground)
+        self.l_Link.place(height=40, width=40, x=360, y=340)
 
-        # Entry
+        self.l_Pdf = tk.Label(self.Add_Semi, text="Pdf:", bg=Color.FrameBackground)
+        self.l_Pdf.place(height=40, width=40, x=360, y=380)
+
+        # Enters
 
         self.e_Name = ttk.Entry(self.Add_Semi, width=50)
         self.e_Name.place(height=20, width=230, x=100, y=70)
@@ -257,11 +254,6 @@ class AddEquipmentSemiconductors:
         self.e_Link = tk.Entry(self.Add_Semi)
         self.e_Link.place(height=20, width=250, x=410, y=350)
 
-        # Wejscia link i dokumenty i obrazy
-
-        self.Obraz = ttk.Button(self.Add_Semi, text="tutaj bedzie obraz", command=self.picture_process)
-        self.Obraz.place(height=250, width=250, x=410, y=70)
-
     def reset_category(self, *args):
         self.e_Category.delete(0, tk.END)
 
@@ -283,21 +275,25 @@ class AddEquipmentSemiconductors:
     def picture_process(self):
         self.generate_uniqe_id()
         self.open_img()
-        self.save_picture_in_sftp_server()
 
     def generate_uniqe_id(self):
         self.Uniqe_ID = uuid.uuid1()
         print(self.Uniqe_ID)
 
     def open_img(self):
-
         self.path = filedialog.askopenfilename()
         img = Image.open(self.path)
         img = img.resize((250, 250), Image.ANTIALIAS)
         img = ImageTk.PhotoImage(img)
-        panel = tk.Label(self.Add_Semi, image=img)
-        panel.image = img
-        panel.place(height=250, width=250, x=410, y=70)
+        self.panel = tk.Label(self.Add_Semi, image=img)
+        self.panel.image = img
+        self.panel.place(height=250, width=250, x=410, y=70)
+
+    def get_pdf(self):
+        self.datasheet = filedialog.askopenfilename()
+        name = os.path.basename(self.datasheet)
+        self.Pdf_Name = tk.Label(self.Add_Semi, text=f'{name}', bg=Color.FrameBackground, anchor='w')
+        self.Pdf_Name.place(height=40, width=300, x=410, y=380)
 
     def save_picture_in_sftp_server(self):
         host = '10.224.20.12'
@@ -306,13 +302,26 @@ class AddEquipmentSemiconductors:
         keyfile_path = None
         password = 'start123'
         self.sftpclient = sftp.SFTP.create_sftp_client(host, port, username, password, keyfile_path, 'DSA')
-        self.sftpclient.put(f'{self.path}', f'./shared/Semiconductors/{self.Uniqe_ID}.png')
+        self.sftpclient.put(f'{self.path}', f'./shared/Items/Photos/Semiconductors_Photos/{self.Uniqe_ID}.png')
         self.sftpclient.close()
+
+    def save_pdf_in_sftp_server(self):
+        self.path_pdf = self.datasheet
+        host = '10.224.20.12'
+        port = 22
+        username = 'sftpuser'
+        keyfile_path = None
+        password = 'start123'
+        self.sftpclient = sftp.SFTP.create_sftp_client(host, port, username, password, keyfile_path, 'DSA')
+        self.sftpclient.put(f'{self.path_pdf}',
+                            f'./shared/Items/Datasheet/Semiconductors_Datasheet/{self.Uniqe_ID}.pdf')
 
     def process_add_semi(self):
         self.get_values()
         self.sent_to_database()
         self.clear_enters()
+        self.save_picture_in_sftp_server()
+        self.save_pdf_in_sftp_server()
         tk.messagebox.showinfo("Add", "Item was added")
 
     def clear_enters(self, *args):
@@ -325,6 +334,11 @@ class AddEquipmentSemiconductors:
         self.e_Where.delete(0, tk.END)
         self.e_Quantity.delete(0, tk.END)
         self.e_Link.delete(0, tk.END)
+        try:
+            self.panel.destroy()
+            self.Pdf_Name.destroy()
+        except:
+            pass
 
     def get_values(self):
         self.RVName_S = self.e_Name.get()
@@ -337,6 +351,7 @@ class AddEquipmentSemiconductors:
         self.RVQuantity_S = self.e_Quantity.get()
         self.RVLink_S = self.e_Link.get()
         self.Namepictures = self.Uniqe_ID
+        self.Name_pdf = self.Uniqe_ID
 
     def sent_to_database(self, *args):
         DataBaseOperation.ConnectDatabase.__init__(self, host="10.224.20.12", port=3306, user="Krzysiek",
@@ -346,7 +361,8 @@ class AddEquipmentSemiconductors:
                                                       Category_S=self.RVSubCategory_S, Model_S=self.RVModel_S,
                                                       Assembly_S=self.RVAssembly_S, Size_S=self.RVSize_S,
                                                       Where_S=self.RVWhere_S, Quantity_S=self.RVQuantity_S,
-                                                      Link_S=self.RVLink_S, Picture_S=self.Namepictures)
+                                                      Link_S=self.RVLink_S, Picture_S=self.Namepictures,
+                                                      Pdf_S=self.Name_pdf)
         DataBaseOperation.ConnectDatabase._close(self)
 
 
@@ -355,19 +371,24 @@ class AddEquipmentPassiveElements:
         self.Add_Passive = tk.Frame(master, bg=Color.FrameBackground)
         self.Add_Passive.place(x=-1, y=-1, height=610, width=850)
 
+        # Buttons
+
         self.b_AddPassive = tk.Button(self.Add_Passive, text='Add', font=14, bg=Color.Buttons_Background,
                                       fg='white', command=self.process_add_passive)
         self.b_AddPassive.place(height=40, width=80, x=15, y=520)
 
-        self.ClearPassive = tk.Button(self.Add_Passive, text='Clear', font=14, bg=Color.Buttons_Background,
-                                      fg='white', command=self.clear_enters)
-        self.ClearPassive.place(height=40, width=80, x=110, y=520)
+        self.b_ClearPassive = tk.Button(self.Add_Passive, text='Clear', font=14, bg=Color.Buttons_Background,
+                                        fg='white', command=self.clear_enters)
+        self.b_ClearPassive.place(height=40, width=80, x=110, y=520)
 
-        self.UploadPdfPassive = tk.Button(self.Add_Passive, text='Upload PDF', font=14, bg=Color.Buttons_Background,
-                                          fg='white')
-        self.UploadPdfPassive.place(height=40, width=100, x=320, y=520)
+        self.b_UploadPdfPassive = tk.Button(self.Add_Passive, text='Upload PDF', font=14, bg=Color.Buttons_Background,
+                                            fg='white')
+        self.b_UploadPdfPassive.place(height=40, width=100, x=205, y=520)
 
-        # Labelki
+        self.b_Photo_Passive = ttk.Button(self.Add_Passive, text="Upload photo")
+        self.b_Photo_Passive.place(height=250, width=250, x=410, y=70)
+
+        # Labels
 
         self.AddTitlePassive = tk.Label(self.Add_Passive, font=("Arial", 20), text="Add new item:  Passive elements",
                                         anchor='w', bg=Color.FrameBackground, fg='white')
@@ -406,10 +427,13 @@ class AddEquipmentPassiveElements:
         self.l_QuantityPassive = tk.Label(self.Add_Passive, text="Quantity:", bg=Color.FrameBackground)
         self.l_QuantityPassive.place(height=40, width=80, x=10, y=460)
 
-        self.Link = tk.Label(self.Add_Passive, text="Link:", bg=Color.FrameBackground)
-        self.Link.place(height=40, width=180, x=290, y=340)
+        self.l_Link_Passive = tk.Label(self.Add_Passive, text="Link:", bg=Color.FrameBackground)
+        self.l_Link_Passive.place(height=40, width=180, x=290, y=340)
 
-        # Wejscia
+        self.l_Pdf_Passive = tk.Label(self.Add_Passive, text="Pdf:", bg=Color.FrameBackground)
+        self.l_Pdf_Passive.place(height=40, width=180, x=290, y=380)
+
+        # Enters
 
         self.e_NamePassive = ttk.Entry(self.Add_Passive, width=50)
         self.e_NamePassive.place(height=20, width=230, x=100, y=70)
@@ -448,10 +472,6 @@ class AddEquipmentPassiveElements:
 
         self.e_Link = tk.Entry(self.Add_Passive)
         self.e_Link.place(height=20, width=250, x=410, y=350)
-
-        ###
-        self.Obraz = ttk.Button(self.Add_Passive, text="tutaj bedzie obraz")
-        self.Obraz.place(height=250, width=250, x=410, y=70)
 
     def reset_category(self, *args):
         self.e_CategoryPassive.delete(0, tk.END)
@@ -525,22 +545,27 @@ class AddEquipmentPassiveElements:
 
 class AddOptoelectronics:
     def __init__(self, master):
-        self.Add_Opto = tk.Frame(master, bg="blue")
+        self.Add_Opto = tk.Frame(master, bg="gray")
         self.Add_Opto.place(x=-1, y=-1, height=610, width=850)
+
+        # Buttons
 
         self.b_Add_Opto = tk.Button(self.Add_Opto, text='Add', font=14, bg=Color.Buttons_Background,
                                     fg='white', command=self.process_add_connectors)
         self.b_Add_Opto.place(height=40, width=80, x=15, y=520)
 
-        self.Clear_Opto = tk.Button(self.Add_Opto, text='Clear', font=14, bg=Color.Buttons_Background,
-                                    fg='white', command=self.clear_enters)
-        self.Clear_Opto.place(height=40, width=80, x=110, y=520)
+        self.b_Clear_Opto = tk.Button(self.Add_Opto, text='Clear', font=14, bg=Color.Buttons_Background,
+                                      fg='white', command=self.clear_enters)
+        self.b_Clear_Opto.place(height=40, width=80, x=110, y=520)
 
-        self.UploadPdfPassive = tk.Button(self.Add_Opto, text='Upload PDF', font=14, bg=Color.Buttons_Background,
-                                          fg='white')
-        self.UploadPdfPassive.place(height=40, width=100, x=320, y=520)
+        self.b_Pdf_Opto = tk.Button(self.Add_Opto, text='Upload PDF', font=14, bg=Color.Buttons_Background,
+                                    fg='white')
+        self.b_Pdf_Opto.place(height=40, width=100, x=205, y=520)
 
-        # Labelki
+        self.b_Photo_Opto = ttk.Button(self.Add_Opto, text="Upload photo")
+        self.b_Photo_Opto.place(height=250, width=250, x=410, y=70)
+
+        # Labels
 
         self.Add_Title_Opto = tk.Label(self.Add_Opto, font=("Arial", 20), text="Add new item:  Optoelectronics",
                                        anchor='w',
@@ -577,10 +602,13 @@ class AddOptoelectronics:
         self.l_QuantityPassive = tk.Label(self.Add_Opto, text="Quantity:", bg=Color.FrameBackground)
         self.l_QuantityPassive.place(height=40, width=80, x=10, y=420)
 
-        self.Link_Opto = tk.Label(self.Add_Opto, text="Link:", bg=Color.FrameBackground)
-        self.Link_Opto.place(height=40, width=180, x=290, y=340)
+        self.l_Link_Opto = tk.Label(self.Add_Opto, text="Link:", bg=Color.FrameBackground)
+        self.l_Link_Opto.place(height=40, width=180, x=290, y=340)
 
-        # Wejscia
+        self.l_Pdf_Opto = tk.Label(self.Add_Opto, text="Pdf:", bg=Color.FrameBackground)
+        self.l_Pdf_Opto.place(height=40, width=180, x=290, y=380)
+
+        # Enters
 
         self.e_Name_Opto = ttk.Entry(self.Add_Opto, width=50)
         self.e_Name_Opto.place(height=20, width=230, x=100, y=70)
@@ -616,10 +644,6 @@ class AddOptoelectronics:
 
         self.e_Link_Opto = tk.Entry(self.Add_Opto)
         self.e_Link_Opto.place(height=20, width=250, x=410, y=350)
-
-        ###
-        self.Obraz = ttk.Button(self.Add_Opto, text="tutaj bedzie obraz")
-        self.Obraz.place(height=250, width=250, x=410, y=70)
 
     def reset_category(self, *args):
         self.e_Category_Opto.delete(0, tk.END)
@@ -674,6 +698,7 @@ class AddOptoelectronics:
 
         DataBaseOperation.ConnectDatabase.__init__(self, host="10.224.20.18", port=3306, user="Krzysiek",
                                                    password="start123", database="CMS")
+
         DataBaseOperation.ConnectDatabase._open(self)
 
         DataBaseOperation.ConnectDatabase.insert_opto(self, name=self.name, group=self.group, category=self.category,
@@ -688,22 +713,25 @@ class AddConnectors:
         self.Add_Con = tk.Frame(master, bg=Color.FrameBackground)
         self.Add_Con.place(x=-1, y=-1, height=610, width=850)
 
-        ### BUTTONS
+        # Buttons
 
-        self.AddCon = tk.Button(self.Add_Con, text='Add', font=14, bg=Color.WidgetButtons, fg='white',
-                                command=self.process_add_connectors)
-        self.AddCon.place(height=40, width=80, x=15, y=445)
+        self.b_Add_Con = tk.Button(self.Add_Con, text='Add', font=14, bg=Color.WidgetButtons, fg='white',
+                                   command=self.process_add_connectors)
+        self.b_Add_Con.place(height=40, width=80, x=15, y=445)
 
-        self.ClearCon = tk.Button(self.Add_Con, text='Clear', font=14, bg=Color.WidgetButtons, fg='white',
-                                  command=self.clear_enters)
+        self.b_Clear_Con = tk.Button(self.Add_Con, text='Clear', font=14, bg=Color.WidgetButtons, fg='white',
+                                     command=self.clear_enters)
 
-        self.ClearCon.place(height=40, width=80, x=110, y=445)
+        self.b_Clear_Con.place(height=40, width=80, x=110, y=445)
 
-        self.UploadPdf = tk.Button(self.Add_Con, text='Upload PDF', font=14, bg=Color.WidgetButtons, fg='white',
+        self.b_Pdf_Con = tk.Button(self.Add_Con, text='Upload PDF', font=14, bg=Color.WidgetButtons, fg='white',
                                    )
-        self.UploadPdf.place(height=40, width=100, x=320, y=445)
+        self.b_Pdf_Con.place(height=40, width=100, x=205, y=445)
 
-        ### Labels
+        self.b_Photo_Con = ttk.Button(self.Add_Con, text="Upload photo")
+        self.b_Photo_Con.place(height=250, width=250, x=410, y=70)
+
+        # Labels
 
         self.AddTitleCon = tk.Label(self.Add_Con, font=("Arial", 20), text="Add new item:  Connectors", anchor='w',
                                     bg=Color.FrameBackground, fg='white')
@@ -736,7 +764,10 @@ class AddConnectors:
         self.l_Link_Con = tk.Label(self.Add_Con, text="Link:", bg=Color.FrameBackground)
         self.l_Link_Con.place(height=40, width=180, x=290, y=340)
 
-        ### Enters
+        self.l_Pdf_Con = tk.Label(self.Add_Con, text="Pdf:", bg=Color.FrameBackground)
+        self.l_Pdf_Con.place(height=40, width=180, x=290, y=380)
+
+        # Enters
 
         self.e_Name_Con = ttk.Entry(self.Add_Con, width=50)
         self.e_Name_Con.place(height=20, width=230, x=100, y=70)
@@ -765,9 +796,6 @@ class AddConnectors:
 
         self.e_Link_Con = tk.Entry(self.Add_Con)
         self.e_Link_Con.place(height=20, width=250, x=410, y=350)
-
-        self.Obraz = ttk.Button(self.Add_Con, text="tutaj bedzie obraz")
-        self.Obraz.place(height=250, width=250, x=410, y=70)
 
     def choose_connectors(self, *args):
         category = self.e_Group_Con.get()
@@ -830,92 +858,178 @@ class AddEnergySources:
         self.Add_Energy = tk.Frame(master, bg=Color.FrameBackground)
         self.Add_Energy.place(x=0, y=0, height=610, width=850)
 
-        #### BUTTONS
+        # Buttons
 
-        self.AddEnergy = tk.Button(self.Add_Energy, text='Add', font=14, bg=Color.WidgetButtons, fg='white'
-                                   )
-        self.AddEnergy.place(height=40, width=80, x=15, y=445)
-
-        self.ClearEnergy = tk.Button(self.Add_Energy, text='Clear', font=14, bg=Color.WidgetButtons, fg='white',
+        self.b_AddEnergy = tk.Button(self.Add_Energy, text='Add', font=14, bg=Color.WidgetButtons, fg='white'
                                      )
-        self.ClearEnergy.place(height=40, width=80, x=110, y=445)
+        self.b_AddEnergy.place(height=40, width=80, x=15, y=470)
 
-        self.UploadLink = tk.Button(self.Add_Energy, text='Upload Link', font=14, bg=Color.WidgetButtons, fg='white',
-                                    )
-        self.UploadLink.place(height=40, width=100, x=205, y=445)
+        self.b_ClearEnergy = tk.Button(self.Add_Energy, text='Clear', font=14, bg=Color.WidgetButtons, fg='white',
+                                       )
+        self.b_ClearEnergy.place(height=40, width=80, x=110, y=470)
 
-        self.UploadPdf = tk.Button(self.Add_Energy, text='Upload PDF', font=14, bg=Color.WidgetButtons, fg='white',
-                                   )
-        self.UploadPdf.place(height=40, width=100, x=320, y=445)
+        self.b_Pdf_Energy = tk.Button(self.Add_Energy, text='Upload PDF', font=14, bg=Color.WidgetButtons, fg='white',
+                                      )
+        self.b_Pdf_Energy.place(height=40, width=100, x=205, y=470)
 
-        ### Labels
+        self.b_Photo_Energy = ttk.Button(self.Add_Energy, text="Upload photo")
+        self.b_Photo_Energy.place(height=250, width=250, x=410, y=70)
+
+        # Labels
 
         self.AddTitleEnergy = tk.Label(self.Add_Energy, font=("Arial", 20), text="Add new item:", anchor='w',
                                        bg=Color.FrameBackground, fg='white')
         self.AddTitleEnergy.place(height=40, width=280, x=10, y=10)
 
-        self.lNameEnergy = tk.Label(self.Add_Energy, text="Name:", bg=Color.FrameBackground)
-        self.lNameEnergy.place(height=40, width=80, x=10, y=60)
+        self.l_Name_Energy = tk.Label(self.Add_Energy, text="Name:", bg=Color.FrameBackground)
+        self.l_Name_Energy.place(height=40, width=80, x=10, y=60)
 
-        self.lGroupEnergy = tk.Label(self.Add_Energy, text="Group:", bg=Color.FrameBackground)
-        self.lGroupEnergy.place(height=40, width=80, x=10, y=100)
+        self.l_Group_Energy = tk.Label(self.Add_Energy, text="Group:", bg=Color.FrameBackground)
+        self.l_Group_Energy.place(height=40, width=80, x=10, y=100)
 
-        self.lSubCategoryEnergy = tk.Label(self.Add_Energy, text="SubCategory:", bg=Color.FrameBackground)
-        self.lSubCategoryEnergy.place(height=40, width=80, x=10, y=140)
+        self.l_Category_Energy = tk.Label(self.Add_Energy, text="Category:", bg=Color.FrameBackground)
+        self.l_Category_Energy.place(height=40, width=80, x=10, y=140)
 
-        self.lModelEnergy = tk.Label(self.Add_Energy, text="Model:", bg=Color.FrameBackground)
-        self.lModelEnergy.place(height=40, width=80, x=10, y=180)
+        self.l_Model_Energy = tk.Label(self.Add_Energy, text="Model:", bg=Color.FrameBackground)
+        self.l_Model_Energy.place(height=40, width=80, x=10, y=180)
 
-        self.lAssemblyEnergy = tk.Label(self.Add_Energy, text="Assembly:", bg=Color.FrameBackground)
-        self.lAssemblyEnergy.place(height=40, width=80, x=10, y=220)
+        self.l_Assembly_Energy = tk.Label(self.Add_Energy, text="Assembly:", bg=Color.FrameBackground)
+        self.l_Assembly_Energy.place(height=40, width=80, x=10, y=220)
 
-        self.lWhereEnergy = tk.Label(self.Add_Energy, text="Where:", bg=Color.FrameBackground)
-        self.lWhereEnergy.place(height=40, width=80, x=10, y=260)
+        self.l_Input_Energy = tk.Label(self.Add_Energy, text="Input (V):", bg=Color.FrameBackground)
+        self.l_Input_Energy.place(height=40, width=80, x=10, y=260)
 
-        self.lQuintityEnergy = tk.Label(self.Add_Energy, text="Quintity:", bg=Color.FrameBackground)
-        self.lQuintityEnergy.place(height=40, width=80, x=10, y=300)
+        self.l_Output_Energy = tk.Label(self.Add_Energy, text="Output (V):", bg=Color.FrameBackground)
+        self.l_Output_Energy.place(height=40, width=80, x=10, y=300)
 
-        ### Enters
+        self.l_Current_Energy = tk.Label(self.Add_Energy, text="Current (A):", bg=Color.FrameBackground)
+        self.l_Current_Energy.place(height=40, width=80, x=10, y=340)
 
-        self.eNameEnergy = ttk.Entry(self.Add_Energy, width=50)
-        self.eNameEnergy.place(height=20, width=230, x=100, y=70)
+        self.l_Where_Energy = tk.Label(self.Add_Energy, text="Where:", bg=Color.FrameBackground)
+        self.l_Where_Energy.place(height=40, width=80, x=10, y=380)
 
-        self.eGroupEnergy = ttk.Combobox(self.Add_Energy, )
-        self.eGroupEnergy.place(height=20, width=230, x=100, y=110)
+        self.l_Quantity_Energy = tk.Label(self.Add_Energy, text="Quantity:", bg=Color.FrameBackground)
+        self.l_Quantity_Energy.place(height=40, width=80, x=10, y=420)
 
-        self.eSubCategoryEnergy = ttk.Combobox(self.Add_Energy, )
-        self.eSubCategoryEnergy.place(height=20, width=230, x=100, y=150)
+        self.l_Link_Energy = tk.Label(self.Add_Energy, text="Link:", bg=Color.FrameBackground)
+        self.l_Link_Energy.place(height=40, width=180, x=290, y=340)
 
-        self.eModelEnergy = ttk.Entry(self.Add_Energy, width=50)
-        self.eModelEnergy.place(height=20, width=230, x=100, y=190)
+        self.l_Pdf_Energy = tk.Label(self.Add_Energy, text="Pdf:", bg=Color.FrameBackground)
+        self.l_Pdf_Energy.place(height=40, width=180, x=290, y=380)
 
-        self.eAssemblyEnergy = ttk.Combobox(self.Add_Energy, )
-        self.eAssemblyEnergy.place(height=20, width=230, x=100, y=230)
+        # Enters
 
-        self.eWhereEnergy = ttk.Entry(self.Add_Energy, width=50)
-        self.eWhereEnergy.place(height=20, width=230, x=100, y=270)
+        self.e_Name_Energy = ttk.Entry(self.Add_Energy, width=50)
+        self.e_Name_Energy.place(height=20, width=230, x=100, y=70)
 
-        self.eQuantityEnergy = ttk.Entry(self.Add_Energy, width=50)
-        self.eQuantityEnergy.place(height=20, width=230, x=100, y=310)
+        self.e_Group_Energy = ttk.Combobox(self.Add_Energy, )
+        self.e_Group_Energy.place(height=20, width=230, x=100, y=110)
 
-        ###
-        self.Link = tk.Label(self.Add_Energy, text="Tutaj będzie link", bg=Color.FrameBackground)
-        self.Link.place(height=40, width=180, x=360, y=340)
+        self.e_Category_Energy = ttk.Combobox(self.Add_Energy, )
+        self.e_Category_Energy.place(height=20, width=230, x=100, y=150)
 
-        self.Obraz = ttk.Button(self.Add_Energy, text="tutaj bedzie obraz")
-        self.Obraz.place(height=250, width=250, x=360, y=70)
+        self.e_Model_Energy = ttk.Entry(self.Add_Energy, width=50)
+        self.e_Model_Energy.place(height=20, width=230, x=100, y=190)
+
+        self.e_Assembly_Energy = ttk.Entry(self.Add_Energy, )
+        self.e_Assembly_Energy.place(height=20, width=230, x=100, y=230)
+
+        self.e_Input_Energy = ttk.Entry(self.Add_Energy, )
+        self.e_Input_Energy.place(height=20, width=230, x=100, y=270)
+
+        self.e_Output_Energy = ttk.Entry(self.Add_Energy, )
+        self.e_Output_Energy.place(height=20, width=230, x=100, y=310)
+
+        self.e_Current_Energy = ttk.Entry(self.Add_Energy, )
+        self.e_Current_Energy.place(height=20, width=230, x=100, y=350)
+
+        self.e_Where_Energy = ttk.Entry(self.Add_Energy, width=50)
+        self.e_Where_Energy.place(height=20, width=230, x=100, y=390)
+
+        self.e_Quantity_Energy = ttk.Entry(self.Add_Energy, width=50)
+        self.e_Quantity_Energy.place(height=20, width=230, x=100, y=430)
+
+        self.e_Link = ttk.Entry(self.Add_Energy, width=50)
+        self.e_Link.place(height=20, width=250, x=410, y=350)
 
 
 class AddPCAccessories:
     def __init__(self, master):
-        self.Add_PCAccesories = tk.Frame(master, bg="green")
-        self.Add_PCAccesories.place(x=0, y=0, height=610, width=850)
+        self.Add_PC_Accessories = tk.Frame(master, bg="gray")
+        self.Add_PC_Accessories.place(x=-1, y=-1, height=610, width=850)
+
+        # Buttons
+
+        self.b_Add_PC = tk.Button(self.Add_PC_Accessories, text='Add', font=14, bg=Color.WidgetButtons, fg='white',
+                                  )
+        self.b_Add_PC.place(height=40, width=80, x=15, y=445)
+
+        self.b_Clear_PC = tk.Button(self.Add_PC_Accessories, text='Clear', font=14, bg=Color.WidgetButtons, fg='white',
+                                    )
+
+        self.b_Clear_PC.place(height=40, width=80, x=110, y=445)
+
+        self.b_Pdf_PC = tk.Button(self.Add_PC_Accessories, text='Upload PDF', font=14, bg=Color.WidgetButtons,
+                                  fg='white',
+                                  )
+        self.b_Pdf_PC.place(height=40, width=100, x=205, y=445)
+
+        self.b_Photo_PC = ttk.Button(self.Add_PC_Accessories, text="Upload photo")
+        self.b_Photo_PC.place(height=250, width=250, x=410, y=70)
+
+        # Labels
+
+        self.AddTitlePC = tk.Label(self.Add_PC_Accessories, font=("Arial", 20), text="Add new item:  PC Accessories",
+                                   anchor='w',
+                                   bg=Color.FrameBackground, fg='white')
+        self.AddTitlePC.place(height=40, width=280, x=10, y=10)
+
+        self.l_Name_PC = tk.Label(self.Add_PC_Accessories, text="Name:", bg=Color.FrameBackground)
+        self.l_Name_PC.place(height=40, width=80, x=10, y=60)
+
+        self.l_Group_PC = tk.Label(self.Add_PC_Accessories, text="Group:", bg=Color.FrameBackground)
+        self.l_Group_PC.place(height=40, width=80, x=10, y=100)
+
+        self.l_Model_Con = tk.Label(self.Add_PC_Accessories, text="Model:", bg=Color.FrameBackground)
+        self.l_Model_Con.place(height=40, width=80, x=10, y=140)
+
+        self.l_Where_Con = tk.Label(self.Add_PC_Accessories, text="Where:", bg=Color.FrameBackground)
+        self.l_Where_Con.place(height=40, width=80, x=10, y=180)
+
+        self.l_Quantity_Con = tk.Label(self.Add_PC_Accessories, text="Quantity:", bg=Color.FrameBackground)
+        self.l_Quantity_Con.place(height=40, width=80, x=10, y=220)
+
+        self.l_Link_Con = tk.Label(self.Add_PC_Accessories, text="Link:", bg=Color.FrameBackground)
+        self.l_Link_Con.place(height=40, width=180, x=290, y=340)
+
+        self.l_Pdf_Con = tk.Label(self.Add_PC_Accessories, text="Pdf:", bg=Color.FrameBackground)
+        self.l_Pdf_Con.place(height=40, width=180, x=290, y=380)
+
+        # Enters
+
+        self.e_Name_Con = ttk.Entry(self.Add_PC_Accessories, width=50)
+        self.e_Name_Con.place(height=20, width=230, x=100, y=70)
+
+        self.e_Group_Con = ttk.Combobox(self.Add_PC_Accessories, values=Cat_PC.Computer_Accessories)
+        self.e_Group_Con.place(height=20, width=230, x=100, y=110)
+
+        self.e_Model_Con = ttk.Entry(self.Add_PC_Accessories, width=50)
+        self.e_Model_Con.place(height=20, width=230, x=100, y=150)
+
+        self.e_Where_Con = ttk.Entry(self.Add_PC_Accessories, width=50)
+        self.e_Where_Con.place(height=20, width=230, x=100, y=190)
+
+        self.e_Quantity_Con = ttk.Entry(self.Add_PC_Accessories, width=50)
+        self.e_Quantity_Con.place(height=20, width=230, x=100, y=230)
+
+        self.e_Link_Con = tk.Entry(self.Add_PC_Accessories)
+        self.e_Link_Con.place(height=20, width=250, x=410, y=350)
 
 
 class AddSwitches:
     def __init__(self, master):
         self.Add_Switches = tk.Frame(master, bg="red")
-        self.Add_Switches.place(x=0, y=0, height=610, width=850)
+        self.Add_Switches.place(x=-1, y=-1, height=610, width=850)
 
 
 class AddWires:
@@ -1063,14 +1177,80 @@ class AddWires:
 
 class AddMechanics:
     def __init__(self, master):
-        self.Add_Mechanics = tk.Frame(master, bg="blue")
-        self.Add_Mechanics.place(x=0, y=0, height=610, width=850)
+        self.Add_Mechanics = tk.Frame(master, bg="gray")
+        self.Add_Mechanics.place(x=-1, y=-1, height=610, width=850)
 
+        # Buttons
 
-class AddLaboratory:
-    def __init__(self, master):
-        self.Add_Lab = tk.Frame(master, bg="blue")
-        self.Add_Lab.place(x=0, y=0, height=610, width=850)
+        self.b_Add_Mechanics = tk.Button(self.Add_Mechanics, text='Add', font=14, bg=Color.WidgetButtons, fg='white',
+                                         )
+        self.b_Add_Mechanics.place(height=40, width=80, x=15, y=445)
+
+        self.b_Clear_Mechanics = tk.Button(self.Add_Mechanics, text='Clear', font=14, bg=Color.WidgetButtons,
+                                           fg='white',
+                                           )
+        self.b_Clear_Mechanics.place(height=40, width=80, x=110, y=445)
+
+        self.b_Pdf_Mechanics = tk.Button(self.Add_Mechanics, text='Upload PDF', font=14, bg=Color.WidgetButtons,
+                                         fg='white',
+                                         )
+        self.b_Pdf_Mechanics.place(height=40, width=100, x=205, y=445)
+
+        self.b_Photo_Mechanics = ttk.Button(self.Add_Mechanics, text="Upload photo")
+        self.b_Photo_Mechanics.place(height=250, width=250, x=410, y=70)
+
+        # Labels
+
+        self.AddTitleMechanics = tk.Label(self.Add_Mechanics, font=("Arial", 20), text="Add new item:  Connectors",
+                                          anchor='w', bg=Color.FrameBackground, fg='white')
+        self.AddTitleMechanics.place(height=40, width=280, x=10, y=10)
+
+        self.l_Name_Mechanics = tk.Label(self.Add_Mechanics, text="Name:", bg=Color.FrameBackground)
+        self.l_Name_Mechanics.place(height=40, width=80, x=10, y=60)
+
+        self.l_Group_Mechanics = tk.Label(self.Add_Mechanics, text="Group:", bg=Color.FrameBackground)
+        self.l_Group_Mechanics.place(height=40, width=80, x=10, y=100)
+
+        self.l_Dimensions_Mechanics = tk.Label(self.Add_Mechanics, text="Dimensions:", bg=Color.FrameBackground)
+        self.l_Dimensions_Mechanics.place(height=40, width=80, x=10, y=140)
+
+        self.l_Material_Mechanics = tk.Label(self.Add_Mechanics, text="Material:", bg=Color.FrameBackground)
+        self.l_Material_Mechanics.place(height=40, width=80, x=10, y=180)
+
+        self.l_Where_Mechanics = tk.Label(self.Add_Mechanics, text="Where:", bg=Color.FrameBackground)
+        self.l_Where_Mechanics.place(height=40, width=80, x=10, y=220)
+
+        self.l_Quantity_Mechanics = tk.Label(self.Add_Mechanics, text="Quantity:", bg=Color.FrameBackground)
+        self.l_Quantity_Mechanics.place(height=40, width=80, x=10, y=260)
+
+        self.l_Link_Mechanics = tk.Label(self.Add_Mechanics, text="Link:", bg=Color.FrameBackground)
+        self.l_Link_Mechanics.place(height=40, width=180, x=290, y=340)
+
+        self.l_Pdf_Mechanics = tk.Label(self.Add_Mechanics, text="Pdf:", bg=Color.FrameBackground)
+        self.l_Pdf_Mechanics.place(height=40, width=180, x=290, y=380)
+
+        # Enters
+
+        self.e_Name_Mechanics = ttk.Entry(self.Add_Mechanics, width=50)
+        self.e_Name_Mechanics.place(height=20, width=230, x=100, y=70)
+
+        self.e_Group_Mechanics = ttk.Combobox(self.Add_Mechanics, values=Cat_Mechanics.Mechanics)
+        self.e_Group_Mechanics.place(height=20, width=230, x=100, y=110)
+
+        self.e_Dimensions_Mechanics = ttk.Entry(self.Add_Mechanics, width=50)
+        self.e_Dimensions_Mechanics.place(height=20, width=230, x=100, y=150)
+
+        self.e_Material_Mechanics = ttk.Entry(self.Add_Mechanics)
+        self.e_Material_Mechanics.place(height=20, width=230, x=100, y=190)
+
+        self.e_Where_Con = ttk.Entry(self.Add_Mechanics, width=50)
+        self.e_Where_Con.place(height=20, width=230, x=100, y=230)
+
+        self.e_Quantity_Con = ttk.Entry(self.Add_Mechanics, width=50)
+        self.e_Quantity_Con.place(height=20, width=230, x=100, y=270)
+
+        self.e_Link_Con = tk.Entry(self.Add_Mechanics)
+        self.e_Link_Con.place(height=20, width=250, x=410, y=350)
 
 
 class AddOthers:
@@ -1078,19 +1258,22 @@ class AddOthers:
         self.Add_Others = tk.Frame(master, bg="yellow")
         self.Add_Others.place(x=-1, y=-1, height=610, width=850)
 
+        # Buttons
+
         self.b_Add_Others = tk.Button(self.Add_Others, text='Add', font=14, bg=Color.WidgetButtons, fg='white',
-                                  command=self.Add_Others)
+                                      command=self.Add_Others)
         self.b_Add_Others.place(height=40, width=80, x=15, y=445)
 
         self.b_Clear_Others = tk.Button(self.Add_Others, text='Clear', font=14, bg=Color.WidgetButtons, fg='white',
-                                    command=self.Add_Others)
+                                        command=self.Add_Others)
         self.b_Clear_Others.place(height=40, width=80, x=110, y=445)
 
-        self.b_Upload_Pdf_Others = tk.Button(self.Add_Others, text='Upload PDF', font=14, bg=Color.WidgetButtons, fg='white',
-                                   )
-        self.b_Upload_Pdf_Others.place(height=40, width=100, x=320, y=445)
+        self.b_Pdf_Others = tk.Button(self.Add_Others, text='Upload PDF', font=14, bg=Color.WidgetButtons,
+                                             fg='white',
+                                             )
+        self.b_Pdf_Others.place(height=40, width=100, x=320, y=445)
 
-        ### Labels
+        # Labels
 
         self.AddTitleWires = tk.Label(self.Add_Others, font=("Arial", 20), text="Add new item: Others", anchor='w',
                                       bg=Color.FrameBackground, fg='white')
@@ -1123,7 +1306,7 @@ class AddOthers:
         self.l_Link_Others = tk.Label(self.Add_Others, text="Link:", bg=Color.FrameBackground)
         self.l_Link_Others.place(height=40, width=40, x=360, y=340)
 
-        ### Enters
+        # Enters
 
         self.e_Name_Others = ttk.Entry(self.Add_Others, width=50)
         self.e_Name_Others.place(height=20, width=230, x=100, y=70)

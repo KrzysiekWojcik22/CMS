@@ -37,11 +37,11 @@ class ConnectDatabase:
         self.__connection.close()
 
     def insert_semi(self, Name_S, Group_S, Category_S, Model_S, Assembly_S, Size_S, Where_S, Quantity_S, Link_S,
-                    Picture_S):
+                    Picture_S, Pdf_S):
         add_semi = (f"Insert Into Semiconductors(Name_S, Group_S, "
-                    f"Category_S, Model_S, Assembly_S, Size_S, Where_S, Quantity_S, Link_S, Picture_S) "
+                    f"Category_S, Model_S, Assembly_S, Size_S, Where_S, Quantity_S, Link_S, Picture_S, Pdf_S) "
                     f"VALUES('{Name_S}','{Group_S}','{Category_S}','{Model_S}',"
-                    f"'{Assembly_S}','{Size_S}','{Where_S}','{Quantity_S}','{Link_S}','{Picture_S}')")
+                    f"'{Assembly_S}','{Size_S}','{Where_S}','{Quantity_S}','{Link_S}','{Picture_S}','{Pdf_S}')")
         self.__session.execute(add_semi)
         self.__connection.commit()
 
