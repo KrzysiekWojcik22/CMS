@@ -735,7 +735,7 @@ class AddConnectors:
 
         self.AddTitleCon = tk.Label(self.Add_Con, font=("Arial", 20), text="Add new item:  Connectors", anchor='w',
                                     bg=Color.FrameBackground, fg='white')
-        self.AddTitleCon.place(height=40, width=280, x=10, y=10)
+        self.AddTitleCon.place(height=40, width=340, x=10, y=10)
 
         self.l_Name_Con = tk.Label(self.Add_Con, text="Name:", bg=Color.FrameBackground)
         self.l_Name_Con.place(height=40, width=80, x=10, y=60)
@@ -856,7 +856,7 @@ class AddConnectors:
 class AddEnergySources:
     def __init__(self, master):
         self.Add_Energy = tk.Frame(master, bg=Color.FrameBackground)
-        self.Add_Energy.place(x=0, y=0, height=610, width=850)
+        self.Add_Energy.place(x=-1, y=-1, height=610, width=850)
 
         # Buttons
 
@@ -982,7 +982,7 @@ class AddPCAccessories:
         self.AddTitlePC = tk.Label(self.Add_PC_Accessories, font=("Arial", 20), text="Add new item:  PC Accessories",
                                    anchor='w',
                                    bg=Color.FrameBackground, fg='white')
-        self.AddTitlePC.place(height=40, width=280, x=10, y=10)
+        self.AddTitlePC.place(height=40, width=400, x=10, y=10)
 
         self.l_Name_PC = tk.Label(self.Add_PC_Accessories, text="Name:", bg=Color.FrameBackground)
         self.l_Name_PC.place(height=40, width=80, x=10, y=60)
@@ -1028,14 +1028,98 @@ class AddPCAccessories:
 
 class AddSwitches:
     def __init__(self, master):
-        self.Add_Switches = tk.Frame(master, bg="red")
+        self.Add_Switches = tk.Frame(master, bg="gray")
         self.Add_Switches.place(x=-1, y=-1, height=610, width=850)
+
+        # Buttons
+
+        self.b_Add_Con = tk.Button(self.Add_Switches, text='Add', font=14, bg=Color.WidgetButtons, fg='white',
+                                   )
+        self.b_Add_Con.place(height=40, width=80, x=15, y=445)
+
+        self.b_Clear_Con = tk.Button(self.Add_Switches, text='Clear', font=14, bg=Color.WidgetButtons, fg='white',
+                                     )
+
+        self.b_Clear_Con.place(height=40, width=80, x=110, y=445)
+
+        self.b_Pdf_Con = tk.Button(self.Add_Switches, text='Upload PDF', font=14, bg=Color.WidgetButtons, fg='white',
+                                   )
+        self.b_Pdf_Con.place(height=40, width=100, x=205, y=445)
+
+        self.b_Photo_Con = ttk.Button(self.Add_Switches, text="Upload photo")
+        self.b_Photo_Con.place(height=250, width=250, x=410, y=70)
+
+        # Labels
+
+        self.AddTitleCon = tk.Label(self.Add_Switches, font=("Arial", 20), text="Add new item:  Connectors", anchor='w',
+                                    bg=Color.FrameBackground, fg='white')
+        self.AddTitleCon.place(height=40, width=280, x=10, y=10)
+
+        self.l_Name_Con = tk.Label(self.Add_Switches, text="Name:", bg=Color.FrameBackground)
+        self.l_Name_Con.place(height=40, width=80, x=10, y=60)
+
+        self.l_Group_Con = tk.Label(self.Add_Switches, text="Group:", bg=Color.FrameBackground)
+        self.l_Group_Con.place(height=40, width=80, x=10, y=100)
+
+        self.l_Category_Con = tk.Label(self.Add_Switches, text="Category:", bg=Color.FrameBackground)
+        self.l_Category_Con.place(height=40, width=80, x=10, y=140)
+
+        self.l_Model_Con = tk.Label(self.Add_Switches, text="Model:", bg=Color.FrameBackground)
+        self.l_Model_Con.place(height=40, width=80, x=10, y=180)
+
+        self.l_Assembly_Con = tk.Label(self.Add_Switches, text="Assembly:", bg=Color.FrameBackground)
+        self.l_Assembly_Con.place(height=40, width=80, x=10, y=220)
+
+        self.l_Brand_Con = tk.Label(self.Add_Switches, text="Brand:", bg=Color.FrameBackground)
+        self.l_Brand_Con.place(height=40, width=80, x=10, y=260)
+
+        self.l_Where_Con = tk.Label(self.Add_Switches, text="Where:", bg=Color.FrameBackground)
+        self.l_Where_Con.place(height=40, width=80, x=10, y=300)
+
+        self.l_Quantity_Con = tk.Label(self.Add_Switches, text="Quantity:", bg=Color.FrameBackground)
+        self.l_Quantity_Con.place(height=40, width=80, x=10, y=340)
+
+        self.l_Link_Con = tk.Label(self.Add_Switches, text="Link:", bg=Color.FrameBackground)
+        self.l_Link_Con.place(height=40, width=180, x=290, y=340)
+
+        self.l_Pdf_Con = tk.Label(self.Add_Switches, text="Pdf:", bg=Color.FrameBackground)
+        self.l_Pdf_Con.place(height=40, width=180, x=290, y=380)
+
+        # Enters
+
+        self.e_Name_Con = ttk.Entry(self.Add_Switches, width=50)
+        self.e_Name_Con.place(height=20, width=230, x=100, y=70)
+
+        self.e_Group_Con = ttk.Combobox(self.Add_Switches, values=Cat_Switches.Switches_Group)
+        self.e_Group_Con.place(height=20, width=230, x=100, y=110)
+
+        self.e_Category_Con = ttk.Combobox(self.Add_Switches)
+        self.e_Category_Con.bind("<Button-1>", )
+        self.e_Category_Con.place(height=20, width=230, x=100, y=150)
+
+        self.e_Model_Con = ttk.Entry(self.Add_Switches, width=50)
+        self.e_Model_Con.place(height=20, width=230, x=100, y=190)
+
+        self.e_Assembly_Con = ttk.Combobox(self.Add_Switches, )
+        self.e_Assembly_Con.place(height=20, width=230, x=100, y=230)
+
+        self.e_Brand_Con = ttk.Entry(self.Add_Switches, width=50)
+        self.e_Brand_Con.place(height=20, width=230, x=100, y=270)
+
+        self.e_Where_Con = ttk.Entry(self.Add_Switches, width=50)
+        self.e_Where_Con.place(height=20, width=230, x=100, y=310)
+
+        self.e_Quantity_Con = ttk.Entry(self.Add_Switches, width=50)
+        self.e_Quantity_Con.place(height=20, width=230, x=100, y=350)
+
+        self.e_Link_Con = tk.Entry(self.Add_Switches)
+        self.e_Link_Con.place(height=20, width=250, x=410, y=350)
 
 
 class AddWires:
     def __init__(self, master):
         self.Add_Wires = tk.Frame(master, bg=Color.FrameBackground)
-        self.Add_Wires.place(x=0, y=0, height=610, width=850)
+        self.Add_Wires.place(x=-1, y=-1, height=610, width=850)
 
         ### BUTTONS
 
@@ -1255,7 +1339,7 @@ class AddMechanics:
 
 class AddOthers:
     def __init__(self, master):
-        self.Add_Others = tk.Frame(master, bg="yellow")
+        self.Add_Others = tk.Frame(master, bg="gray")
         self.Add_Others.place(x=-1, y=-1, height=610, width=850)
 
         # Buttons
@@ -1269,9 +1353,11 @@ class AddOthers:
         self.b_Clear_Others.place(height=40, width=80, x=110, y=445)
 
         self.b_Pdf_Others = tk.Button(self.Add_Others, text='Upload PDF', font=14, bg=Color.WidgetButtons,
-                                             fg='white',
-                                             )
-        self.b_Pdf_Others.place(height=40, width=100, x=320, y=445)
+                                             fg='white',  )
+        self.b_Pdf_Others.place(height=40, width=100, x=205, y=445)
+
+        self.b_Photo_Others = ttk.Button(self.Add_Others, text="Upload photo")
+        self.b_Photo_Others.place(height=250, width=250, x=410, y=70)
 
         # Labels
 
@@ -1306,12 +1392,15 @@ class AddOthers:
         self.l_Link_Others = tk.Label(self.Add_Others, text="Link:", bg=Color.FrameBackground)
         self.l_Link_Others.place(height=40, width=40, x=360, y=340)
 
+        self.l_pdf_Others = tk.Label(self.Add_Others, text="Pdf:", bg=Color.FrameBackground)
+        self.l_pdf_Others.place(height=40, width=40, x=360, y=380)
+
         # Enters
 
         self.e_Name_Others = ttk.Entry(self.Add_Others, width=50)
         self.e_Name_Others.place(height=20, width=230, x=100, y=70)
 
-        self.e_Description_Others = tk.Text(self.Add_Others)
+        self.e_Description_Others = ttk.Entry(self.Add_Others)
         self.e_Description_Others.place(height=20, width=230, x=100, y=110)
 
         self.e_Height_Others = ttk.Entry(self.Add_Others)
@@ -1335,5 +1424,4 @@ class AddOthers:
         self.e_Link_Others = tk.Entry(self.Add_Others)
         self.e_Link_Others.place(height=20, width=250, x=410, y=350)
 
-        self.Obraz = ttk.Button(self.Add_Others, text="tutaj bedzie obraz")
-        self.Obraz.place(height=250, width=250, x=410, y=70)
+

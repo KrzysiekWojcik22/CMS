@@ -4,6 +4,9 @@ import classes as cl
 from tkinter import ttk
 from categories import EquipmentCategoriesChemistry
 from tkinter import filedialog
+import DataBaseOperation
+from tkinter import messagebox
+import yagmail
 
 Color = Col.ColoursMainWindow()
 Chem_cat = EquipmentCategoriesChemistry()
@@ -82,9 +85,9 @@ class Chemistry:
 class Search:
     def __init__(self, master):
         self.Search = tk.Frame(master, bg="gray")
-        self.Search.place(height=640, width=720, x=0, y=0)
+        self.Search.place(height=640, width=720, x=-1, y=-1)
 
-        ## search
+        # search
 
         self.Search_title = tk.Label(self.Search, text="Search for a Container", font=('Arial', 12), fg="black",
                                      anchor="w", )
@@ -132,7 +135,7 @@ class AddaContainer:
         self.Container = tk.Frame(master, bg=Color.WidgetBackground)
         self.Container.place(height=640, width=720, x=-1, y=-1)
 
-        self.Container_title = tk.Label(self.Container, text="Add a Container", font=('Arial', 14), fg="black",
+        self.Container_title = tk.Label(self.Container, text="Make Order", font=('Arial', 14), fg="black",
                                         anchor="w", )
         self.Container_title.place(height=40, width=150, x=10, y=5)
 
@@ -180,8 +183,8 @@ class AddaContainer:
         self.e_Container_Unit = ttk.Combobox(self.Container, values=Units)
         self.e_Container_Unit.place(height=20, width=75, x=285, y=185)
 
-        self.e_Barcode = ttk.Entry(self.Container)
-        self.e_Barcode.place(height=20, width=350, x=10, y=235)
+        self.e_Quantity = ttk.Entry(self.Container)
+        self.e_Quantity.place(height=20, width=350, x=10, y=235)
 
         self.e_Location = ttk.Combobox(self.Container, values=Location)
         self.e_Location.place(height=20, width=350, x=10, y=285)
@@ -201,31 +204,70 @@ class AddaContainer:
         # Buttons
 
         self.b_Clear_Container = tk.Button(self.Container, text="Clear", command=self.clear_container)
-        self.b_Clear_Container.place(height=20, width=40, x=200, y=535)
+        self.b_Clear_Container.place(height=40, width=80, x=105, y=520)
 
-        self.b_Add_Container = tk.Button(self.Container, text="Add")
-        self.b_Add_Container.place(height=20, width=40, x=300, y=535)
+        self.b_Add_Container = tk.Button(self.Container, text="Add", command=self.add_container)
+        self.b_Add_Container.place(height=40, width=80, x=10, y=520)
 
     def clear_container(self):
         self.e_Container_Name.delete(0, tk.END)
         self.e_CAS_Number.delete(0, tk.END)
         self.e_Container_Size.delete(0, tk.END)
         self.e_Container_Unit.delete(0, tk.END)
-        self.e_Barcode.delete(0, tk.END)
+        self.e_Quantity.delete(0, tk.END)
         self.e_Location.delete(0, tk.END)
         self.e_Supplier.delete(0, tk.END)
         self.e_Expiry_Date.delete(0, tk.END)
         self.e_Product_Code.delete(0, tk.END)
         self.e_Documents.delete(0, tk.END)
 
+    def get_values(self):
+        self.name = self.e_Container_Name.get()
+        self.cas_number = self.e_CAS_Number.get()
+        self.container_size = self.e_Container_Size.get()
+        self.container_unit = self.e_Container_Unit.get()
+        self.quantity = self.e_Quantity.get()
+        self.location = self.e_Location.get()
+        self.supplier = self.e_Supplier.get()
+        self.expiry_date = self.e_Expiry_Date.get()
+        self.product_code = self.e_Product_Code.get()
+        self.link = self.e_Documents.get()
+
+    def container_to_database(self):
+        DataBaseOperation.ConnectDatabase.__init__(self, host="10.224.20.12", port=3306, user="Krzysiek",
+                                                   password="start123", database="CMS")
+        DataBaseOperation.ConnectDatabase._open(self)
+
+        DataBaseOperation.ConnectDatabase.insert_new_container(self, name=self.name, cas_number=self.cas_number,
+                                                               size=self.container_size, unit=self.container_unit,
+                                                               quantity=self.quantity, location=self.location,
+                                                               supplier=self.supplier, expiry_date=self.expiry_date,
+                                                               product_code=self.product_code, link=self.link,
+                                                               photo="tak", pdf="tak")
+
+        DataBaseOperation.ConnectDatabase._close(self)
+
     def add_container(self):
-        pass
+        self.get_values()
+        self.container_to_database()
+        self.clear_container()
+        tk.messagebox.showinfo("Add", "Item was added")
 
 
 class OrderRequest:
     def __init__(self, master):
         self.Products = tk.Frame(master, bg="green")
         self.Products.place(height=640, width=720, x=-1, y=-1)
+
+        # Buttons
+
+        self.clear = tk.Button(self.Products, text="Clear", command=self.clear_values)
+        self.clear.place(height=40, width=80, x=105, y=430)
+
+        self.sent_order = tk.Button(self.Products, text="Add", command=self.make_order)
+        self.sent_order.place(height=40, width=80, x=10, y=430)
+
+        # Labels
 
         self.Container_Order_Title = tk.Label(self.Products, text="Container Name:", font=('Arial', 14), fg="black",
                                               anchor="w", )
@@ -283,11 +325,45 @@ class OrderRequest:
         self.e_Container_Comments = tk.Text(self.Products)
         self.e_Container_Comments.place(height=80, width=350, x=10, y=335)
 
+    def get_values(self):
+        self.name = self.e_Container_Order_Name.get()
+        self.cas = self.e_CAS_Order_Number.get()
+        self.size = self.e_Container_Order_Size.get()
+        self.unit = self.e_Container_Order_Unit.get()
+        self.supplier = self.e_Container_Order_Supplier.get()
+        self.link = self.e_Container_Order_Link.get()
+        self.comments = self.e_Container_Comments.get(1.0, "end-1c")
+
+    def clear_values(self):
+        self.e_Container_Order_Name.delete(0, tk.END)
+        self.e_CAS_Order_Number.delete(0, tk.END)
+        self.e_Container_Order_Size.delete(0, tk.END)
+        self.e_Container_Order_Unit.delete(0, tk.END)
+        self.e_Container_Order_Supplier.delete(0, tk.END)
+        self.e_Container_Order_Link.delete(0, tk.END)
+        self.e_Container_Comments.delete('1.0', 'end')
+
+    def send_email(self):
+        receiver = "krzysiu.w@spoko.pl"
+        Message = f"Please order'{self.name},'{self.cas}','{self.size}','{self.unit},'{self.supplier}','{self.link}','{self.comments}'"
+        yag = yagmail.SMTP("krzysiekpython@gmail.com", password="krzysiek123")
+        yag.send(
+            to=receiver,
+            subject="New Container Order",
+            contents=Message,
+        )
+
+    def make_order(self):
+        self.get_values()
+        self.send_email()
+        self.clear_values()
+        tk.messagebox.showinfo("Info", "Order was sent correctly")
+
 
 class Locations:
     def __init__(self, master):
         self.Location = tk.Frame(master, bg="pink")
-        self.Location.place(height=640, width=720, x=0, y=0)
+        self.Location.place(height=640, width=720, x=-1, y=-1)
 
         self.Location_Title = tk.Label(self.Location, text="Location", font=('Arial', 14), fg="black", anchor="w")
 
@@ -320,7 +396,7 @@ class MSDSandFileStorage:
         self.Search = ttk.Entry(self.MSDSF, width=25, )
         self.Search.place(height=25, width=120, x=460, y=7.5)
 
-        self.Upload_Files = tk.Button(self.MSDSF, text=" Upload Files", image=Ikony.upload_ic, compound=tk.LEFT)
+        self.Upload_Files = tk.Button(self.MSDSF, text=" Upload Files", image=Ikony.upload_ic, compound=tk.LEFT, command = self.upload_documents)
         self.Upload_Files.place(height=30, width=100, x=600, y=5)
 
         self.All_Files = tk.Label(self.MSDSF, text="All Files", font=(14), anchor='w', cursor="hand2")
@@ -350,3 +426,6 @@ class MSDSandFileStorage:
         self.Risk_Assessments.bind("<Enter>", cl.click)
         self.Risk_Assessments.bind("<Leave>", cl.zwolnienie)
     # self.Risk_Assessments.bind("<Button-1>", show_chemistry)
+
+    def upload_documents(self):
+        print("work")

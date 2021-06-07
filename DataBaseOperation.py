@@ -173,3 +173,14 @@ class ConnectDatabase:
         for row in allrec:
             print(row, '\n')
         self.__connection.commit()
+
+    def insert_new_container(self, name, cas_number, size, unit, quantity, location, supplier, expiry_date, product_code
+                             , link, photo, pdf):
+        container = (f"Insert Into CMS.Containers(Name, CAS_Number,Size, Unit, Quantity, Location, Supplier, "
+                     f"Expiry_Date, Product_Code, Link, Photo, Pdf) "
+                     f"VALUES('{name}','{cas_number}','{size}','{unit}','{quantity}','{location}','{supplier}',"
+                     f"'{expiry_date}','{product_code}','{link}','{photo}','{pdf}')")
+
+        self.__session.execute(container)
+        self.__connection.commit()
+        return self.__session.lastrowid
